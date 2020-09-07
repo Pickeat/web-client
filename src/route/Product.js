@@ -142,6 +142,7 @@ const useStyles = makeStyles(theme => ({
   productLittleInfoLabel: {
     height: '20%',
     width: '100%',
+    fontSize: '20px'
   },
   productLittleInfoContent: {
     paddingLeft: '20px',
