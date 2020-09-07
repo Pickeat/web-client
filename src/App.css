@@ -8,3 +8,21 @@
     font-weight: 500;
     src: url("./assets/fonts/Colfax-Medium.otf") format("opentype");
 }
+
+.textRegular {
+    font-family: Colfax-Regular, serif;
+}
+
+.textMedium {
+    font-family: Colfax-Medium, serif;
+}
+
+.pickeatBtn {
+    font-family: Colfax-Medium, serif !important;
+    text-transform: none !important;
+    background-color: #c4d82f !important;
+}
+
+.pickeatBtn:hover {
+    background-color: #8bb535 !important;
+}
