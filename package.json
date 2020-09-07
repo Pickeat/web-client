@@ -16,7 +16,8 @@
     "react-router-dom": "latest",
     "react-scripts": "3.4.1",
     "react-toastify": "^6.0.8",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "clsx": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
