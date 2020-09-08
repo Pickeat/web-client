@@ -13,6 +13,7 @@ import Rating from '@material-ui/lab/Rating';
 import clsx from 'clsx';
 import EventIcon from '@material-ui/icons/Event';
 import RoomIcon from '@material-ui/icons/Room';
+import Map from '../components/Map'
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -243,6 +244,7 @@ export default function Product(props) {
               </div>
             </div>
             <div className={classes.productMapContainer}>
+              <Map lat={50.634977} lng={3.061947} zoom={17}/>
 
             </div>
           </Paper>
