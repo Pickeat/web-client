@@ -1,20 +1,30 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { SIGN_IN_URL } from '../constants/apiEndpoints';
-import Cookies from 'js-cookie';
+import { SIGN_UP_URL } from '../constants/apiEndpoints';
+import Cookies from 'js-cookie'
 
 
-export default async function signInApi(email, password) {
+export default async function signUpApi(email, password, confirmPassword, phone, age) {
   let body = {
     'email': email,
-    'password': password
+    'password': password,
+    'phone': phone,
+    'age': age
   };
-  let config = setAxiosConfig('POST', SIGN_IN_URL, true);
+  let config = setAxiosConfig('POST', SIGN_UP_URL, true);
 
   config['data'] = body;
-  if (!email || !password) {
+  if (password !== confirmPassword) {
+    toast.error("The two password are not identical");
+    return;
+  }
+  if (!email || !password || !age) {
     toast.error("One or more field(s) is/are blank");
+    return;
+  }
+  if (age < 18) {
+    toast.error("You must be over 18 to register on Pickeat");
     return;
   }
   return await axios(config).then((response) => {

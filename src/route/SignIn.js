@@ -41,12 +41,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: "space-evenly",
     },
-    submit: {
-        backgroundColor: '#c4d82f',
-        "&:hover": {
-            backgroundColor: '#8bb535',
-        }
-    },
 }));
 
 export default function SignIn() {
@@ -108,7 +102,7 @@ export default function SignIn() {
                             e.preventDefault();
                             loginApiCall(email, password)
                         }}
-                        className={classes.submit}
+                        className="pickeatBtn"
                     >
                         Sign In
                     </Button>

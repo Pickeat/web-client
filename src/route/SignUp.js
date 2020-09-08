@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PickeatTextField } from '../components/PickeatTextField';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import Background from '../components/Background';
+import signUpApi from '../api/signUpApi';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -58,8 +59,8 @@ export default function SignIn() {
   const [phone, setPhone] = useState('');
   const [age, setAge] = useState('');
 
-  const loginApiCall = (email, password) => {
-    console.log(email, password);
+  const signUpApiCall = (email, password, confirmPassword, phone, age) => {
+    signUpApi(email, password, confirmPassword, phone, age);
   };
 
   return (
@@ -114,7 +115,6 @@ export default function SignIn() {
           <PickeatTextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             name="phone"
             label="Phone"
@@ -141,7 +141,9 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             onClick={(e) => {
-              loginApiCall(email, password);
+              e.stopPropagation();
+              e.preventDefault();
+              signUpApiCall(email, password,confirmPassword, phone, age);
             }}
             className={classes.submit}
           >
