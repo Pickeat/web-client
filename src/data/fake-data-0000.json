@@ -1,0 +1,24 @@
+{
+  "user": {
+    "id": 12345,
+    "name": "John Doe",
+    "level": "Founder",
+    "registered_since": "2020-01-01T00:00:00.000Z",
+    "note": 4,
+    "profile_image": "https://pecb.com/conferences/wp-content/uploads/2017/10/no-profile-picture.jpg"
+  },
+  "product": {
+    "title": "Pavé gourmand Herta",
+    "product_image": "https://static.openfoodfacts.org/images/products/761/303/633/7342/front_fr.4.full.jpg",
+    "expiration_date": "2018-05-26T00:00:00.000Z",
+    "labels": [
+      "veggy",
+      "fresh"
+    ],
+    "distance": "750",
+    "location": {
+      "lng" : 3.061947,
+      "lat" : 50.634977
+    }
+  }
+}

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
-import fresh from '../assets/fresh.png'
-import veggy from '../assets/veggy.png'
+import fresh from '../assets/fresh.png';
 import logo from '../assets/logo.png';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -13,6 +12,10 @@ import Rating from '@material-ui/lab/Rating';
 import clsx from 'clsx';
 import EventIcon from '@material-ui/icons/Event';
 import RoomIcon from '@material-ui/icons/Room';
+import data0000 from '../data/fake-data-0000';
+import * as moment from 'moment';
+import { isEmpty } from '../helpers/isEmpty';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -142,7 +145,7 @@ const useStyles = makeStyles(theme => ({
   productLittleInfoLabel: {
     height: '20%',
     width: '100%',
-    fontSize: '20px'
+    fontSize: '20px',
   },
   productLittleInfoContent: {
     paddingLeft: '20px',
@@ -158,7 +161,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     marginRight: '20px',
     width: '50px',
-    height: '100%'
+    height: '100%',
   },
   productMapContainer: {
     width: '90%',
@@ -170,10 +173,18 @@ const useStyles = makeStyles(theme => ({
 export default function Product(props) {
   const classes = useStyles();
   const { id } = useParams();
+  const [data, setData] = useState({});
 
   useEffect(() => {
+    setData(data0000);
   }, []);
 
+  if (isEmpty(data))
+    return (
+      <div className={classes.main} style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <CircularProgress/>
+      </div>
+    );
   return (
     <div className={classes.main}>
       <Background src={backgroundSrc}/>
@@ -187,20 +198,20 @@ export default function Product(props) {
           <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
             <div className={classes.profilePictureContainer}>
               <img alt={'giver profile'}
-                   src={'https://pecb.com/conferences/wp-content/uploads/2017/10/no-profile-picture.jpg'}/>
+                   src={data.user.profile_image}/>
             </div>
             <div className={classes.profileInfoContainer}>
-              <div className="textMedium" style={{ fontSize: '20px', textAlign: 'center' }}>Francois Dujardin</div>
-              <div className="textRegular" style={{ fontSize: '15px', textAlign: 'center' }}>Membre fondateur
-                (01/01/2022)
+              <div className="textMedium" style={{ fontSize: '20px', textAlign: 'center' }}>{data.user.name}</div>
+              <div className="textRegular" style={{ fontSize: '15px', textAlign: 'center' }}>{data.user.level} member
+                ({moment(data.user.register_since).format('DD/MM/YYYY')})
               </div>
             </div>
             <div className={classes.profileRatingContainer}>
               <span className="textMedium" style={{ fontSize: '30px' }}>4/5</span>
-              <Rating name="read-only" value={4} readOnly/>
+              <Rating name="read-only" value={data.user.note} readOnly/>
             </div>
             <div className={classes.contactBtnContainer}>
-              <Button className="pickeatBtn" style={{ width: '80%', height: '40px' }}>Contacter le giver</Button>
+              <Button className="pickeatBtn" style={{ width: '80%', height: '40px' }}>Contact the giver</Button>
             </div>
           </Paper>
         </div>
@@ -209,34 +220,48 @@ export default function Product(props) {
             <div className={classes.productDataContainer}>
               <div className={classes.productPictureContainer}>
                 <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt={'pickeat product'}
-                     src={'https://static.openfoodfacts.org/images/products/761/303/633/7342/front_fr.4.full.jpg'}/>
+                     src={data.product.product_image}/>
               </div>
               <div className={classes.productInfoContainer}>
                 <div className={classes.productTitleContainer}>
-                  <span className="textMedium" style={{ fontSize: '20px' }}>Pavé gourmand HERTA</span>
+                  <span className="textMedium" style={{ fontSize: '20px' }}>data.product.title</span>
                 </div>
                 <div className={classes.productLittleInfoContainer}>
                   <div className={classes.productLittleInfoBlock}>
-                    <div className={clsx("textMedium", classes.productLittleInfoLabel)}>Expiry date</div>
+                    <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry date</div>
                     <div className={classes.productLittleInfoContent}>
-                      <EventIcon fontSize={"large"}/><span className="textRegular" style={{marginLeft: '10px'}}>16/05/2018</span>
+                      <EventIcon fontSize={'large'}/>
+                      <span className="textRegular"
+                            style={{ marginLeft: '10px' }}>
+                        {moment(data.product.expiration_date).format('DD/MM/YYYY')}
+                      </span>
                     </div>
                   </div>
                   <div className={classes.productLittleInfoBlock}>
-                    <div className={clsx("textMedium", classes.productLittleInfoLabel)}>Labels</div>
+                    <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Labels</div>
                     <div className={classes.productLittleInfoContent}>
-                      <div className={classes.productLittleInfoImageLabelContainer}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt={"product label"} src={fresh}/>
-                      </div>
-                      <div className={classes.productLittleInfoImageLabelContainer}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt={"product label"} src={veggy}/>
-                      </div>
+                      {
+                        data.product.labels.map((label) => {
+                          return (
+                            <div key={label} className={classes.productLittleInfoImageLabelContainer}>
+                              <img style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                   alt={'product label'}
+                                   src={`/assets/food-label/${label}.png`}
+                              />
+                            </div>
+                          );
+                        })
+                      }
                     </div>
                   </div>
                   <div className={classes.productLittleInfoBlock}>
-                    <div className={clsx("textMedium", classes.productLittleInfoLabel)}>Distance</div>
+                    <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Distance</div>
                     <div className={classes.productLittleInfoContent}>
-                      <RoomIcon fontSize={"large"}/><span className="textRegular" style={{marginLeft: '10px'}}>750m</span>
+                      <RoomIcon fontSize={'large'}/>
+                      <span className="textRegular"
+                            style={{ marginLeft: '10px' }}>
+                        {data.product.distance}m
+                      </span>
                     </div>
                   </div>
                 </div>
