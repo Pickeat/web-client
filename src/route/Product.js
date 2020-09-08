@@ -16,6 +16,7 @@ import data0000 from '../data/fake-data-0000';
 import * as moment from 'moment';
 import { isEmpty } from '../helpers/isEmpty';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Map from '../components/Map'
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -268,7 +269,7 @@ export default function Product(props) {
               </div>
             </div>
             <div className={classes.productMapContainer}>
-
+              <Map lat={50.634977} lng={3.061947} zoom={17}/>
             </div>
           </Paper>
         </div>
