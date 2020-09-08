@@ -8,6 +8,7 @@ import { PickeatTextField } from '../components/PickeatTextField';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import Background from '../components/Background';
 import signUpApi from '../api/signUpApi';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -24,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    borderRadius: '10px',
   },
   avatar: {
     backgroundColor: 'transparent',
@@ -66,7 +65,7 @@ export default function SignIn() {
   return (
     <div className={classes.main}>
       <Background src={backgroundSrc}/>
-      <div className={classes.container}>
+      <Paper elevation={24} className={classes.container}>
         <Avatar className={classes.avatar}>
           <img alt="PickEat Logo" src={Logo}/>
         </Avatar>
@@ -150,7 +149,7 @@ export default function SignIn() {
             Sign Up
           </Button>
         </form>
-      </div>
+      </Paper>
     </div>
   );
 }
