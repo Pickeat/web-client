@@ -165,9 +165,9 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   productMapContainer: {
+    position: 'relative',
     width: '90%',
     height: '35%',
-    backgroundColor: 'red',
   },
 }));
 
@@ -208,7 +208,7 @@ export default function Product(props) {
               </div>
             </div>
             <div className={classes.profileRatingContainer}>
-              <span className="textMedium" style={{ fontSize: '30px' }}>4/5</span>
+              <span className="textMedium" style={{ fontSize: '30px' }}>{data.user.note}/5</span>
               <Rating name="read-only" value={data.user.note} readOnly/>
             </div>
             <div className={classes.contactBtnContainer}>
@@ -225,7 +225,7 @@ export default function Product(props) {
               </div>
               <div className={classes.productInfoContainer}>
                 <div className={classes.productTitleContainer}>
-                  <span className="textMedium" style={{ fontSize: '20px' }}>data.product.title</span>
+                  <span className="textMedium" style={{ fontSize: '20px' }}>{data.product.title}</span>
                 </div>
                 <div className={classes.productLittleInfoContainer}>
                   <div className={classes.productLittleInfoBlock}>
@@ -268,9 +268,9 @@ export default function Product(props) {
                 </div>
               </div>
             </div>
-            <div className={classes.productMapContainer}>
-              <Map lat={50.634977} lng={3.061947} zoom={17}/>
-            </div>
+            <Paper elevation={4} className={classes.productMapContainer}>
+              <Map lat={data.product.location.lat} lng={data.product.location.lng} zoom={17}/>
+            </Paper>
           </Paper>
         </div>
       </div>
