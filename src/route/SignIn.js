@@ -58,7 +58,7 @@ export default function SignIn() {
             <Background src={backgroundSrc}/>
             <Paper elevation={24} className={classes.container}>
                 <Avatar className={classes.avatar}>
-                    <img alt="PickEat Logo" src={Logo}/>
+                    <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in

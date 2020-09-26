@@ -33,6 +33,16 @@ const Map = (props) => {
             setZoom(map.getZoom().toFixed(2));
         });
 
+        /*Add btn to geolocate user*/
+        map.addControl(
+          new mapboxgl.GeolocateControl({
+              positionOptions: {
+                  enableHighAccuracy: true
+              },
+              trackUserLocation: true
+          })
+        );
+
         // Clean up on unmount
         return () => map.remove();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps

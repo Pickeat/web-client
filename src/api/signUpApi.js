@@ -9,7 +9,7 @@ export default async function signUpApi(email, password, confirmPassword, phone,
   let body = {
     'email': email,
     'password': password,
-    'phone': phone,
+    'phone_number': phone,
     'age': age
   };
   let config = setAxiosConfig('POST', SIGN_UP_URL, true);

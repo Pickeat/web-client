@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
-import fresh from '../assets/fresh.png';
 import logo from '../assets/logo.png';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -16,7 +15,9 @@ import data0000 from '../data/fake-data-0000';
 import * as moment from 'moment';
 import { isEmpty } from '../helpers/isEmpty';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Map from '../components/Map'
+import Map from '../components/Map';
+import { usePosition } from 'use-position';
+import { getDistance } from 'geolib';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -175,10 +176,28 @@ export default function Product(props) {
   const classes = useStyles();
   const { id } = useParams();
   const [data, setData] = useState({});
+  const { userLat, userLng, error } = usePosition();
+  const [productDistance, setProductDistance] = useState(-1);
 
   useEffect(() => {
     setData(data0000);
   }, []);
+
+  useEffect(() => {
+    if (!error && userLat && userLng && !isEmpty(data)) {
+      setProductDistance(getDistance(
+        { latitude: userLat, longitude: userLng },
+        { latitude: data.product.location.lat, longitude: data.product.location.lng }));
+    } else {
+      setProductDistance(-1);
+    }
+  }, [userLat, userLng, error, data]);
+
+  const buildProductDistance = () => {
+    if (productDistance === -1)
+      return ('Sorry we had a problem computing the distance');
+    return productDistance + 'm';
+  };
 
   if (isEmpty(data))
     return (
@@ -198,7 +217,8 @@ export default function Product(props) {
         <div className={classes.userContainer}>
           <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
             <div className={classes.profilePictureContainer}>
-              <img alt={'giver profile'}
+              <img style={{ maxWidth: '100%', maxHeight: '100%'}}
+                   alt={'giver profile'}
                    src={data.user.profile_image}/>
             </div>
             <div className={classes.profileInfoContainer}>
@@ -261,7 +281,7 @@ export default function Product(props) {
                       <RoomIcon fontSize={'large'}/>
                       <span className="textRegular"
                             style={{ marginLeft: '10px' }}>
-                        {data.product.distance}m
+                        {buildProductDistance()}
                       </span>
                     </div>
                   </div>
