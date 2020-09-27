@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   main: {
+    paddingTop: '5rem',
+    boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',

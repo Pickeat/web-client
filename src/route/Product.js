@@ -21,6 +21,8 @@ import { getDistance } from 'geolib';
 
 const useStyles = makeStyles(theme => ({
   main: {
+    paddingTop: '5rem',
+    boxSizing: 'border-box',
     height: '100vh',
     width: '100%',
     display: 'flex',
@@ -53,7 +55,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
   },
   userContainer: {
     display: 'flex',
@@ -208,11 +209,6 @@ export default function Product(props) {
   return (
     <div className={classes.main}>
       <Background src={backgroundSrc}/>
-      <div className={classes.headerContainer}>
-        <div className={classes.logoContainer}>
-          <div className={classes.logoBackground}><img alt={'pickeat logo'} src={logo} style={{ width: '80%' }}/></div>
-        </div>
-      </div>
       <div className={classes.contentContainer}>
         <div className={classes.userContainer}>
           <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
