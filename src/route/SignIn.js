@@ -9,6 +9,7 @@ import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import signInApi from '../api/signInApi';
 import Paper from '@material-ui/core/Paper';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -79,20 +80,22 @@ export default function SignIn() {
                         value={email}
                         onChange={(event => setEmail(event.target.value))}
                     />
-                    <PickeatTextField
-                        style={{paddingBottom: '8%'}}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={(event => setPassword(event.target.value))}
-                    />
+                    <div style={{width: '100%', paddingBottom: '8%'}}>
+                        <PickeatTextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(event => setPassword(event.target.value))}
+                        />
+                        <Link style={{ color: 'black' }} to="forgot-password">Forgot password ?</Link>
+                    </div>
                     <Button
                         style={{width: '50%'}}
                         type="submit"

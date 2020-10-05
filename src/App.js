@@ -9,6 +9,8 @@ import SignUp from './route/SignUp';
 import Intro from './route/Intro';
 import Product from './route/Product';
 import isAuth from './helpers/isAuth';
+import ForgotPassword from "./route/ForgotPassword";
+import ResetPassword from "./route/ResetPassword";
 
 toast.configure({
   autoClose: 4000,
@@ -45,6 +47,8 @@ function App() {
             <Route exact path="/intro" component={Intro}/>
             <Route exact path="/sign-in" component={SignIn}/>
             <Route exact path="/sign-up" component={SignUp}/>
+            <Route exact path="/forgot-password" component={ForgotPassword}/>
+            <Route exact path="/reset-password" component={ResetPassword}/>
             <PrivateRoute exact path="/product/:id" component={Product}/>
           </Switch>
         </div>
