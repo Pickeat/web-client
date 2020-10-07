@@ -97,7 +97,7 @@ export default function NavigationBar(props) {
           </div>
           <div className={classes.powerOffContainer}>
             <IconButton onClick={() => logout()} aria-label="logout">
-              <PowerSettingsNewIcon fontSize={'medium'}/>
+              <PowerSettingsNewIcon/>
             </IconButton>
           </div>
         </>

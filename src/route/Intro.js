@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
   main: {
     paddingTop: '5rem',
+    position: 'relative',
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     width: '300px',
     height: '50px',
     position: 'absolute',
-    top: '20px',
+    top: '10%',
     right: '20px',
   },
   appStoreContainer: {

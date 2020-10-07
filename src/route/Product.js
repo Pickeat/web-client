@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
-import logo from '../assets/logo.png';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
@@ -16,8 +15,8 @@ import * as moment from 'moment';
 import { isEmpty } from '../helpers/isEmpty';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Map from '../components/Map';
-import { usePosition } from 'use-position';
 import { getDistance } from 'geolib';
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -177,22 +176,27 @@ export default function Product(props) {
   const classes = useStyles();
   const { id } = useParams();
   const [data, setData] = useState({});
-  const { userLat, userLng, error } = usePosition();
   const [productDistance, setProductDistance] = useState(-1);
 
   useEffect(() => {
     setData(data0000);
   }, []);
 
+
   useEffect(() => {
-    if (!error && userLat && userLng && !isEmpty(data)) {
-      setProductDistance(getDistance(
-        { latitude: userLat, longitude: userLng },
-        { latitude: data.product.location.lat, longitude: data.product.location.lng }));
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        console.log(location);
+        if (!isEmpty(data))
+          setProductDistance(getDistance(
+            { latitude: location.coords.latitude, longitude: location.coords.longitude },
+            { latitude: data.product.location.lat, longitude: data.product.location.lng }))
+      });
     } else {
+      toast.error("Geolocation is not supported by this browser.");
       setProductDistance(-1);
     }
-  }, [userLat, userLng, error, data]);
+  }, [data]);
 
   const buildProductDistance = () => {
     if (productDistance === -1)
