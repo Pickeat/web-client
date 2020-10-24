@@ -87,7 +87,7 @@ export default function Intro() {
       </div>
       <div style={{ width: '40%', height: '5%' }}>
         <Link to="/sign-up" style={{ textDecoration: 'none' }}>
-          <Button className={classes.signUpButton}>Create an account test</Button>
+          <Button className={classes.signUpButton}>Create an account</Button>
         </Link>
       </div>
       <div className={classes.linkContainer}>
