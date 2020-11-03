@@ -5,10 +5,8 @@ import {RESET_PASSWORD_URL} from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
 
 
-export default async function resetPasswordApi(password, confirmPassword, token) {
-    let body = {
-        'password': password,
-    };
+export default async function confirmAccountApi(confirmToken) {
+    let body = {};
     let config = setAxiosConfig('POST', RESET_PASSWORD_URL, true);
 
     config['data'] = body;

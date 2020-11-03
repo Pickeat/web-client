@@ -25,6 +25,7 @@ export default async function forgotPasswordApi(email) {
             toast.warn(response.data.message);
         }
     }).catch((error) => {
-        toast.error(error.response.data.description);
+        console.log(error.response);
+        //toast.error(error.response.data.description);
     });
 }

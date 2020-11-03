@@ -9,7 +9,7 @@ import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import resetPasswordApi from '../api/resetPasswordApi';
 import Paper from '@material-ui/core/Paper';
-import {Link} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -50,8 +50,10 @@ export default function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState('');
     const [emailSent, setEmailSent] = useState(false);
+    const { token } = useParams();
 
     const buildPaper = () => {
+        console.log(token);
         if (!emailSent) {
             return (
                 <>
@@ -59,7 +61,7 @@ export default function ResetPassword() {
                         <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Forgot Password
+                        Reset Password
                     </Typography>
                     <form className={classes.form}>
                         <PickeatTextField
@@ -119,7 +121,7 @@ export default function ResetPassword() {
 
     const resetPasswordCall = (password, confirmPassword) => {
         setEmailSent(true);
-        resetPasswordApi(password, confirmPassword).then((response) => {
+        resetPasswordApi(password, confirmPassword, token).then((response) => {
             console.log(response);
         });
     };

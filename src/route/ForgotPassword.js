@@ -9,7 +9,6 @@ import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import forgotPasswordApi from "../api/forgotPasswordApi";
 import Paper from '@material-ui/core/Paper';
-import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -106,7 +105,7 @@ export default function ForgotPassword() {
         }
     }
 
-    const forgotPasswordCall = (email, password) => {
+    const forgotPasswordCall = (email) => {
         setEmailSent(true);
         forgotPasswordApi(email).then((response) => {
             console.log(response);
