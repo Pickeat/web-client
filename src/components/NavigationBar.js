@@ -84,7 +84,7 @@ export default function NavigationBar(props) {
                 Profile
               </Button>
             </Link>
-            <Link to={'/main'}>
+            <Link to={'/product-list'}>
               <Button className={classes.link}>
                 Main
               </Button>

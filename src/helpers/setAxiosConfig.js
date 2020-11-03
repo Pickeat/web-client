@@ -6,7 +6,7 @@ export default function setAxiosConfig(method, fetchUrl, noJWT) {
     let headers = {};
 
     if (!noJWT) {
-        headers['x-access-token'] = cookies.get('jwt');
+        headers['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     }
     headers['Content-Type'] = 'application/json';
     config['headers'] = headers;
