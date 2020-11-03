@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
     const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const loginApiCall = (email, password) => {
         signInApi(email, password).then((response) => {
-            console.log(response);
+            props.history.push('/product-list');
         });
     };
 
