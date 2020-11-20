@@ -179,6 +179,8 @@ export default function Product(props) {
   const [productDistance, setProductDistance] = useState(-1);
 
   useEffect(() => {
+    //TODO: make the real req
+    //getProduct(id);
     setData(data0000);
   }, []);
 

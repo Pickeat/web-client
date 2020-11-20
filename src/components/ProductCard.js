@@ -11,6 +11,7 @@ import { getDistance } from 'geolib';
 import { toast } from 'react-toastify';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -54,6 +55,7 @@ export default function ProductCard(props) {
   const classes = useStyles();
   const [data, setData] = useState({});
   const [productDistance, setProductDistance] = useState(-1);
+  const history = useHistory();
 
   useEffect(() => {
     setData(data0000);
@@ -84,7 +86,7 @@ export default function ProductCard(props) {
       );
     } else {
       return (
-        <Button className={classes.main}>
+        <Button onClick={() => {history.push(`/product/${data.product.id}`)}} className={classes.main}>
           <div className={classes.productImgContainer}>
             <img alt={'product_image'} src={data.product.product_image}
                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
