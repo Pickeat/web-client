@@ -5,6 +5,11 @@ import logo from '../assets/logo.png';
 
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
+
+const responseGoogle = (response) => {
+  console.log(response);
+}
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -91,6 +96,16 @@ export default function Intro() {
           <Button className={classes.signUpButton}>Create an account</Button>
         </Link>
       </div>
+
+      <GoogleLogin
+          clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
+      />,
+      document.getElementById('googleButton')
+
       <div className={classes.linkContainer}>
         <Link style={{ color: 'black' }} to="sign-in">Already have an account ?</Link>
       </div>
