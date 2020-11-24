@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import logo from '../assets/logo.png';
+import FacebookLogin from 'react-facebook-login';
 
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,14 @@ import { GoogleLogin } from 'react-google-login';
 
 const responseGoogle = (response) => {
   console.log(response);
+}
+
+const responseFacebook = (response) => {
+  console.log(response);
+}
+
+const componentClicked = (response) => {
+  console.log("clicked on the facebook component");
 }
 
 const useStyles = makeStyles(theme => ({
@@ -105,6 +114,12 @@ export default function Intro() {
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
         />,
+        <FacebookLogin
+            appId="2779684198966427"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={componentClicked}
+            callback={responseFacebook} />
       </div>
 
       <div className={classes.linkContainer}>
