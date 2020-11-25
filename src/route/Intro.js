@@ -10,15 +10,15 @@ import { GoogleLogin } from 'react-google-login';
 
 const responseGoogle = (response) => {
   console.log(response);
-}
+};
 
 const responseFacebook = (response) => {
   console.log(response);
-}
+};
 
 const componentClicked = (response) => {
-  console.log("clicked on the facebook component");
-}
+  console.log('clicked on the facebook component');
+};
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -42,16 +42,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '300px',
-    height: '50px',
+    height: '55px',
     position: 'absolute',
     top: '10%',
     right: '20px',
   },
   appStoreContainer: {
-    width: '135px',
+    width: '45%'
   },
   googlePlayContainer: {
-    width: '150px',
+    width: '52%',
   },
   signUpButton: {
     backgroundColor: '#c4d82f',
@@ -84,20 +84,22 @@ export default function Intro() {
       </div>
       <div className={classes.badgeContainer}>
         <div className={classes.appStoreContainer}>
-          <a style={{display: 'flex'}}
-             href="https://apps.apple.com/us/app/hill-climb-racing/id564540143?mt=8">
+          <a href="https://apps.apple.com/us/app/hill-climb-racing/id564540143?mt=8">
             <img
+              style={{maxWidth: '100%', maxHeight: '100%'}}
               alt='Get it on app store'
               src='https://linkmaker.itunes.apple.com/fr-fr/badge-lrg.svg?releaseDate=2012-11-08&kind=iossoftware&bubble=ios_apps'
             />
           </a>
         </div>
-        <div className={classes.googlePlayContainer}>
-          <a
-            style={{ display: 'flex' }}
-            href='https://play.google.com/store/apps/details?id=com.fingersoft.hillclimb&hl=en&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img
-            alt='Get it on Google Play'
-            src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+          <div className={classes.googlePlayContainer}>
+            <a href='https://play.google.com/store/apps/details?id=com.fingersoft.hillclimb&hl=en&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+              <img
+                style={{maxWidth: '100%', maxHeight: '100%'}}
+                alt='Get it on Google Play'
+                src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'
+              />
+            </a>
         </div>
       </div>
       <div style={{ width: '40%', height: '5%' }}>
@@ -106,21 +108,21 @@ export default function Intro() {
         </Link>
       </div>
 
-      <div style={{ width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center'}}>
+      <div style={{ width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center' }}>
         <GoogleLogin
-            style={{width: '40%'}}
-            clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
-            buttonText="Login with Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
+          style={{ width: '40%' }}
+          clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
         />
         <FacebookLogin
-            style={{width: '40%'}}
-            appId="2779684198966427"
-            fields="name,email,picture"
-            onClick={componentClicked}
-            callback={responseFacebook} />
+          style={{ width: '40%' }}
+          appId="2779684198966427"
+          fields="name,email,picture"
+          onClick={componentClicked}
+          callback={responseFacebook}/>
       </div>
 
       <div className={classes.linkContainer}>
