@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     border: 'solid 1px #d6d6d6',
     borderTop: 'none',
+    borderRight: 'none',
     width: '100%',
     height: '100%',
     textTransform: 'none',
