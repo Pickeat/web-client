@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import data0000 from '../data/fake-data-0000';
 import Avatar from '@material-ui/core/Avatar';
 import RoomIcon from '@material-ui/icons/Room';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
@@ -58,7 +57,8 @@ export default function ProductCard(props) {
   const history = useHistory();
 
   useEffect(() => {
-    setData(data0000);
+    setData(props.data);
+    console.log(data);
   }, []);
 
 
@@ -69,7 +69,7 @@ export default function ProductCard(props) {
         if (!isEmpty(data))
           setProductDistance(getDistance(
             { latitude: location.coords.latitude, longitude: location.coords.longitude },
-            { latitude: data.product.location.lat, longitude: data.product.location.lng }));
+            { latitude: data?.location?.lat, longitude: data?.location?.lng }));
       });
     } else {
       toast.error('Geolocation is not supported by this browser.');
@@ -86,13 +86,13 @@ export default function ProductCard(props) {
       );
     } else {
       return (
-        <Button onClick={() => {history.push(`/product/${data.product.id}`)}} className={classes.main}>
+        <Button onClick={() => {history.push(`/product/${data?._id}`)}} className={classes.main}>
           <div className={classes.productImgContainer}>
-            <img alt={'product_image'} src={data.product.product_image}
-                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+            <img alt={'product_image'} src={data?.product_image}
+                 style={{ minWidth: '100%', minHeight: '100%', objectFit: 'cover' }}/>
           </div>
           <div className={classes.infoContainer}>
-            <Avatar alt="user_picture" src={data.user.profile_image} className={classes.userAvatar}/>
+            <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
             <div className={classes.cardBottom}>
               <div style={{ display: 'flex' }}><RoomIcon/>
                 <div style={{ lineHeight: '22px' }}>{productDistance}m</div>
@@ -101,7 +101,7 @@ export default function ProductCard(props) {
                 <div style={{
                   lineHeight: '22px',
                   marginLeft: '5px',
-                }}>{moment(data.product.expiration_date).format('DD/MM/YYYY')}</div>
+                }}>{moment(data?.expiration_date).format('DD/MM/YYYY')}</div>
               </div>
             </div>
           </div>

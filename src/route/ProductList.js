@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#6cd56f',
+    backgroundColor: 'white',
   },
   productListSectionContainer: {
     display: 'flex',
@@ -78,6 +78,7 @@ export default function ProductList(props) {
   const [sliderValue, setSliderValue] = useState(1);
 
   const getProductListByKm = (km) => {
+    setIsLoading(true);
     getProductList(km).then((response) => {
       setProductList(response);
       setIsLoading(false);
@@ -116,7 +117,7 @@ export default function ProductList(props) {
           <CircularProgress/>
         </div>
       );
-    } else if (!isLoading && productList.length === 0) {
+    } else if (!isLoading && productList?.length === 0) {
       return (
         <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div className={classes.nothingToShow}>
@@ -126,7 +127,7 @@ export default function ProductList(props) {
         </div>
       );
     } else {
-      return productList.map((product, index) => {
+      return productList?.map((product, index) => {
         return (
           <Grid item key={'product-' + index} className={classes.productCardContainer}>
             <Paper elevation={2} className={classes.productCard}>

@@ -108,6 +108,7 @@ export default function Intro() {
 
       <div style={{ width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center'}}>
         <GoogleLogin
+            style={{width: '40%'}}
             clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
             buttonText="Login with Google"
             onSuccess={responseGoogle}
@@ -115,6 +116,7 @@ export default function Intro() {
             cookiePolicy={'single_host_origin'}
         />
         <FacebookLogin
+            style={{width: '40%'}}
             appId="2779684198966427"
             autoLoad={true}
             fields="name,email,picture"

@@ -30,7 +30,7 @@ export default function KmSlider(props) {
         </div>
         <div style={{ width: '60%' }}>
           <Slider
-            style={{ color: 'white' }}
+            style={{ color: '#40ee49' }}
             value={props.value}
             max={35}
             onChange={props.handleSliderChange}

@@ -3,6 +3,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {FORGOT_PASSWORD_URL} from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
+import handleErrorToast from '../helpers/handleErrorToast';
 
 
 export default async function forgotPasswordApi(email) {
@@ -25,7 +26,6 @@ export default async function forgotPasswordApi(email) {
             toast.warn(response.data.message);
         }
     }).catch((error) => {
-        console.log(error.response);
-        //toast.error(error.response.data.description);
+        handleErrorToast(error);
     });
 }

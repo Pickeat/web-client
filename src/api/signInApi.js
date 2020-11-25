@@ -3,6 +3,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import { SIGN_IN_URL } from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
+import handleErrorToast from '../helpers/handleErrorToast';
 
 
 export default async function signInApi(email, password) {
@@ -26,6 +27,6 @@ export default async function signInApi(email, password) {
       toast.warn(response.data.message);
     }
   }).catch((error) => {
-    toast.error(error.response.data.description);
+    handleErrorToast(error);
   });
 }

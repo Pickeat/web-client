@@ -9,6 +9,7 @@ export default function setAxiosConfig(method, fetchUrl, noJWT) {
         headers['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     }
     headers['Content-Type'] = 'application/json';
+    // headers['If-None-Match'] = '';
     config['headers'] = headers;
     config['method'] = method;
     config['url'] = fetchUrl;
