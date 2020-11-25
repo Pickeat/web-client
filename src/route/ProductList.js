@@ -6,6 +6,7 @@ import ProductCard from '../components/ProductCard';
 import Grid from '@material-ui/core/Grid';
 import getProductList from '../api/getProductList';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import KmSlider from '../components/KmSlider';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -14,14 +15,38 @@ const useStyles = makeStyles(theme => ({
     boxSizing: 'border-box',
     height: '100vh',
     width: '100%',
-    flexDirection: 'column',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  gridContainer: {
-    width: '64%',
+  paramsSectionContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '20%',
     height: '90%',
+  },
+  paramsSection: {
+    width: '95%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#6cd56f',
+  },
+  productListSectionContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '80%',
+    height: '90%',
+  },
+  sliderContainer: {
+    width: '80%',
+  },
+  gridContainer: {
+    maxWidth: '80%',
+    height: '100%',
     maxHeight: '90%',
     overflowY: 'scroll',
   },
@@ -50,13 +75,39 @@ export default function ProductList(props) {
   const classes = useStyles();
   const [productList, setProductList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sliderValue, setSliderValue] = useState(1);
 
-  useEffect(() => {
-    getProductList().then((response) => {
+  const getProductListByKm = (km) => {
+    getProductList(km).then((response) => {
       setProductList(response);
       setIsLoading(false);
     });
+  };
+
+  useEffect(() => {
+    getProductListByKm(1);
   }, []);
+
+  const handleSliderChange = (event, newValue) => {
+    setSliderValue(newValue);
+  };
+
+  const handleInputChange = (event) => {
+    if (event.target.value < 0) {
+      setSliderValue(0);
+    } else if (event.target.value > 35) {
+      setSliderValue(35);
+    }
+    setSliderValue(event.target.value === '' ? '' : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (sliderValue < 0) {
+      setSliderValue(0);
+    } else if (sliderValue > 35) {
+      setSliderValue(35);
+    }
+  };
 
   const buildGrid = () => {
     if (isLoading) {
@@ -89,9 +140,19 @@ export default function ProductList(props) {
 
   return (
     <div className={classes.main}>
-      <Grid container spacing={3} className={classes.gridContainer}>
-        {buildGrid()}
-      </Grid>
+      <div className={classes.paramsSectionContainer}>
+        <Paper elevation={5} className={classes.paramsSection}>
+          <div className={classes.sliderContainer}>
+            <KmSlider getProductListByKm={getProductListByKm} value={sliderValue} handleBlur={handleBlur}
+                      handleInputChange={handleInputChange} handleSliderChange={handleSliderChange}/>
+          </div>
+        </Paper>
+      </div>
+      <div className={classes.productListSectionContainer}>
+        <Grid container spacing={3} className={classes.gridContainer}>
+          {buildGrid()}
+        </Grid>
+      </div>
     </div>
-  );
+);
 }

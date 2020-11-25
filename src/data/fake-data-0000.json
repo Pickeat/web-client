@@ -8,6 +8,7 @@
     "profile_image": "https://pecb.com/conferences/wp-content/uploads/2017/10/no-profile-picture.jpg"
   },
   "product": {
+    "id": 123,
     "title": "Pavé gourmand Herta",
     "product_image": "https://www.canalvie.com/polopoly_fs/1.1135545!/image/riz_blanc.jpg_gen/derivatives/cvlandscape_499_281/riz_blanc.jpg",
     "expiration_date": "2018-05-26T00:00:00.000Z",
@@ -15,7 +16,6 @@
       "veggy",
       "fresh"
     ],
-    "distance": "750",
     "location": {
       "lng" : 13.4693203,
       "lat" : 52.5108293

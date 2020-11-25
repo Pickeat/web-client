@@ -2,9 +2,23 @@ import React, { useEffect } from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import logo from '../assets/logo.png';
+import FacebookLogin from 'react-facebook-login';
 
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
+
+const responseGoogle = (response) => {
+  console.log(response);
+}
+
+const responseFacebook = (response) => {
+  console.log(response);
+}
+
+const componentClicked = (response) => {
+  console.log("clicked on the facebook component");
+}
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -91,6 +105,23 @@ export default function Intro() {
           <Button className={classes.signUpButton}>Create an account</Button>
         </Link>
       </div>
+
+      <div style={{ width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center'}}>
+        <GoogleLogin
+            clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+        />
+        <FacebookLogin
+            appId="2779684198966427"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={componentClicked}
+            callback={responseFacebook} />
+      </div>
+
       <div className={classes.linkContainer}>
         <Link style={{ color: 'black' }} to="sign-in">Already have an account ?</Link>
       </div>
