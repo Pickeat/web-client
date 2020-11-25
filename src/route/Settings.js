@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'normal',
   },
   menuButtonText: {
+    fontFamily: 'Colfax-Medium',
     position: 'absolute',
     left: '22%',
     lineHeight: '0px',
