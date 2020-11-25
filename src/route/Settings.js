@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Button} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -19,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     width: '20%',
     display: 'flex',
     flexDirection: 'column',
+    borderRight: 'solid 1px #d6d6d6',
   },
   menuSection: {
     display: 'flex',
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButtonContainer: {
     width: '100%',
-    height: '75px'
+    height: '75px',
   },
   menuButton: {
     border: 'solid 1px #d6d6d6',
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     fontFamily: 'Colfax-Regular',
     fontSize: '14px',
-    justifyContent: 'normal'
+    justifyContent: 'normal',
   },
   menuButtonText: {
     position: 'absolute',
@@ -59,16 +59,18 @@ const useStyles = makeStyles(theme => ({
   menuButtonSelected: {
     position: 'absolute',
     left: '85%',
-    width: '7%'
-  }
+    width: '7%',
+  },
 }));
 
 export default function Settings(props) {
   const classes = useStyles();
   const [activePage, setActivePage] = useState(0);
   const componentList = [
-    {key: 0, component: <div style={{width: '100%', height: '100%'}}>TOTOT</div>},
-    {key: 1, component: <div style={{width: '100%', height: '100%'}}>TATAT</div>}
+    { key: 0, component: <div style={{ width: '100%', height: '100%' }}>TOTOT</div> },
+    { key: 1, component: <div style={{ width: '100%', height: '100%' }}>TATAT</div> },
+    { key: 2, component: <div style={{ width: '100%', height: '100%' }}>TiTiT</div> },
+    { key: 3, component: <div style={{ width: '100%', height: '100%' }}>TOUTOUM</div> },
   ];
 
   useEffect(() => {
@@ -78,32 +80,40 @@ export default function Settings(props) {
     const elem = componentList.find((elem) => elem.key === activePage);
     if (!elem)
       return <div>ERROR</div>;
-    return elem.component
+    return elem.component;
   };
 
   return (
-    <>
-      <div className={classes.main}>
-        <div className={classes.leftSection}>
-          <div className={classes.menuSection}>
-            <div className={classes.menuButtonContainer} style={{backgroundColor: 'white'}}>
-              <Button onClick={() => setActivePage(0)} className={classes.menuButton}>
-                <div className={classes.menuButtonText}>Statistics</div>
-              </Button>
-            </div>
-            <div className={classes.menuButtonContainer} style={{backgroundColor: '#f1f1f1'}}>
-              <Button onClick={() => setActivePage(1)} className={classes.menuButton}>
-                <div className={classes.menuButtonText}>Emergency contacts</div>
-              </Button>
-            </div>
+    <div className={classes.main}>
+      <div className={classes.leftSection}>
+        <div className={classes.menuSection}>
+          <div className={classes.menuButtonContainer}>
+            <Button onClick={() => setActivePage(0)} className={classes.menuButton}>
+              <div className={classes.menuButtonText}>Change password</div>
+            </Button>
           </div>
-        </div>
-        <div className={classes.rightSection}>
-          <div className={classes.mainContentSection}>
-            {buildMainContent()}
+          <div className={classes.menuButtonContainer}>
+            <Button onClick={() => setActivePage(1)} className={classes.menuButton}>
+              <div className={classes.menuButtonText}>Change mail</div>
+            </Button>
+          </div>
+          <div className={classes.menuButtonContainer}>
+            <Button onClick={() => setActivePage(2)} className={classes.menuButton}>
+              <div className={classes.menuButtonText}>Change phone number</div>
+            </Button>
+          </div>
+          <div className={classes.menuButtonContainer}>
+            <Button onClick={() => setActivePage(3)} className={classes.menuButton}>
+              <div className={classes.menuButtonText}>Delete account</div>
+            </Button>
           </div>
         </div>
       </div>
-    </>
-  )
+      <div className={classes.rightSection}>
+        <div className={classes.mainContentSection}>
+          {buildMainContent()}
+        </div>
+      </div>
+    </div>
+  );
 }

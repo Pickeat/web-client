@@ -118,7 +118,6 @@ export default function Intro() {
         <FacebookLogin
             style={{width: '40%'}}
             appId="2779684198966427"
-            autoLoad={true}
             fields="name,email,picture"
             onClick={componentClicked}
             callback={responseFacebook} />
