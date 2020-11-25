@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,7 +61,9 @@ export default function SignIn() {
   const [age, setAge] = useState('');
 
   const signUpApiCall = (email, password, confirmPassword, phone, age) => {
-    signUpApi(email, password, confirmPassword, phone, age);
+    signUpApi(email, password, confirmPassword, phone, age).then(() => {
+      props.history.push('/sign-in');
+    });
   };
 
   return (

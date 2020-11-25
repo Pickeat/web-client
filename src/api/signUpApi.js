@@ -18,21 +18,20 @@ export default async function signUpApi(email, password, confirmPassword, phone,
   config['data'] = body;
   if (password !== confirmPassword) {
     toast.error("The two password are not identical");
-    return;
+    return false;
   }
   if (!email || !password || !age) {
     toast.error("One or more field(s) is/are blank");
-    return;
+    return false;
   }
   if (age < 18) {
     toast.error("You must be over 18 to register on Pickeat");
-    return;
+    return false;
   }
   return await axios(config).then((response) => {
-
     if (response.status === 200) {
       Cookies.set('jwt', response.data.access_token.token);
-      return response.data;
+      return true;
     } else {
       toast.warn(response.data.message);
     }
