@@ -1,14 +1,14 @@
-ARG REACT_APP_GOOGLE_LOGIN_CLIENT_ID
-ARG REACT_APP_FACEBOOK_LOGIN_APP_ID
-ARG REACT_APP_BASE_URL_API_LINK
+ARG google_login_client_id
+ARG facebook_login_app_id
+ARG base_url_api_link
 
 # stage1 - build react app first
 FROM node:12.16.1-alpine3.9 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-ENV REACT_APP_GOOGLE_LOGIN_CLIENT_ID=$REACT_APP_GOOGLE_LOGIN_CLIENT_ID
-ENV REACT_APP_FACEBOOK_LOGIN_APP_ID=$REACT_APP_FACEBOOK_LOGIN_APP_ID
-ENV REACT_APP_BASE_URL_API_LINK=$REACT_APP_BASE_URL_API_LINK
+ENV REACT_APP_GOOGLE_LOGIN_CLIENT_ID=$google_login_client_id
+ENV REACT_APP_FACEBOOK_LOGIN_APP_ID=$facebook_login_app_id
+ENV REACT_APP_BASE_URL_API_LINK=$base_url_api_link
 COPY ./package.json /app/
 RUN npm install
 COPY . /app

@@ -14,12 +14,13 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         env:
-          REACT_APP_GOOGLE_LOGIN_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_LOGIN_CLIENT_ID }}
-          REACT_APP_FACEBOOK_LOGIN_APP_ID: ${{ secrets.REACT_APP_FACEBOOK_LOGIN_APP_ID }}
-          REACT_APP_BASE_URL_API_LINK: ${{ secrets.REACT_APP_BASE_URL_API_LINK }}
+          google_login_client_id: ${{ secrets.REACT_APP_GOOGLE_LOGIN_CLIENT_ID }}
+          facebook_login_app_id: ${{ secrets.REACT_APP_FACEBOOK_LOGIN_APP_ID }}
+          base_url_api_link: ${{ secrets.REACT_APP_BASE_URL_API_LINK }}
         with:
           name: web-client
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ${{ secrets.DOCKER_REGISTRY }}
           tags: "latest"
+          buildargs: google_login_client_id,facebook_login_app_id,base_url_api_link
