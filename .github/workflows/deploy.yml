@@ -13,6 +13,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
+        env:
+          REACT_APP_GOOGLE_LOGIN_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_LOGIN_CLIENT_ID }}
+          REACT_APP_FACEBOOK_LOGIN_APP_ID: ${{ secrets.REACT_APP_FACEBOOK_LOGIN_APP_ID }}
+          REACT_APP_BASE_URL_API_LINK: ${{ secrets.REACT_APP_BASE_URL_API_LINK }}
         with:
           name: web-client
           username: ${{ secrets.DOCKER_USERNAME }}
