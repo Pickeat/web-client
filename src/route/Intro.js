@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import logo from '../assets/logo.png';
 import FacebookLogin from 'react-facebook-login';
@@ -9,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 
 const responseGoogle = (response) => {
+  console.log(process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID)
   console.log(response);
 };
 
@@ -111,7 +111,7 @@ export default function Intro() {
       <div style={{ width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center' }}>
         <GoogleLogin
           style={{ width: '40%' }}
-          clientId="1093807107395-ekidnpvjb7up07la9jps21qf1mmu6oib.apps.googleusercontent.com"
+          clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}
           buttonText="Login with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
@@ -119,7 +119,7 @@ export default function Intro() {
         />
         <FacebookLogin
           style={{ width: '40%' }}
-          appId="2779684198966427"
+          appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
           fields="name,email,picture"
           onClick={componentClicked}
           callback={responseFacebook}/>
