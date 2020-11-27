@@ -11,7 +11,6 @@ export default async function getProductList(km) {
 
   return await axios(config).then((response) => {
     if (response.status === 200) {
-      console.log(response.data);
       return response.data;
     } else {
       toast.warn(response.data.message);
