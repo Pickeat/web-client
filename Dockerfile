@@ -1,9 +1,9 @@
-ARG google_login_client_id
-ARG facebook_login_app_id
-ARG base_url_api_link
 
 # stage1 - build react app first
 FROM node:12.16.1-alpine3.9 as build
+ARG google_login_client_id
+ARG facebook_login_app_id
+ARG base_url_api_link
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ENV REACT_APP_GOOGLE_LOGIN_CLIENT_ID=$google_login_client_id
