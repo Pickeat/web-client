@@ -15,15 +15,19 @@ const Map = (props) => {
 
     // Initialize map when component mounts
     useEffect(() => {
+        if (!lng || !lat || !zoom)
+            return;
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
             zoom: zoom
         });
-        new mapboxgl.Marker()
-            .setLngLat([props.lng, props.lat])
-            .addTo(map);
+        if (props.lng && props.lat) {
+            new mapboxgl.Marker()
+              .setLngLat([props.lng, props.lat])
+              .addTo(map);
+        }
         // Add navigation control (the +/- zoom buttons)
         map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 

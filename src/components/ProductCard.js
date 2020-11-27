@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import defaultImage from '../assets/wallpaper-login.jpg'
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     '& .MuiButton-label': {
       flexDirection: 'column',
-    }
+    },
   },
   productImgContainer: {
     display: 'flex',
@@ -58,7 +59,6 @@ export default function ProductCard(props) {
 
   useEffect(() => {
     setData(props.data);
-    console.log(data);
   }, []);
 
 
@@ -86,23 +86,29 @@ export default function ProductCard(props) {
       );
     } else {
       return (
-        <Button onClick={() => {history.push(`/product/${data?._id}`)}} className={classes.main}>
+        <Button onClick={() => {
+          history.push(`/product/${data?._id}`);
+        }} className={classes.main}>
           <div className={classes.productImgContainer}>
-            <img alt={'product_image'} src={data?.product_image}
-                 style={{ minWidth: '100%', minHeight: '100%', objectFit: 'cover' }}/>
+            <img alt={'product_image'} src={(data.product_image ? data?.product_image : defaultImage)}
+                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
           </div>
           <div className={classes.infoContainer}>
             <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
             <div className={classes.cardBottom}>
-              <div style={{ display: 'flex' }}><RoomIcon/>
-                <div style={{ lineHeight: '22px' }}>{productDistance}m</div>
-              </div>
+              {productDistance !== -1 &&
+                <div style={{ display: 'flex' }}><RoomIcon/>
+                  <div style={{ lineHeight: '22px' }}>{productDistance}m</div>
+                </div>
+              }
+              {data.expiration_date &&
               <div style={{ display: 'flex' }}><EventAvailableIcon/>
                 <div style={{
                   lineHeight: '22px',
                   marginLeft: '5px',
                 }}>{moment(data?.expiration_date).format('DD/MM/YYYY')}</div>
               </div>
+              }
             </div>
           </div>
         </Button>
