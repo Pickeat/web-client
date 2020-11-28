@@ -7,10 +7,9 @@ import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
 import Avatar from "@material-ui/core/Avatar";
 import Logo from "../assets/logo.png";
+import Pp_placeholder from "../assets/pp_placeholder.png"
 import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
-import Background from "../components/Background";
-import backgroundSrc from "../assets/wallpaper-login.jpg";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -27,9 +26,35 @@ const useStyles = makeStyles(theme => ({
     },
     leftSection: {
         height: '100%',
-        width: '20%',
+        width: '40%',
         display: 'flex',
         flexDirection: 'column',
+    },
+    userInfoContainer: {
+        display: 'flex',
+        height: '70%',
+        paddingLeft: '5%',
+        paddingTop: '5%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    showUserInfoContainer: {
+        display: 'flex',
+        width: '30%',
+        borderRadius: '16px',
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderColor: '#d3d3d3',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    formUserInfoContainer: {
+        display: 'flex',
+        width: '45%',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
     menuSection: {
         display: 'flex',
@@ -38,8 +63,11 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
     },
     rightSection: {
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderColor: 'red',
         height: '100%',
-        width: '80%',
+        width: '60%',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -77,10 +105,13 @@ const useStyles = makeStyles(theme => ({
 export default function Profil(props) {
     const classes = useStyles();
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [newName, setNewName] = useState("");
-    const [newDescription, setNewDescription] = useState("");
-    const [currentUserData, setCurrentUserData] = useState();
+    const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
+    const [isUserUploadProductsLoading, setIsUserUploadProductsLoading] = useState(true);
+    const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
+    const [userName, setUserName] = useState("");
+    const [userDescription, setUserDescription] = useState("");
+    const [currentName, setCurrentName] = useState();
+    const [currentDescription, setCurrentDescription] = useState();
 
 
     useEffect(() => {
@@ -88,11 +119,13 @@ export default function Profil(props) {
     }, []);
 
     const getUserPublicInfoCall = () => {
-        setIsLoading(true);
+        setIsUserInfoLoading(true);
         getUserPublicInfoApi().then((response) => {
-            setCurrentUserData(response);
-            setIsLoading(false);
-            console.log(currentUserData)
+            setUserName(response.name);
+            setUserDescription(response.description);
+            setCurrentName(response.name);
+            setCurrentDescription(response.description);
+            setIsUserInfoLoading(false);
         });
     }
 
@@ -103,8 +136,78 @@ export default function Profil(props) {
     }
 
 
-    const buildPaper = () => {
-        if (isLoading) {
+    const buildUserInfo = () => {
+        if (isUserInfoLoading) {
+            return (
+                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress/>
+                </div>
+            );
+        } else {
+            return (
+                <div className={classes.userInfoContainer}>
+                    <div className={classes.showUserInfoContainer}>
+                        <img style={{width: '100%', height: 'auto', borderTopLeftRadius: '16px', borderTopRightRadius: '16px'}} src={Pp_placeholder}/>
+                        <text style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
+                            {currentName},
+                        </text>
+                        <text style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
+                            {currentDescription}
+                        </text>
+                    </div>
+                    <div className={classes.formUserInfoContainer}>
+                        <Typography component="h1" variant="h5">
+                            User Info :
+                        </Typography>
+                        <form className={classes.form}>
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="name"
+                                label="name"
+                                name="labelname"
+                                autoComplete="name"
+                                autoFocus
+                                value={userName}
+                                onChange={(event => setUserName(event.target.value))}
+                            />
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="desciption"
+                                label="description"
+                                desciption="labeldesciption"
+                                autoComplete="desciption"
+                                autoFocus
+                                value={userDescription}
+                                onChange={(event => setUserDescription(event.target.value))}
+                            />
+                            <Button
+                                style={{width: '50%'}}
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    setUserPublicInfoCall(userName, userDescription);
+                                    getUserPublicInfoCall();
+                                }}
+                                className="pickeatBtn"
+                            >
+                                Edit
+                            </Button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+    const buildUserUploadProducts = () => {
+        if (isUserUploadProductsLoading) {
             return (
                 <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress/>
@@ -113,66 +216,37 @@ export default function Profil(props) {
         } else {
             return (
                 <>
-                    <Avatar className={classes.avatar}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        User Info : {currentUserData['name']}
-                    </Typography>
-                    <form className={classes.form}>
-                        <PickeatTextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="name"
-                            label={currentUserData.name}
-                            name="labelname"
-                            autoComplete="name"
-                            autoFocus
-                            value={newName}
-                            onChange={(event => setNewName(event.target.value))}
-                        />
-                        <PickeatTextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="desciption"
-                            label={currentUserData.description}
-                            desciption="labeldesciption"
-                            autoComplete="desciption"
-                            autoFocus
-                            value={newDescription}
-                            onChange={(event => setNewDescription(event.target.value))}
-                        />
-                        <Button
-                            style={{width: '50%'}}
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                setUserPublicInfoCall(newName, newDescription)
-                            }}
-                            className="pickeatBtn"
-                        >
-                            Edit
-                        </Button>
-                    </form>
+
                 </>
-            )
+            );
         }
     }
 
+    const buildUserReservationProducts = () => {
+        if (isUserReservationProductsLoading) {
+            return (
+                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress/>
+                </div>
+            );
+        } else {
+            return (
+                <>
+
+                </>
+            );
+        }
+    }
 
     return (
         <div className={classes.main}>
-            <Background src={backgroundSrc}/>
-            <Paper elevation={24} className={classes.container}>
-                {buildPaper()}
-            </Paper>
+            <div className={classes.leftSection}>
+                {buildUserInfo()}
+            </div>
+            <div className={classes.rightSection}>
+                {buildUserUploadProducts()}
+                {buildUserReservationProducts()}
+            </div>
         </div>
     );
 }
