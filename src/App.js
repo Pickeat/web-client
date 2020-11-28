@@ -14,6 +14,7 @@ import ResetPassword from "./route/ResetPassword";
 import ConfirmAccount from "./route/ConfirmAccount";
 import ProductList from "./route/ProductList";
 import Settings from './route/Settings';
+import Profil from './route/Profil';
 
 toast.configure({
   autoClose: 4000,
@@ -57,6 +58,7 @@ function App() {
             <PrivateRoute exact path="/product-list" component={ProductList}/>
             <PrivateRoute exact path="/product/:id" component={Product}/>
             <PrivateRoute exact path="/settings" component={Settings}/>
+            <PrivateRoute exact path="/profile" component={Profil}/>
           </Switch>
         </div>
       </BrowserRouter>
