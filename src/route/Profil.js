@@ -5,6 +5,7 @@ import {Button} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
+import getUserProductListApi from '../api/getUserProductList'
 import Avatar from "@material-ui/core/Avatar";
 import Logo from "../assets/logo.png";
 import Pp_placeholder from "../assets/pp_placeholder.png"
@@ -12,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
+import ProductCard from "../components/ProductCard";
 
 
 const useStyles = makeStyles(theme => ({
@@ -62,6 +65,15 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
     },
+    gridContainer: {
+        overflowY: 'scroll',
+    },
+    nothingToShow: {
+        fontFamily: 'Colfax-Medium',
+        fontSize: '25px',
+        textAlign: 'center',
+        color: 'white',
+    },
     rightSection: {
         borderStyle: 'solid',
         borderWidth: '1px',
@@ -69,7 +81,7 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         width: '60%',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
     },
     mainContentSection: {
         width: '100%',
@@ -89,6 +101,17 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Colfax-Regular',
         fontSize: '14px',
         justifyContent: 'normal'
+    },
+    productListContainer: {
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderColor: 'red',
+        margin: '2%',
+        display: 'flex',
+        width: '50%',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
     menuButtonText: {
         position: 'absolute',
@@ -112,10 +135,12 @@ export default function Profil(props) {
     const [userDescription, setUserDescription] = useState("");
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
+    const [userProductList, setUserProductList] = useState([]);
 
 
     useEffect(() => {
-        getUserPublicInfoCall()
+        getUserPublicInfoCall();
+        getUserProductListCall();
     }, []);
 
     const getUserPublicInfoCall = () => {
@@ -131,10 +156,18 @@ export default function Profil(props) {
 
     const setUserPublicInfoCall = (newName, newDescription) => {
         setUserPublicInfoApi(newName, newDescription).then((response) => {
-
+            getUserPublicInfoCall();
         });
     }
 
+    const getUserProductListCall = () => {
+        setIsUserUploadProductsLoading(true);
+        getUserProductListApi().then((response) => {
+            console.log(response);
+            setUserProductList(response);
+            setIsUserReservationProductsLoading(false);
+        });
+    }
 
     const buildUserInfo = () => {
         if (isUserInfoLoading) {
@@ -207,23 +240,35 @@ export default function Profil(props) {
     }
 
     const buildUserUploadProducts = () => {
-        if (isUserUploadProductsLoading) {
+        if (isUserReservationProductsLoading) {
             return (
                 <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress/>
                 </div>
             );
-        } else {
+        } else if (!isUserReservationProductsLoading && userProductList?.length === 0) {
             return (
-                <>
-
-                </>
+                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div className={classes.nothingToShow}>
+                        You have not yet proposed any product
+                    </div>
+                </div>
             );
+        } else {
+            return userProductList?.map((product, index) => {
+                return (
+                    <Grid item key={'product-' + index} className={classes.productCardContainer}>
+                        <Paper elevation={2} className={classes.productCard}>
+                            <ProductCard data={product}/>
+                        </Paper>
+                    </Grid>
+                );
+            });
         }
     }
 
     const buildUserReservationProducts = () => {
-        if (isUserReservationProductsLoading) {
+        if (isUserUploadProductsLoading) {
             return (
                 <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress/>
@@ -244,8 +289,17 @@ export default function Profil(props) {
                 {buildUserInfo()}
             </div>
             <div className={classes.rightSection}>
-                {buildUserUploadProducts()}
-                {buildUserReservationProducts()}
+                <div className={classes.productListContainer}>
+                    <Grid container spacing={3} className={classes.gridContainer}>
+                        {buildUserUploadProducts()}
+                    </Grid>
+                </div>
+                <div className={classes.productListContainer}>
+                    <Grid container spacing={3} className={classes.gridContainer}>
+                        {buildUserUploadProducts()}
+                    </Grid>
+                    {/*{buildUserReservationProducts()}*/}
+                </div>
             </div>
         </div>
     );
