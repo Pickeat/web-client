@@ -2,22 +2,19 @@ import React, { useEffect } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import logo from '../assets/logo.png';
 import FacebookLogin from 'react-facebook-login';
-
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import postFacebookLogin from "../api/postFacebookLogin";
+import postGoogleLogin from "../api/postGoogleLogin";
 
 const responseGoogle = (response) => {
-  console.log(response);
+  console.log(response.accessToken)
+  postGoogleLogin(response.accessToken)
 };
 
 const responseFacebook = (response) => {
   postFacebookLogin(response.accessToken)
-};
-
-const componentClicked = (response) => {
-  console.log('clicked on the facebook component');
 };
 
 const useStyles = makeStyles(theme => ({
@@ -115,13 +112,17 @@ export default function Intro() {
           buttonText="Login with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
+          scope={[
+            "profile",
+            "email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+          ].join(" ")}
           cookiePolicy={'single_host_origin'}
         />
         <FacebookLogin
           style={{ width: '40%' }}
           appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
           fields="name,email,picture"
-          onClick={componentClicked}
           callback={responseFacebook}/>
       </div>
 

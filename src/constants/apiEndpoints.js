@@ -9,3 +9,4 @@ export const GET_PRODUCT_LIST_URL = BASE_URL + '/announces';
 export const GET_PRODUCT_URL = BASE_URL + '/announces';
 export const USER_PUBLIC_INFO_URL = BASE_URL + '/users/public_infos';
 export const FACEBOOK_CONNECT_URL = BASE_URL + '/auth/facebook';
+export const GOOGLE_CONNECT_URL = BASE_URL + '/auth/google';
