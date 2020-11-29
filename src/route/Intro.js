@@ -6,14 +6,14 @@ import FacebookLogin from 'react-facebook-login';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
+import postFacebookLogin from "../api/postFacebookLogin";
 
 const responseGoogle = (response) => {
-  console.log(process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID)
   console.log(response);
 };
 
 const responseFacebook = (response) => {
-  console.log(response);
+  postFacebookLogin(response.accessToken)
 };
 
 const componentClicked = (response) => {
