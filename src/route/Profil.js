@@ -75,9 +75,6 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
     },
     rightSection: {
-        borderStyle: 'solid',
-        borderWidth: '1px',
-        borderColor: 'red',
         height: '100%',
         width: '60%',
         display: 'flex',
@@ -103,9 +100,6 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'normal'
     },
     productListContainer: {
-        borderStyle: 'solid',
-        borderWidth: '1px',
-        borderColor: 'red',
         margin: '2%',
         display: 'flex',
         width: '50%',
