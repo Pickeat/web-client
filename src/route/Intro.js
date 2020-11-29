@@ -9,7 +9,8 @@ import postFacebookLogin from "../api/postFacebookLogin";
 import postGoogleLogin from "../api/postGoogleLogin";
 
 const responseGoogle = (response) => {
-  postGoogleLogin(response.id_token)
+  console.log(response.tokenObj.id_token)
+  postGoogleLogin(response.tokenObj.id_token)
 };
 
 const responseFacebook = (response) => {
