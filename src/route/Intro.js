@@ -9,8 +9,7 @@ import postFacebookLogin from "../api/postFacebookLogin";
 import postGoogleLogin from "../api/postGoogleLogin";
 
 const responseGoogle = (response) => {
-  console.log(response.accessToken)
-  postGoogleLogin(response.accessToken)
+  postGoogleLogin(response.id_token)
 };
 
 const responseFacebook = (response) => {
@@ -115,7 +114,8 @@ export default function Intro() {
           scope={[
             "profile",
             "email",
-            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/user.phonenumbers.read",
+            "https://www.googleapis.com/auth/user.addresses.read",
           ].join(" ")}
           cookiePolicy={'single_host_origin'}
         />
