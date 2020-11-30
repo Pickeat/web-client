@@ -1,26 +1,19 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { GET_PRODUCT_LIST_URL , USER_ME} from '../constants/apiEndpoints';
+import { GET_PRODUCT_LIST_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
+import Cookies from 'js-cookie';
 
 export default async function getProductList() {
-    let config = setAxiosConfig('GET', `${USER_ME}`, false);
-    let user_id;
+    let config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
 
-    await axios(config).then((response) => {
-        if (response.status === 200) {
-            user_id = response.data._id;
-        } else {
-            toast.warn(response.data.message);
-        }
-    }).catch((error) => {
-        handleErrorToast(error);
-    });
+    let body = {
+        'user_id' : Cookies.get('user_id')
+    }
+    config['data'] = body;
 
-    config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
-    config['params'] = {user_id: user_id};
-
+    console.log(config);
     return await axios(config).then((response) => {
         if (response.status === 200) {
             return response.data;
