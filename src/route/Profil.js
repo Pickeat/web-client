@@ -183,10 +183,10 @@ export default function Profil(props) {
                 <div className={classes.userInfoContainer}>
                     <div className={classes.showUserInfoContainer}>
                         <img style={{width: '100%', height: 'auto', borderTopLeftRadius: '16px', borderTopRightRadius: '16px'}} src={Pp_placeholder}/>
-                        <Typography style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
+                        <Typography style={{paddingTop:'5%', paddingRight:'5%', paddingLeft: '5%', textTransform: 'capitalize'}}>
                             {currentName},
                         </Typography>
-                        <Typography style={{paddingLeft: '5%'}}>
+                        <Typography style={{paddingTop:'5%', paddingRight:'5%', paddingLeft: '5%'}}>
                             {currentDescription}
                         </Typography>
                     </div>
@@ -220,6 +220,28 @@ export default function Profil(props) {
                                 value={userDescription}
                                 onChange={(event => setUserDescription(event.target.value))}
                             />
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="birthdate"
+                                label="birthdate"
+                                desciption="birthdate"
+                                autoComplete="birthdate"
+                                autoFocus
+                                disabled
+                            />
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="gender"
+                                label="gender"
+                                desciption="gender"
+                                autoComplete="gender"
+                                autoFocus
+                                disabled
+                            />
                             <Button
                                 style={{width: '50%'}}
                                 type="submit"
@@ -233,7 +255,7 @@ export default function Profil(props) {
                                 }}
                                 className="pickeatBtn"
                             >
-                                Edit
+                                Save Changes
                             </Button>
                         </form>
                     </div>
@@ -294,8 +316,8 @@ export default function Profil(props) {
             <div className={classes.rightSection}>
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
-                        <Typography>
-                            User Announces
+                        <Typography style={{fontFamily: 'Colfax-medium'}}>
+                            User's Announces
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
@@ -304,8 +326,8 @@ export default function Profil(props) {
                 </div>
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
-                        <Typography>
-                            User Reservation
+                        <Typography style={{fontFamily: 'Colfax-medium'}}>
+                            User's Reservations
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
