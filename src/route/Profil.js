@@ -15,6 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
+import {TextFields} from "@material-ui/icons";
+import TextField from "@material-ui/core/TextField";
 
 
 const useStyles = makeStyles(theme => ({
@@ -65,8 +67,14 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
     },
+    announceListTitle: {
+        fontFamily:'Colfax-medium',
+        height:'5%',
+        display:'flex',
+    },
     gridContainer: {
         overflowY: 'scroll',
+        height: '95%'
     },
     nothingToShow: {
         fontFamily: 'Colfax-Medium',
@@ -285,11 +293,21 @@ export default function Profil(props) {
             </div>
             <div className={classes.rightSection}>
                 <div className={classes.productListContainer}>
+                    <div className={classes.announceListTitle}>
+                        <Typography>
+                            User Announces
+                        </Typography>
+                    </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
                         {buildUserUploadProducts()}
                     </Grid>
                 </div>
                 <div className={classes.productListContainer}>
+                    <div className={classes.announceListTitle}>
+                        <Typography>
+                            User Reservation
+                        </Typography>
+                    </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
                         {buildUserUploadProducts()}
                     </Grid>
