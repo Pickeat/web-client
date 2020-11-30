@@ -11,6 +11,7 @@ import postGoogleLogin from "../api/postGoogleLogin";
 const responseGoogle = (response) => {
   console.log(response.tokenObj.id_token)
   postGoogleLogin(response.tokenObj.id_token)
+  this.setState({ redirect: "/product-list" });
 };
 
 const responseFacebook = (response) => {
