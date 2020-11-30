@@ -128,6 +128,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    overflowY: 'auto'
   },
   productTitleContainer: {
     display: 'flex',
@@ -144,7 +145,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
   },
   productLittleInfoBlock: {
-    height: '30%',
+    height: '25%',
   },
   productLittleInfoLabel: {
     height: '20%',
@@ -182,7 +183,6 @@ export default function Product(props) {
 
   useEffect(() => {
     getProductApi(id).then((res) => {
-      console.log(res);
       setData(res);
     });
   }, []);
@@ -191,11 +191,20 @@ export default function Product(props) {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
-        console.log(location);
-        if (!isEmpty(data))
-          setProductDistance(getDistance(
-            { latitude: location.coords.latitude, longitude: location.coords.longitude },
-            { latitude: data?.product.location.lat, longitude: data?.product.location.lng }));
+        if (!isEmpty(data) && props.location) {
+          const userLat = location?.coords?.latitude;
+          const userLng = location?.coords?.longitude;
+          const productLat = data?.location?.lat;
+          const productLng = data?.location?.lng;
+
+          if (userLat && userLng && productLng && productLat) {
+            setProductDistance(getDistance(
+              { latitude: userLat, longitude: userLng },
+              { latitude: productLat, longitude: productLng }));
+          }
+        } else {
+          setProductDistance(-1);
+        }
       });
     } else {
       toast.error('Geolocation is not supported by this browser.');

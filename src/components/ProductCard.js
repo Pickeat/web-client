@@ -7,11 +7,10 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import * as moment from 'moment';
 import { isEmpty } from '../helpers/isEmpty';
 import { getDistance } from 'geolib';
-import { toast } from 'react-toastify';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
-import defaultImage from '../assets/wallpaper-login.jpg'
+import defaultImage from '../assets/wallpaper-login.jpg';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -63,16 +62,18 @@ export default function ProductCard(props) {
 
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        console.log(location);
-        if (!isEmpty(data))
-          setProductDistance(getDistance(
-            { latitude: location.coords.latitude, longitude: location.coords.longitude },
-            { latitude: data?.location?.lat, longitude: data?.location?.lng }));
-      });
+    if (!isEmpty(data) && props.location) {
+      const userLat = props?.location?.coords?.latitude;
+      const userLng = props?.location?.coords?.longitude;
+      const productLat = data?.location?.lat;
+      const productLng = data?.location?.lng;
+
+      if (userLat && userLng && productLng && productLat) {
+        setProductDistance(getDistance(
+          { latitude: userLat, longitude: userLng },
+          { latitude: productLat, longitude: productLng }));
+      }
     } else {
-      toast.error('Geolocation is not supported by this browser.');
       setProductDistance(-1);
     }
   }, [data]);
@@ -97,9 +98,9 @@ export default function ProductCard(props) {
             <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
             <div className={classes.cardBottom}>
               {productDistance !== -1 &&
-                <div style={{ display: 'flex' }}><RoomIcon/>
-                  <div style={{ lineHeight: '22px' }}>{productDistance}m</div>
-                </div>
+              <div style={{ display: 'flex' }}><RoomIcon/>
+                <div style={{ lineHeight: '22px' }}>{productDistance}m</div>
+              </div>
               }
               {data.expiration_date &&
               <div style={{ display: 'flex' }}><EventAvailableIcon/>

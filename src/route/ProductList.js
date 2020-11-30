@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import getProductList from '../api/getProductList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import KmSlider from '../components/KmSlider';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -74,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProductList(props) {
   const classes = useStyles();
   const [productList, setProductList] = useState([]);
+  const [location, setLocation] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [sliderValue, setSliderValue] = useState(1);
 
@@ -87,6 +89,14 @@ export default function ProductList(props) {
 
   useEffect(() => {
     getProductListByKm(1);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        setLocation(location);
+      });
+    } else {
+      toast.error('Geolocation is not supported by this browser.');
+      setLocation(-1);
+    }
   }, []);
 
   const handleSliderChange = (event, newValue) => {
@@ -131,7 +141,7 @@ export default function ProductList(props) {
         return (
           <Grid item key={'product-' + index} className={classes.productCardContainer}>
             <Paper elevation={2} className={classes.productCard}>
-              <ProductCard data={product}/>
+              <ProductCard location={location} data={product}/>
             </Paper>
           </Grid>
         );
@@ -155,5 +165,5 @@ export default function ProductList(props) {
         </Grid>
       </div>
     </div>
-);
+  );
 }
