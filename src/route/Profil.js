@@ -146,13 +146,13 @@ export default function Profil(props) {
             setCurrentDescription(response.description);
             setIsUserInfoLoading(false);
         });
-    }
+    };
 
     const setUserPublicInfoCall = (newName, newDescription) => {
         setUserPublicInfoApi(newName, newDescription).then((response) => {
             getUserPublicInfoCall();
         });
-    }
+    };
 
     const getUserProductListCall = () => {
         setIsUserUploadProductsLoading(true);
@@ -161,7 +161,7 @@ export default function Profil(props) {
             setUserProductList(response);
             setIsUserReservationProductsLoading(false);
         });
-    }
+    };
 
     const buildUserInfo = () => {
         if (isUserInfoLoading) {
@@ -175,12 +175,12 @@ export default function Profil(props) {
                 <div className={classes.userInfoContainer}>
                     <div className={classes.showUserInfoContainer}>
                         <img style={{width: '100%', height: 'auto', borderTopLeftRadius: '16px', borderTopRightRadius: '16px'}} src={Pp_placeholder}/>
-                        <text style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
+                        <Typography style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
                             {currentName},
-                        </text>
-                        <text style={{paddingLeft: '5%', textTransform: 'capitalize'}}>
+                        </Typography>
+                        <Typography style={{paddingLeft: '5%'}}>
                             {currentDescription}
-                        </text>
+                        </Typography>
                     </div>
                     <div className={classes.formUserInfoContainer}>
                         <Typography component="h1" variant="h5">
