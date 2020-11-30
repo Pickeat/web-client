@@ -208,6 +208,7 @@ export default function Profil(props) {
                                 desciption="labeldesciption"
                                 autoComplete="desciption"
                                 autoFocus
+                                multiline
                                 value={userDescription}
                                 onChange={(event => setUserDescription(event.target.value))}
                             />
