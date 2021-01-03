@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
 import updateUserPhoneApi from "../api/updateUserPhone";
 import updateUserMailApi from "../api/updateUserMailApi";
+import updateUserPasswordCallApi from "../api/updateUserPasswordApi";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -72,6 +73,8 @@ const useStyles = makeStyles(theme => ({
 export default function Settings(props) {
   const [userPhone, updateUserPhone] = useState("");
   const [userMail, updateUserMail] = useState("");
+  const [userOldPassword, updateUserOldPassword] = useState("");
+  const [userNewPassword, updateUserNewPassword] = useState("");
   const classes = useStyles();
   const [activePage, setActivePage] = useState(0);
 
@@ -85,9 +88,55 @@ export default function Settings(props) {
     });
   };
 
+  const updateUserPasswordCall = (oldPassword, newPassword) => {
+    updateUserPasswordCallApi(oldPassword, newPassword).then((response) => {
+    });
+  };
 
   const componentList = [
-    { key: 0, component: <div style={{ width: '100%', height: '100%' }}>TITI</div>},
+    { key: 0, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+          Change password:
+        </Typography>
+        <form className={classes.form}>
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="oldpassword"
+              label="Old password"
+              name="labelname"
+              autoComplete="password"
+              autoFocus
+              value={userOldPassword}
+              onChange={(event => updateUserOldPassword(event.target.value))}
+          />
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="newpassword"
+              label="New password"
+              name="labelname"
+              autoComplete="password"
+              autoFocus
+              value={userNewPassword}
+              onChange={(event => updateUserNewPassword(event.target.value))}
+          /></form>
+        <Button
+            style={{width: '50%'}}
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              updateUserPasswordCall(userOldPassword, userNewPassword);
+            }}
+            className="pickeatBtn"
+        >
+          Save Changes
+        </Button></div> },
     { key: 1, component: <div className={classes.formUserInfoContainer}>
         <Typography component="h1" variant="h5">
           New mail address:
@@ -118,7 +167,7 @@ export default function Settings(props) {
             className="pickeatBtn"
         >
           Save Changes
-        </Button></div>},
+        </Button></div> },
     { key: 2, component: <div className={classes.formUserInfoContainer}>
           <Typography component="h1" variant="h5">
       New phone number:
@@ -149,7 +198,7 @@ export default function Settings(props) {
         className="pickeatBtn"
     >
       Save Changes
-    </Button></div>},
+    </Button></div> },
     { key: 3, component: <div style={{ width: '100%', height: '100%' }}>TOUTOUM</div> },
   ];
 
