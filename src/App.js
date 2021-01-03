@@ -15,6 +15,7 @@ import ConfirmAccount from "./route/ConfirmAccount";
 import ProductList from "./route/ProductList";
 import Settings from './route/Settings';
 import Profil from './route/Profil';
+import AddProduct from "./route/AddProduct";
 
 toast.configure({
   autoClose: 4000,
@@ -55,6 +56,7 @@ function App() {
             <Route exact path="/confirm_account/:token" component={ConfirmAccount}/>
             <Route exact path="/reset-password/:token" component={ResetPassword}/>
             <Route exact path="/reset-password" component={ResetPassword}/>
+            <PrivateRoute exact path="/add-product" component={AddProduct}/>
             <PrivateRoute exact path="/product-list" component={ProductList}/>
             <PrivateRoute exact path="/product/:id" component={Product}/>
             <PrivateRoute exact path="/settings" component={Settings}/>
@@ -65,5 +67,10 @@ function App() {
     </div>
   );
 }
+
+//TODO: faire marcher la req avec la photo post product
+//TODO: ajouter la location du produits à la création envoyer location{lng, lat}
+//TODO: ajouter un objet location{lng, lat} et un radius qui est en metres dans getProductList
+//TODO: voir pour les disponibilités
 
 export default App;
