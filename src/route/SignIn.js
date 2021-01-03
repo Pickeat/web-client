@@ -4,12 +4,27 @@ import Button from '@material-ui/core/Button';
 import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import { PickeatTextField } from '../components/PickeatTextField';
+import {PickeatTextField} from '../components/PickeatTextField';
 import Background from '../components/Background';
 import backgroundSrc from '../assets/wallpaper-login.jpg';
 import signInApi from '../api/signInApi';
 import Paper from '@material-ui/core/Paper';
 import {Link} from "react-router-dom";
+import postGoogleLogin from "../api/postGoogleLogin";
+import postFacebookLogin from "../api/postFacebookLogin";
+import {GoogleLogin} from "react-google-login";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
+const responseGoogle = (response) => {
+    console.log(response.tokenObj.id_token)
+    postGoogleLogin(response.tokenObj.id_token)
+    this.setState({redirect: "/product-list"});
+};
+
+const responseFacebook = (response) => {
+    postFacebookLogin(response.accessToken)
+};
+
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -61,7 +76,7 @@ export default function SignIn(props) {
             <Background src={backgroundSrc}/>
             <Paper elevation={24} className={classes.container}>
                 <Avatar className={classes.avatar}>
-                    <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                    <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -94,7 +109,7 @@ export default function SignIn(props) {
                             value={password}
                             onChange={(event => setPassword(event.target.value))}
                         />
-                        <Link style={{ color: 'black' }} to="forgot-password">Forgot password ?</Link>
+                        <Link style={{color: 'black'}} to="forgot-password">Forgot password ?</Link>
                     </div>
                     <Button
                         style={{width: '50%'}}
@@ -110,7 +125,31 @@ export default function SignIn(props) {
                     >
                         Sign In
                     </Button>
+
                 </form>
+                <div style={{margin: '2%'}}>
+                    <GoogleLogin
+                        clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}
+                        buttonText="Login with Google"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        scope={[
+                            "profile",
+                            "email",
+                            "https://www.googleapis.com/auth/user.phonenumbers.read",
+                            "https://www.googleapis.com/auth/user.addresses.read",
+                        ].join(" ")}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                    <FacebookLogin
+                        style={{width: '4000px'}}
+                        appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
+                        fields="name,email,picture"
+                        render={renderProps => (
+                            <button style={{}} onClick={renderProps.onClick}>This is my custom FB button</button>
+                        )}
+                        callback={responseFacebook}/>
+                </div>
             </Paper>
         </div>
     );
