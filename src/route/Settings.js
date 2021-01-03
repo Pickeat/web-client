@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Button } from '@material-ui/core';
+import Typography from "@material-ui/core/Typography";
+import {PickeatTextField} from "../components/PickeatTextField";
+import updateUserPhoneApi from "../api/updateUserPhone";
+import updateUserMailApi from "../api/updateUserMailApi";
+import updateUserPasswordCallApi from "../api/updateUserPasswordApi";
+import deleteUserAccountApi from "../api/deleteAccountApi";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -66,13 +72,174 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Settings(props) {
+  const [userPhone, updateUserPhone] = useState("");
+  const [userMail, updateUserMail] = useState("");
+  const [userOldPassword, updateUserOldPassword] = useState("");
+  const [userNewPassword, updateUserNewPassword] = useState("");
+  const [userPassword, deleteUserAccount] = useState("");
   const classes = useStyles();
   const [activePage, setActivePage] = useState(0);
+
+  const updateUserPhoneCall = (newPhone) => {
+    updateUserPhoneApi(newPhone).then((response) => {
+    });
+  };
+
+  const updateUserMailCall = (newMail) => {
+    updateUserMailApi(newMail).then((response) => {
+    });
+  };
+
+  const updateUserPasswordCall = (oldPassword, newPassword) => {
+    updateUserPasswordCallApi(oldPassword, newPassword).then((response) => {
+    });
+  };
+
+  const deleteUserAccountCall = (userPassword) => {
+    deleteUserAccountApi(userPassword).then((response) => {
+    });
+  };
+
   const componentList = [
-    { key: 0, component: <div style={{ width: '100%', height: '100%' }}>TOTOT</div> },
-    { key: 1, component: <div style={{ width: '100%', height: '100%' }}>TATAT</div> },
-    { key: 2, component: <div style={{ width: '100%', height: '100%' }}>TiTiT</div> },
-    { key: 3, component: <div style={{ width: '100%', height: '100%' }}>TOUTOUM</div> },
+    { key: 0, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+          Change password:
+        </Typography>
+        <form className={classes.form}>
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="oldpassword"
+              label="Old password"
+              type="password"
+              name="labelname"
+              autoComplete="current-password"
+              autoFocus
+              value={userOldPassword}
+              onChange={(event => updateUserOldPassword(event.target.value))}
+          />
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="newpassword"
+              type="password"
+              label="New password"
+              name="labelname"
+              autoComplete="current-password"
+              autoFocus
+              value={userNewPassword}
+              onChange={(event => updateUserNewPassword(event.target.value))}
+          /></form>
+        <Button
+            style={{width: '50%'}}
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              updateUserPasswordCall(userOldPassword, userNewPassword);
+            }}
+            className="pickeatBtn"
+        >
+          Save Changes
+        </Button></div> },
+    { key: 1, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+          New mail address:
+        </Typography>
+        <form className={classes.form}>
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="mail"
+              label="Mail"
+              name="labelname"
+              autoComplete="mail"
+              autoFocus
+              value={userMail}
+              onChange={(event => updateUserMail(event.target.value))}
+          /></form>
+        <Button
+            style={{width: '50%'}}
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              updateUserMailCall(userMail);
+            }}
+            className="pickeatBtn"
+        >
+          Save Changes
+        </Button></div> },
+    { key: 2, component: <div className={classes.formUserInfoContainer}>
+          <Typography component="h1" variant="h5">
+      New phone number:
+    </Typography>
+    <form className={classes.form}>
+      <PickeatTextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="phone"
+          label="Phone"
+          name="labelname"
+          autoComplete="phone"
+          autoFocus
+          value={userPhone}
+          onChange={(event => updateUserPhone(event.target.value))}
+      /></form>
+    <Button
+        style={{width: '50%'}}
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          updateUserPhoneCall(userPhone);
+        }}
+        className="pickeatBtn"
+    >
+      Save Changes
+    </Button></div> },
+    { key: 3, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+        Change password:
+      </Typography>
+    <form className={classes.form}>
+      <PickeatTextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="currentPassword"
+          label="Password"
+          type="password"
+          name="labelname"
+          autoComplete="current-password"
+          autoFocus
+          value={userPassword}
+          onChange={(event => deleteUserAccount(event.target.value))}
+      /></form>
+    <Button
+        style={{width: '50%'}}
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          deleteUserAccountCall(userPassword);
+        }}
+        className="pickeatBtn"
+    >
+      Save Changes
+    </Button></div> },
   ];
 
   useEffect(() => {
