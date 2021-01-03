@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
 import updateUserPhoneApi from "../api/updateUserPhone";
+import updateUserMailApi from "../api/updateUserMailApi";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -70,18 +71,54 @@ const useStyles = makeStyles(theme => ({
 
 export default function Settings(props) {
   const [userPhone, updateUserPhone] = useState("");
+  const [userMail, updateUserMail] = useState("");
   const classes = useStyles();
   const [activePage, setActivePage] = useState(0);
-
 
   const updateUserPhoneCall = (newPhone) => {
     updateUserPhoneApi(newPhone).then((response) => {
     });
   };
 
+  const updateUserMailCall = (newMail) => {
+    updateUserMailApi(newMail).then((response) => {
+    });
+  };
+
+
   const componentList = [
     { key: 0, component: <div style={{ width: '100%', height: '100%' }}>TITI</div>},
-    { key: 1, component: <div style={{ width: '100%', height: '100%' }}>TATAT</div> },
+    { key: 1, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+          New mail address:
+        </Typography>
+        <form className={classes.form}>
+          <PickeatTextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="mail"
+              label="Mail"
+              name="labelname"
+              autoComplete="mail"
+              autoFocus
+              value={userMail}
+              onChange={(event => updateUserMail(event.target.value))}
+          /></form>
+        <Button
+            style={{width: '50%'}}
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              updateUserMailCall(userMail);
+            }}
+            className="pickeatBtn"
+        >
+          Save Changes
+        </Button></div>},
     { key: 2, component: <div className={classes.formUserInfoContainer}>
           <Typography component="h1" variant="h5">
       New phone number:
