@@ -9,6 +9,9 @@ import moment from "moment";
 import {Chip, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
+import {isEmpty} from "../helpers/isEmpty";
+import {getDistance} from "geolib";
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -115,7 +118,17 @@ export default function AddProduct(props) {
     }
 
     const submitNewProduct = () => {
-        addProductApi(image, title, description, date, labels).then((e) => {console.log(e)});
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((location) => {
+                const userLocation = {lng: location?.coords?.longitude, lat: location?.coords?.latitude};
+                addProductApi(image, title, userLocation, description, date, labels).then((e) => {
+                    console.log(e)
+                });
+
+            });
+        } else {
+            toast.error('Geolocation is not supported by this browser.');
+        }
     }
 
     return (
@@ -207,7 +220,8 @@ export default function AddProduct(props) {
                             ))}
                         </Select>
                     </div>
-                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn">Give my product</Button>
+                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn">Give
+                        my product</Button>
                 </form>
             </Paper>
         </div>

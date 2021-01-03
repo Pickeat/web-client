@@ -63,10 +63,12 @@ export default function ProductCard(props) {
 
   useEffect(() => {
     if (!isEmpty(data) && props.location) {
-      const userLat = props?.location?.coords?.latitude;
-      const userLng = props?.location?.coords?.longitude;
-      const productLat = data?.location?.lat;
-      const productLng = data?.location?.lng;
+      const userLat = props?.location?.lat;
+      const userLng = props?.location?.lng;
+      if (!data?.location)
+        return;
+      const productLng = data?.location[0];
+      const productLat = data?.location[1];
 
       if (userLat && userLng && productLng && productLat) {
         setProductDistance(getDistance(
@@ -91,7 +93,7 @@ export default function ProductCard(props) {
           history.push(`/product/${data?._id}`);
         }} className={classes.main}>
           <div className={classes.productImgContainer}>
-            <img alt={'product_image'} src={(data.product_image ? data?.product_image : defaultImage)}
+            <img alt={'product_image'} src={(data.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : defaultImage)}
                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
           </div>
           <div className={classes.infoContainer}>

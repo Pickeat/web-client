@@ -197,8 +197,11 @@ export default function Product(props) {
                 if (!isEmpty(data) && props.location) {
                     const userLat = location?.coords?.latitude;
                     const userLng = location?.coords?.longitude;
-                    const productLat = data?.location?.lat;
-                    const productLng = data?.location?.lng;
+                    if (!data?.location)
+                        return;
+                    const productLng = data?.location[0];
+                    const productLat = data?.location[1];
+
 
                     if (userLat && userLng && productLng && productLat) {
                         setProductDistance(getDistance(
@@ -311,7 +314,7 @@ export default function Product(props) {
                         <div className={classes.productDataContainer}>
                             <div className={classes.productPictureContainer}>
                                 <img style={{maxWidth: '100%', maxHeight: '100%'}} alt={'pickeat product'}
-                                     src={(data?.product_image ? data?.product_image : DefaultProductPicture)}/>
+                                     src={(data?.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : DefaultProductPicture)}/>
                             </div>
                             <div className={classes.productInfoContainer}>
                                 <div className={classes.productTitleContainer}>
