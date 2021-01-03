@@ -7,6 +7,7 @@ import {PickeatTextField} from "../components/PickeatTextField";
 import updateUserPhoneApi from "../api/updateUserPhone";
 import updateUserMailApi from "../api/updateUserMailApi";
 import updateUserPasswordCallApi from "../api/updateUserPasswordApi";
+import deleteUserAccountApi from "../api/deleteAccountApi";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -75,6 +76,7 @@ export default function Settings(props) {
   const [userMail, updateUserMail] = useState("");
   const [userOldPassword, updateUserOldPassword] = useState("");
   const [userNewPassword, updateUserNewPassword] = useState("");
+  const [userPassword, deleteUserAccount] = useState("");
   const classes = useStyles();
   const [activePage, setActivePage] = useState(0);
 
@@ -93,6 +95,11 @@ export default function Settings(props) {
     });
   };
 
+  const deleteUserAccountCall = (userPassword) => {
+    deleteUserAccountApi(userPassword).then((response) => {
+    });
+  };
+
   const componentList = [
     { key: 0, component: <div className={classes.formUserInfoContainer}>
         <Typography component="h1" variant="h5">
@@ -105,8 +112,9 @@ export default function Settings(props) {
               fullWidth
               id="oldpassword"
               label="Old password"
+              type="password"
               name="labelname"
-              autoComplete="password"
+              autoComplete="current-password"
               autoFocus
               value={userOldPassword}
               onChange={(event => updateUserOldPassword(event.target.value))}
@@ -116,9 +124,10 @@ export default function Settings(props) {
               margin="normal"
               fullWidth
               id="newpassword"
+              type="password"
               label="New password"
               name="labelname"
-              autoComplete="password"
+              autoComplete="current-password"
               autoFocus
               value={userNewPassword}
               onChange={(event => updateUserNewPassword(event.target.value))}
@@ -199,7 +208,38 @@ export default function Settings(props) {
     >
       Save Changes
     </Button></div> },
-    { key: 3, component: <div style={{ width: '100%', height: '100%' }}>TOUTOUM</div> },
+    { key: 3, component: <div className={classes.formUserInfoContainer}>
+        <Typography component="h1" variant="h5">
+        Change password:
+      </Typography>
+    <form className={classes.form}>
+      <PickeatTextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="currentPassword"
+          label="Password"
+          type="password"
+          name="labelname"
+          autoComplete="current-password"
+          autoFocus
+          value={userPassword}
+          onChange={(event => deleteUserAccount(event.target.value))}
+      /></form>
+    <Button
+        style={{width: '50%'}}
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          deleteUserAccountCall(userPassword);
+        }}
+        className="pickeatBtn"
+    >
+      Save Changes
+    </Button></div> },
   ];
 
   useEffect(() => {
