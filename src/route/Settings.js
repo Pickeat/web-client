@@ -210,7 +210,7 @@ export default function Settings(props) {
     </Button></div> },
     { key: 3, component: <div className={classes.formUserInfoContainer}>
         <Typography component="h1" variant="h5">
-        Change password:
+        Delete account:
       </Typography>
     <form className={classes.form}>
       <PickeatTextField
@@ -230,15 +230,15 @@ export default function Settings(props) {
         style={{width: '50%'}}
         type="submit"
         variant="contained"
-        color="primary"
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
           deleteUserAccountCall(userPassword);
         }}
         className="pickeatBtn"
+        color={"danger"}
     >
-      Save Changes
+      Delete account
     </Button></div> },
   ];
 

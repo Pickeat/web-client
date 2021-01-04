@@ -17,7 +17,7 @@ import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import {TextFields} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
-
+import ImageUploader from "react-images-upload";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -128,6 +128,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Profil(props) {
+
     const classes = useStyles();
 
     const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
@@ -172,6 +173,7 @@ export default function Profil(props) {
     };
 
     const buildUserInfo = () => {
+
         if (isUserInfoLoading) {
             return (
                 <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -182,7 +184,14 @@ export default function Profil(props) {
             return (
                 <div className={classes.userInfoContainer}>
                     <div className={classes.showUserInfoContainer}>
-                        <img style={{width: '100%', height: 'auto', borderTopLeftRadius: '16px', borderTopRightRadius: '16px'}} src={Pp_placeholder}/>
+                        <img style={{width: '100%', height: 'auto', borderTopLeftRadius: '16px', borderTopRightRadius: '16px'}} src={"https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg"}/>
+                        <ImageUploader
+                            withIcon={false}
+                            withLabel={false}
+                            buttonText="Change image profil"
+                            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                            maxFileSize={5242880}
+                        />
                         <Typography style={{paddingTop:'5%', paddingRight:'5%', paddingLeft: '5%', textTransform: 'capitalize'}}>
                             {currentName},
                         </Typography>
@@ -229,7 +238,6 @@ export default function Profil(props) {
                                 desciption="birthdate"
                                 autoComplete="birthdate"
                                 autoFocus
-                                disabled
                             />
                             <PickeatTextField
                                 variant="outlined"
@@ -240,7 +248,6 @@ export default function Profil(props) {
                                 desciption="gender"
                                 autoComplete="gender"
                                 autoFocus
-                                disabled
                             />
                             <Button
                                 style={{width: '50%'}}
