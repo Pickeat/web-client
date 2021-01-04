@@ -146,7 +146,7 @@ export default function SignIn(props) {
                         appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
                         fields="name,email,picture"
                         render={renderProps => (
-                            <button style={{}} onClick={renderProps.onClick}>This is my custom FB button</button>
+                            <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with Facebook</Button>
                         )}
                         callback={responseFacebook}/>
                 </div>

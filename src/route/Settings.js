@@ -236,7 +236,7 @@ export default function Settings(props) {
           deleteUserAccountCall(userPassword);
         }}
         className="pickeatBtn"
-        color={"danger"}
+        color={"inherit"}
     >
       Delete account
     </Button></div> },
