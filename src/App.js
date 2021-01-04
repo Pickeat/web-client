@@ -68,8 +68,6 @@ function App() {
   );
 }
 
-//TODO: faire marcher la req avec la photo post product
-//TODO: ajouter la location du produits à la création envoyer location{lng, lat}
 //TODO: ajouter un objet location{lng, lat} et un radius qui est en metres dans getProductList
 //TODO: voir pour les disponibilités
 

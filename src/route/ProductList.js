@@ -86,22 +86,22 @@ export default function ProductList(props) {
 
     const getProductListByKm = (km) => {
         setIsLoading(true);
-        getProductList(km).then((response) => {
+        getProductList(km, location).then((response) => {
             setProductList(response);
             setIsLoading(false);
         });
     };
 
     useEffect(() => {
-        getProductListByKm(1);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((location) => {
-                setLocation(location);
+                setLocation({lng: location?.coords?.longitude,lat: location?.coords?.latitude});
             });
         } else {
             toast.error('Geolocation is not supported by this browser.');
             setLocation(-1);
         }
+        getProductListByKm(1);
     }, []);
 
     const handleSliderChange = (event, newValue) => {

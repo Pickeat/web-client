@@ -4,9 +4,12 @@ import {toast} from "react-toastify";
 import { GET_PRODUCT_LIST_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-export default async function getProductList(km) {
+export default async function getProductList(km, location) {
   let config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
-  config['params'] = {distanceMax: km};
+  config['data'] = {
+    location: location,
+    radius: km * 1000
+  };
 
   return await axios(config).then((response) => {
     if (response.status === 200) {

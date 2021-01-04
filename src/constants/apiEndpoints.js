@@ -15,4 +15,4 @@ export const PRODUCT_URL = BASE_URL + '/announces';
 export const USER_PUBLIC_INFO_URL = BASE_URL + '/users/public_infos';
 export const FACEBOOK_CONNECT_URL = BASE_URL + '/auth/facebook';
 export const GOOGLE_CONNECT_URL = BASE_URL + '/auth/google';
-export const POST_PRODUCT_IMAGE = BASE_URL + '/announces-picture';
+export const POST_PRODUCT_IMAGE = BASE_URL + '/announces_picture';
