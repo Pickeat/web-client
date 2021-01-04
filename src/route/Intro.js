@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import logo from '../assets/logo.png';
-import FacebookLogin from 'react-facebook-login';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import postFacebookLogin from "../api/postFacebookLogin";
 import postGoogleLogin from "../api/postGoogleLogin";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 const responseGoogle = (response) => {
   console.log(response.tokenObj.id_token)
@@ -122,10 +122,13 @@ export default function Intro() {
           cookiePolicy={'single_host_origin'}
         />
         <FacebookLogin
-          style={{ width: '40%' }}
-          appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
-          fields="name,email,picture"
-          callback={responseFacebook}/>
+            style={{width: '4000px'}}
+            appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
+            fields="name,email,picture"
+            render={renderProps => (
+                <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with Facebook</Button>
+            )}
+            callback={responseFacebook}/>
       </div>
 
       <div className={classes.linkContainer}>
