@@ -9,9 +9,8 @@ import moment from "moment";
 import {Chip, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
-import {isEmpty} from "../helpers/isEmpty";
-import {getDistance} from "geolib";
 import {toast} from "react-toastify";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -96,6 +95,7 @@ export default function AddProduct(props) {
     const [image, setImage] = useState(null);
     const [date, setDate] = useState(moment());
     const [labels, setLabels] = React.useState([]);
+    const history = useHistory();
 
     const handleChange = (event) => {
         setLabels(event.target.value);
@@ -122,9 +122,10 @@ export default function AddProduct(props) {
             navigator.geolocation.getCurrentPosition((location) => {
                 const userLocation = {lng: location?.coords?.longitude, lat: location?.coords?.latitude};
                 addProductApi(image, title, userLocation, description, date, labels).then((e) => {
-                    console.log(e)
+                    history.push('/product-list');
                 });
-
+            }, () => {
+                toast.error('Geolocation is not supported by this browser.');
             });
         } else {
             toast.error('Geolocation is not supported by this browser.');
