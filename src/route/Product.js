@@ -187,6 +187,7 @@ export default function Product(props) {
     useEffect(() => {
         getProductApi(id).then((res) => {
             setData(res);
+            console.log(res);
         });
     }, []);
 
@@ -377,7 +378,9 @@ export default function Product(props) {
                             </div>
                         </div>
                         <Paper elevation={4} className={classes.productMapContainer}>
-                            <Map lat={data?.product?.location.lat} lng={data?.product?.location.lng} zoom={17}/>
+                            {data?.location &&
+                                <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17}/>
+                            }
                         </Paper>
                     </Paper>
                 </div>
