@@ -27,6 +27,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     maxHeight: '70%',
+    height: '70%',
+    backgroundColor: 'pink'
   },
   infoContainer: {
     display: 'flex',
@@ -89,12 +91,12 @@ export default function ProductCard(props) {
       );
     } else {
       return (
-        <Button onClick={() => {
+        <div onClick={() => {
           history.push(`/product/${data?._id}`);
         }} className={classes.main}>
           <div className={classes.productImgContainer}>
-            <img alt={'product_image'} src={(data.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : defaultImage)}
-                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+              <img alt={'product_image'} src={(data.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : defaultImage)}
+                   style={{ width: '100%', maxHeight: '100%', height: '100%', maxWidth: '100%', objectFit: 'cover' }}/>
           </div>
           <div className={classes.infoContainer}>
             <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
@@ -114,7 +116,7 @@ export default function ProductCard(props) {
               }
             </div>
           </div>
-        </Button>
+        </div>
       );
     }
   };
