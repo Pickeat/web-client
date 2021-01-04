@@ -11,6 +11,7 @@ export default async function getProductList(km, location) {
     radius: km * 1000
   };
 
+  console.log(config);
   return await axios(config).then((response) => {
     if (response.status === 200) {
       return response.data;

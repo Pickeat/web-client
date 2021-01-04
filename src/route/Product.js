@@ -21,6 +21,9 @@ import DefaultProfilePicture from '../assets/unknow_picture_user.jpg'
 import DefaultProductPicture from '../assets/wallpaper-login.jpg'
 import {Modal} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
+import getUserMeApi from "../api/getUserMeApi";
+import {PickeatTextField} from "../components/PickeatTextField";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -110,6 +113,14 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '40%',
     },
+    contactBtnContainerButtom: {
+        position: 'absolute',
+        bottom: '0px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
     productDataContainer: {
         display: 'flex',
         alignItems: 'center',
@@ -181,13 +192,20 @@ export default function Product(props) {
     const classes = useStyles();
     const {id} = useParams();
     const [data, setData] = useState({});
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [OwnId, setOwnId] = useState("");
     const [productDistance, setProductDistance] = useState(-1);
     const [availabilitiesModalIsOpen, setAvailabilitiesModalIsOpen] = useState(false);
+    const [productTitle, setProductTitle] = useState("");
+    const [productDescription, setProductDescription] = useState("");
+    const [productExpirationDate, setProductExpirationDate] = useState("");
 
     useEffect(() => {
         getProductApi(id).then((res) => {
             setData(res);
-            console.log(res);
+            setProductTitle(res?.title);
+            setProductDescription(res?.description);
+            setProductExpirationDate(res?.expiration_date);
         });
     }, []);
 
@@ -218,6 +236,174 @@ export default function Product(props) {
             setProductDistance(-1);
         }
     }, [data]);
+
+    const isUserOwner = () => {
+        getOwnUserNameCall();
+        if(!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
+            return (
+                <div className={classes.contactBtnContainerButtom}>
+                    <Button onClick={() => {setIsEditMode(true)}} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Edit Product</Button>
+                </div>
+            )
+        } else if(!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
+            return (
+                <div className={classes.contactBtnContainerButtom}>
+                    <Button onClick={() => {setIsEditMode(false)}} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
+                </div>
+            )
+        }
+    }
+
+    const titleBlock = () => {
+        if (isEditMode) {
+            return(
+                <div className={classes.productTitleContainer}>
+                    <TextField
+                        inputProps={{style:{textAlign: "center"}}}
+                        className={classes.titleField}
+                        margin="normal"
+                        fullWidth
+                        id="title"
+                        label="title"
+                        name="title"
+                        autoComplete="title"
+                        autoFocus
+                        value={productTitle}
+                        onChange={(event => setProductTitle(event.target.value))}
+                    />
+                </div>
+            )
+        } else {
+            return(
+                <div className={classes.productTitleContainer}>
+                    <span className="textMedium" style={{fontSize: '20px'}}>{productTitle}</span>
+                </div>
+            )
+        }
+    }
+
+    const descriptionBlock = () => {
+        if (isEditMode) {
+            return(
+                <div className={classes.productLittleInfoBlock}>
+                    <div
+                        className={clsx('textMedium', classes.productLittleInfoLabel)}>Description
+                    </div>
+                    <div className={classes.productLittleInfoContent}>
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            id="description"
+                            label="description"
+                            name="description"
+                            autoComplete="description"
+                            autoFocus
+                            value={productDescription}
+                            onChange={(event => setProductDescription(event.target.value))}
+                        />
+                    </div>
+                </div>
+            )
+        } else {
+            return(
+                <div className={classes.productLittleInfoBlock}>
+                    <div
+                        className={clsx('textMedium', classes.productLittleInfoLabel)}>Description
+                    </div>
+                    <div className={classes.productLittleInfoContent}>
+                          <span className="textRegular"
+                                style={{marginLeft: '10px'}}>
+                            {productDescription}
+                          </span>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const expirationDateBlock = () => {
+        if (isEditMode) {
+            return(
+                <div className={classes.productLittleInfoBlock}>
+                    <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry
+                        date
+                    </div>
+                    <div className={classes.productLittleInfoContent}>
+                        <TextField
+                            id="expirationDate"
+                            label="Expiration Date"
+                            type="date"
+                            defaultValue={productExpirationDate}
+                            className={classes.textField}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </div>
+                </div>
+            )
+        } else {
+        return(
+                <div className={classes.productLittleInfoBlock}>
+                    <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry
+                        date
+                    </div>
+                    <div className={classes.productLittleInfoContent}>
+                        <EventIcon fontSize={'large'}/>
+                        <span className="textRegular"
+                              style={{marginLeft: '10px'}}>
+                            {moment(productExpirationDate).format('DD/MM/YYYY')}
+                          </span>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const labelBlock = () => {
+        return(
+            <div className={classes.productLittleInfoBlock}>
+                <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Labels</div>
+                <div className={classes.productLittleInfoContent}>
+                    {
+                        data?.labels?.map((label) => {
+                            return (
+                                <div title={label} key={label}
+                                     className={classes.productLittleInfoImageLabelContainer}>
+                                    <img style={{maxWidth: '100%', maxHeight: '100%'}}
+                                         alt={'product label'}
+                                         src={`/assets/food-label/${label}.png`}
+                                    />
+                                </div>
+                            );
+                        })
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    const distanceBlock = () => {
+        return(
+            <div className={classes.productLittleInfoBlock}>
+                <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Distance
+                </div>
+                <div className={classes.productLittleInfoContent}>
+                    <RoomIcon fontSize={'large'}/>
+                    <span className="textRegular"
+                          style={{marginLeft: '10px'}}>
+                        {buildProductDistance()}
+                      </span>
+                </div>
+            </div>
+        )
+    }
+
+    const getOwnUserNameCall = () => {
+        getUserMeApi().then((response) => {
+            setOwnId(response._id);
+        });
+    }
 
     const buildProductDistance = () => {
         if (productDistance === -1)
@@ -318,62 +504,12 @@ export default function Product(props) {
                                      src={(data?.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : DefaultProductPicture)}/>
                             </div>
                             <div className={classes.productInfoContainer}>
-                                <div className={classes.productTitleContainer}>
-                                    <span className="textMedium" style={{fontSize: '20px'}}>{data?.title}</span>
-                                </div>
+                                {titleBlock()}
                                 <div className={classes.productLittleInfoContainer}>
-                                    <div className={classes.productLittleInfoBlock}>
-                                        <div
-                                            className={clsx('textMedium', classes.productLittleInfoLabel)}>Description
-                                        </div>
-                                        <div className={classes.productLittleInfoContent}>
-                      <span className="textRegular"
-                            style={{marginLeft: '10px'}}>
-                        {data.description}
-                      </span>
-                                        </div>
-                                    </div>
-                                    <div className={classes.productLittleInfoBlock}>
-                                        <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry
-                                            date
-                                        </div>
-                                        <div className={classes.productLittleInfoContent}>
-                                            <EventIcon fontSize={'large'}/>
-                                            <span className="textRegular"
-                                                  style={{marginLeft: '10px'}}>
-                        {moment(data?.expiration_date).format('DD/MM/YYYY')}
-                      </span>
-                                        </div>
-                                    </div>
-                                    <div className={classes.productLittleInfoBlock}>
-                                        <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Labels</div>
-                                        <div className={classes.productLittleInfoContent}>
-                                            {
-                                                data?.labels?.map((label) => {
-                                                    return (
-                                                        <div title={label} key={label}
-                                                             className={classes.productLittleInfoImageLabelContainer}>
-                                                            <img style={{maxWidth: '100%', maxHeight: '100%'}}
-                                                                 alt={'product label'}
-                                                                 src={`/assets/food-label/${label}.png`}
-                                                            />
-                                                        </div>
-                                                    );
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className={classes.productLittleInfoBlock}>
-                                        <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Distance
-                                        </div>
-                                        <div className={classes.productLittleInfoContent}>
-                                            <RoomIcon fontSize={'large'}/>
-                                            <span className="textRegular"
-                                                  style={{marginLeft: '10px'}}>
-                        {buildProductDistance()}
-                      </span>
-                                        </div>
-                                    </div>
+                                    {descriptionBlock()}
+                                    {expirationDateBlock()}
+                                    {labelBlock()}
+                                    {distanceBlock()}
                                 </div>
                             </div>
                         </div>
@@ -381,6 +517,7 @@ export default function Product(props) {
                             {data?.location &&
                                 <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17}/>
                             }
+                            {isUserOwner()}
                         </Paper>
                     </Paper>
                 </div>

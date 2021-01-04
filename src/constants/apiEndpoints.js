@@ -10,6 +10,7 @@ export const UPDATE_MAIL_URL = BASE_URL + '/users/update_email'
 export const RESET_PASSWORD_URL = BASE_URL + '/users/reset-password';
 export const DELETE_ACCOUNT_URL = BASE_URL + '/users/delete';
 export const UPDATE_PASSWORD_URL = BASE_URL + '/users/password';
+export const GET_USER_ME = BASE_URL + '/users/me';
 export const GET_PRODUCT_LIST_URL = BASE_URL + '/announces';
 export const PRODUCT_URL = BASE_URL + '/announces';
 export const USER_PUBLIC_INFO_URL = BASE_URL + '/users/public_infos';

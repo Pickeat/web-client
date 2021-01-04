@@ -68,7 +68,6 @@ function App() {
   );
 }
 
-//TODO: ajouter un objet location{lng, lat} et un radius qui est en metres dans getProductList
 //TODO: voir pour les disponibilités
 
 export default App;
