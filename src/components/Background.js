@@ -14,8 +14,7 @@ const useStyles = makeStyles(theme => ({
         maxHeight: '100%',
         maxWidth: '100%',
         overflowY: 'hidden',
-        background: "rgb(16,134,135)",
-        background: "linear-gradient(0deg, rgba(16,134,135,1) 0%, rgba(64,210,27,1) 100%)",
+        background: "rgb(16,134,135) linear-gradient(0deg, rgba(16,134,135,1) 0%, rgba(64,210,27,1) 100%)",
     },
     background: {
         width: '100%',

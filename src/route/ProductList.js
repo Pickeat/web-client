@@ -11,13 +11,11 @@ import {toast} from 'react-toastify';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useHistory } from 'react-router-dom';
+import Background from "../components/Background";
 
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        //backgroundColor: '#202020',
-        background: "rgb(16,134,135)",
-        background: "linear-gradient(0deg, rgba(16,134,135,1) 0%, rgba(64,210,27,1) 100%)",
         paddingTop: '5rem',
         boxSizing: 'border-box',
         height: '100vh',
@@ -170,6 +168,7 @@ export default function ProductList(props) {
 
     return (
         <div className={classes.main}>
+            <Background/>
             <div className={classes.paramsSectionContainer}>
                 <Paper elevation={5} className={classes.paramsSection}>
                     <div className={classes.sliderContainer}>
