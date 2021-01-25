@@ -20,10 +20,10 @@
 .pickeatBtn {
     font-family: Colfax-Medium, serif !important;
     text-transform: none !important;
-    background-color: #c4d82f !important;
+    background-color: #40d21b !important;
     color: #343434;
 }
 
 .pickeatBtn:hover {
-    background-color: #8bb535 !important;
+    background-color: #46e01d !important;
 }

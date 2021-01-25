@@ -11,11 +11,11 @@ import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
+import Background from "../components/Background";
 
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        backgroundColor: '#a8eeaa',
         paddingTop: '5rem',
         boxSizing: 'border-box',
         height: '100vh',
@@ -134,6 +134,7 @@ export default function AddProduct(props) {
 
     return (
         <div className={classes.main}>
+            <Background/>
             <Paper className={classes.content} elevation={12}>
                 <BackArrow/>
                 <form className={classes.form}>
