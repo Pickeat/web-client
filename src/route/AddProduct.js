@@ -93,7 +93,7 @@ export default function AddProduct(props) {
     const [description, setDescription] = useState("");
     const [imageName, setImageName] = useState("");
     const [image, setImage] = useState(null);
-    const [date, setDate] = useState(moment());
+    const [date, setDate] = useState(null);
     const [labels, setLabels] = React.useState([]);
     const history = useHistory();
 

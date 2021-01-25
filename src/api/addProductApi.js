@@ -17,7 +17,7 @@ async function  createProduct(imageRef, title, location, description, date, labe
     if (date)
         body.expiration_date  = date;
     if (labels.length > 0)
-        body.description = description;
+        body.labels = labels;
     config['data'] = body;
 
     return await axios(config).then((response) => {
