@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
+import Background from "../components/Background";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -346,6 +347,7 @@ export default function Profil(props) {
 
     return (
         <div className={classes.main}>
+            <Background/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>

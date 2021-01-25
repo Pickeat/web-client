@@ -114,7 +114,7 @@ export default function ForgotPassword() {
 
     return (
         <div className={classes.main}>
-            <Background src={backgroundSrc}/>
+            <Background/>
             <Paper elevation={24} className={classes.container}>
                 {buildPaper()}
             </Paper>

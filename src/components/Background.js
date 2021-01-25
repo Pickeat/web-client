@@ -1,43 +1,47 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  backgroundContainer: {
-    zIndex: '-1',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    maxHeight: '100%',
-    maxWidth: '100%',
-    overflowY: 'hidden',
-  },
-  background: {
-    width: '100%',
-    height: '100%',
-    maxHeight: '100%',
-    maxWidth: '100%',
-  },
+    backgroundContainer: {
+        zIndex: '-1',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        maxHeight: '100%',
+        maxWidth: '100%',
+        overflowY: 'hidden',
+        background: "rgb(16,134,135)",
+        background: "linear-gradient(0deg, rgba(16,134,135,1) 0%, rgba(64,210,27,1) 100%)",
+    },
+    background: {
+        width: '100%',
+        height: '100%',
+        maxHeight: '100%',
+        maxWidth: '100%',
+    },
 }));
 
 export default function Background(props) {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  useEffect(() => {
-  }, []);
+    useEffect(() => {
+    }, []);
 
-  return (
-    <div className={classes.backgroundContainer}>
-      <img className={classes.background}
-           src={props.src}
-           alt={'background'}/>
-    </div>
-  );
+    return (
+        <div className={classes.backgroundContainer}>
+            {props.src &&
+            <img className={classes.background}
+                 src={props.src}
+                 alt={'background'}/>
+            }
+        </div>
+    );
 }
 
 Background.propTypes = {
-  src: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
 };

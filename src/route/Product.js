@@ -419,7 +419,7 @@ export default function Product(props) {
         );
     return (
         <div className={classes.main}>
-            <Background src={backgroundSrc}/>
+            <Background/>
             <div className={classes.contentContainer}>
                 <div className={classes.userContainer}>
                     <Paper className={classes.paper} style={{flexDirection: 'column'}} elevation={10}>

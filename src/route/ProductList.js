@@ -15,7 +15,9 @@ import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        backgroundColor: '#a8eeaa',
+        //backgroundColor: '#202020',
+        background: "rgb(16,134,135)",
+        background: "linear-gradient(0deg, rgba(16,134,135,1) 0%, rgba(64,210,27,1) 100%)",
         paddingTop: '5rem',
         boxSizing: 'border-box',
         height: '100vh',
