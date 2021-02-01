@@ -19,11 +19,15 @@ import {toast} from 'react-toastify';
 import getProductApi from '../api/getProductApi';
 import DefaultProfilePicture from '../assets/unknow_picture_user.jpg'
 import DefaultProductPicture from '../assets/wallpaper-login.jpg'
-import {Modal} from "@material-ui/core";
+import {Modal, Tooltip, Zoom} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
 import getUserMeApi from "../api/getUserMeApi";
 import {PickeatTextField} from "../components/PickeatTextField";
 import TextField from "@material-ui/core/TextField";
+import HelpIcon from '@material-ui/icons/Help';
+import IconButton from "@material-ui/core/IconButton";
+import reserveProductApi from "../api/reserveProductApi";
+import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -199,6 +203,7 @@ export default function Product(props) {
     const [productTitle, setProductTitle] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
+    const [isReserveLoading, setIsReserveLoading] = useState(false);
 
     useEffect(() => {
         getProductApi(id).then((res) => {
@@ -208,7 +213,6 @@ export default function Product(props) {
             setProductExpirationDate(res?.expiration_date);
         });
     }, []);
-
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -239,16 +243,20 @@ export default function Product(props) {
 
     const isUserOwner = () => {
         getOwnUserNameCall();
-        if(!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
+        if (!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
             return (
                 <div className={classes.contactBtnContainerButtom}>
-                    <Button onClick={() => {setIsEditMode(true)}} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Edit Product</Button>
+                    <Button onClick={() => {
+                        setIsEditMode(true)
+                    }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Edit Product</Button>
                 </div>
             )
-        } else if(!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
+        } else if (!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
             return (
                 <div className={classes.contactBtnContainerButtom}>
-                    <Button onClick={() => {setIsEditMode(false)}} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
+                    <Button onClick={() => {
+                        setIsEditMode(false)
+                    }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
                 </div>
             )
         }
@@ -256,10 +264,10 @@ export default function Product(props) {
 
     const titleBlock = () => {
         if (isEditMode) {
-            return(
+            return (
                 <div className={classes.productTitleContainer}>
                     <TextField
-                        inputProps={{style:{textAlign: "center"}}}
+                        inputProps={{style: {textAlign: "center"}}}
                         className={classes.titleField}
                         margin="normal"
                         fullWidth
@@ -274,7 +282,7 @@ export default function Product(props) {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div className={classes.productTitleContainer}>
                     <span className="textMedium" style={{fontSize: '20px'}}>{productTitle}</span>
                 </div>
@@ -284,7 +292,7 @@ export default function Product(props) {
 
     const descriptionBlock = () => {
         if (isEditMode) {
-            return(
+            return (
                 <div className={classes.productLittleInfoBlock}>
                     <div
                         className={clsx('textMedium', classes.productLittleInfoLabel)}>Description
@@ -305,7 +313,7 @@ export default function Product(props) {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div className={classes.productLittleInfoBlock}>
                     <div
                         className={clsx('textMedium', classes.productLittleInfoLabel)}>Description
@@ -323,7 +331,7 @@ export default function Product(props) {
 
     const expirationDateBlock = () => {
         if (isEditMode) {
-            return(
+            return (
                 <div className={classes.productLittleInfoBlock}>
                     <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry
                         date
@@ -343,7 +351,7 @@ export default function Product(props) {
                 </div>
             )
         } else {
-        return(
+            return (
                 <div className={classes.productLittleInfoBlock}>
                     <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry
                         date
@@ -361,7 +369,7 @@ export default function Product(props) {
     }
 
     const labelBlock = () => {
-        return(
+        return (
             <div className={classes.productLittleInfoBlock}>
                 <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Labels</div>
                 <div className={classes.productLittleInfoContent}>
@@ -384,7 +392,7 @@ export default function Product(props) {
     }
 
     const distanceBlock = () => {
-        return(
+        return (
             <div className={classes.productLittleInfoBlock}>
                 <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Distance
                 </div>
@@ -417,6 +425,56 @@ export default function Product(props) {
                 <CircularProgress/>
             </div>
         );
+
+    const buildReservationSection = () => {
+        function confirmProductReservation() {
+            setIsReserveLoading(true);
+            confirmProductReservationApi().then(success => {
+                setIsReserveLoading(false);
+            });
+        }
+
+        const reserveProduct = () => {
+            setIsReserveLoading(true);
+            reserveProductApi().then(success => {
+                setIsReserveLoading(false);
+            });
+        }
+
+        if (isUserOwner()) {
+            return (
+                <div className={classes.contactBtnContainer}>
+                    <Tooltip
+                        TransitionComponent={Zoom}
+                        title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
+                        "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+                        arrow>
+                        <Button className="pickeatBtn"
+                                onClick={() => {
+                                    confirmProductReservation()
+                                }}
+                                style={{width: '100%', height: '40px'}}>
+                            {(isReserveLoading ?
+                                <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                        </Button>
+                    </Tooltip>
+                </div>
+            );
+        } else {
+            return (
+                <div className={classes.contactBtnContainer}>
+                    <Button className="pickeatBtn"
+                            onClick={() => {
+                                reserveProduct()
+                            }}
+                            style={{width: '100%', height: '40px'}}>
+                        {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
+                    </Button>
+                </div>
+            )
+        }
+    }
+
     return (
         <div className={classes.main}>
             <Background/>
@@ -489,10 +547,7 @@ export default function Product(props) {
                                     }}/>
                                 </div>
                             </Modal>
-                            <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtn" style={{width: '100%', height: '40px'}}>Contact the
-                                    giver</Button>
-                            </div>
+                            {buildReservationSection()}
                         </div>
                     </Paper>
                 </div>
@@ -515,7 +570,7 @@ export default function Product(props) {
                         </div>
                         <Paper elevation={4} className={classes.productMapContainer}>
                             {data?.location &&
-                                <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17}/>
+                            <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17}/>
                             }
                             {isUserOwner()}
                         </Paper>
