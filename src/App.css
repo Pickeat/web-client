@@ -24,6 +24,13 @@
     color: #343434;
 }
 
+.pickeatBtnRed {
+    font-family: Colfax-Medium, serif !important;
+    text-transform: none !important;
+    background-color: #d21b40 !important;
+    color: #343434;
+}
+
 .pickeatBtn:hover {
     background-color: #46e01d !important;
 }

@@ -108,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     },
     contactBtnContainer: {
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
         height: '40%',
@@ -405,6 +405,23 @@ export default function Product(props) {
         });
     }
 
+    const buildMeetUpButtons = () => {
+        return(
+            <div className={classes.contactBtnContainer}>
+                <Button className="pickeatBtn" style={{width: '45%', height: '40px'}}>L’échange a eu lieu</Button>
+                <Button className="pickeatBtnRed" style={{width: '50%', height: '40px'}}>L’échange n’a pas eu lieu</Button>
+            </div>
+        )
+    }
+
+    const buildReservationSection = () => {
+        return (
+            <>
+                {buildMeetUpButtons()}
+            </>
+        )
+    }
+
     const buildProductDistance = () => {
         if (productDistance === -1)
             return ('Sorry we had a problem computing the distance');
@@ -489,10 +506,7 @@ export default function Product(props) {
                                     }}/>
                                 </div>
                             </Modal>
-                            <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtn" style={{width: '100%', height: '40px'}}>Contact the
-                                    giver</Button>
-                            </div>
+                            {buildReservationSection()}
                         </div>
                     </Paper>
                 </div>
