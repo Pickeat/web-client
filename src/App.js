@@ -68,6 +68,7 @@ function App() {
   );
 }
 
-//TODO: voir pour les disponibilités
+//TODO: Afficher la section reservation en fonction du statut de reservation
+//TODO: Faire les req API de Reservation sur la page product
 
 export default App;
