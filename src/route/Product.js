@@ -28,6 +28,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import IconButton from "@material-ui/core/IconButton";
 import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
+import StatusIndicator from "../components/StatusIndicator";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -110,6 +111,12 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '20%',
     },
+    statusContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
     contactBtnContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -117,7 +124,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '40%',
     },
-    contactBtnContainerButtom: {
+    contactBtnContainerButton: {
         position: 'absolute',
         bottom: '0px',
         display: 'flex',
@@ -245,7 +252,7 @@ export default function Product(props) {
         getOwnUserNameCall();
         if (!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
             return (
-                <div className={classes.contactBtnContainerButtom}>
+                <div className={classes.contactBtnContainerButton}>
                     <Button onClick={() => {
                         setIsEditMode(true)
                     }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Edit Product</Button>
@@ -253,7 +260,7 @@ export default function Product(props) {
             )
         } else if (!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
             return (
-                <div className={classes.contactBtnContainerButtom}>
+                <div className={classes.contactBtnContainerButton}>
                     <Button onClick={() => {
                         setIsEditMode(false)
                     }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
@@ -441,7 +448,7 @@ export default function Product(props) {
             });
         }
 
-        if (isUserOwner()) {
+        if (!isEmpty(data) && OwnId && OwnId === data.user._id) {
             return (
                 <div className={classes.contactBtnContainer}>
                     <Tooltip
@@ -500,6 +507,9 @@ export default function Product(props) {
                             <Rating name="read-only" value={data?.user?.note} readOnly/>
                         </div>
                         <div style={{width: '80%', height: '40%'}}>
+                            <div className={classes.statusContainer}>
+                                <StatusIndicator status={data.status} isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}/>
+                            </div>
                             <div className={classes.contactBtnContainer}>
                                 <Button className="pickeatBtn" onClick={() => {
                                     setAvailabilitiesModalIsOpen(true)
