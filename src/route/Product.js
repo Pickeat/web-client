@@ -443,42 +443,53 @@ export default function Product(props) {
 
         const reserveProduct = () => {
             setIsReserveLoading(true);
-            reserveProductApi().then(success => {
+            reserveProductApi(id).then(success => {
                 setIsReserveLoading(false);
+                window.location.reload();
             });
         }
 
-        if (!isEmpty(data) && OwnId && OwnId === data.user._id) {
-            return (
-                <div className={classes.contactBtnContainer}>
-                    <Tooltip
-                        TransitionComponent={Zoom}
-                        title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
-                        "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
-                        arrow>
+        if (isEmpty(data))
+            return
+        if (OwnId && OwnId === data.user._id) {
+            if (data.status === 'available')
+                return;
+            else if (data.status === 'waiting-for-reservation') {
+                return (
+                    <div className={classes.contactBtnContainer}>
+                        <Tooltip
+                            TransitionComponent={Zoom}
+                            title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
+                            "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+                            arrow>
+                            <Button className="pickeatBtn"
+                                    onClick={() => {
+                                        confirmProductReservation()
+                                    }}
+                                    style={{width: '100%', height: '40px'}}>
+                                {(isReserveLoading ?
+                                    <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                            </Button>
+                        </Tooltip>
+                    </div>
+                );
+            }
+        } else {
+            if (data.status === 'available')
+                return (
+                    <div className={classes.contactBtnContainer}>
                         <Button className="pickeatBtn"
                                 onClick={() => {
-                                    confirmProductReservation()
+                                    reserveProduct()
                                 }}
                                 style={{width: '100%', height: '40px'}}>
-                            {(isReserveLoading ?
-                                <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
                         </Button>
-                    </Tooltip>
-                </div>
-            );
-        } else {
-            return (
-                <div className={classes.contactBtnContainer}>
-                    <Button className="pickeatBtn"
-                            onClick={() => {
-                                reserveProduct()
-                            }}
-                            style={{width: '100%', height: '40px'}}>
-                        {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
-                    </Button>
-                </div>
-            )
+                    </div>
+                )
+            else if (data.status === 'waiting-for-reservation') {
+                return;
+            }
         }
     }
 
@@ -508,7 +519,8 @@ export default function Product(props) {
                         </div>
                         <div style={{width: '80%', height: '40%'}}>
                             <div className={classes.statusContainer}>
-                                <StatusIndicator status={data.status} isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}/>
+                                <StatusIndicator status={data.status}
+                                                 isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}/>
                             </div>
                             <div className={classes.contactBtnContainer}>
                                 <Button className="pickeatBtn" onClick={() => {

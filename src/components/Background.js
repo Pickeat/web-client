@@ -42,5 +42,5 @@ export default function Background(props) {
 }
 
 Background.propTypes = {
-    src: PropTypes.string.isRequired,
+    src: PropTypes.string,
 };

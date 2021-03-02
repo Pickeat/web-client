@@ -45,14 +45,18 @@ export default async function addProductApi(file, title, location, description, 
     formData.append('file', file);
     config['headers']['Content-Type'] = 'multipart/form-data';
     config['data'] = formData;
-    return await axios(config).then(async (response) => {
-        if (response.status === 200) {
-            console.log(response.data);
-            return await createProduct(response.data.name, title, location, description, date, labels);
-        } else {
-            toast.warn(response.data.message);
-        }
-    }).catch((error) => {
-        handleErrorToast(error);
-    });
+    //TODO: Retirer ca quand minio marchera
+    return await createProduct("nothing_while_minio_not_working", title, location, description, date, labels);
+    // return await axios(config).then(async (response) => {
+    //     if (response.status === 200) {
+    //         console.log(response.data);
+    //         return await createProduct(response.data.name, title, location, description, date, labels);
+    //     } else {
+    //         toast.warn(response.data.message);
+    //         return null;
+    //     }
+    // }).catch((error) => {
+    //     handleErrorToast(error);
+    //     return null
+    // });
 }

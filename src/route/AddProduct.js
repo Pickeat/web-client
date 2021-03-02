@@ -122,7 +122,8 @@ export default function AddProduct(props) {
             navigator.geolocation.getCurrentPosition((location) => {
                 const userLocation = {lng: location?.coords?.longitude, lat: location?.coords?.latitude};
                 addProductApi(image, title, userLocation, description, date, labels).then((e) => {
-                    history.push('/product-list');
+                    if (e != null)
+                        history.push('/product-list');
                 });
             }, () => {
                 toast.error('Geolocation is not supported by this browser.');
