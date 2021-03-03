@@ -10,8 +10,9 @@ import KmSlider from '../components/KmSlider';
 import {toast} from 'react-toastify';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import Background from "../components/Background";
+import Rater from "../components/Rater";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -35,7 +36,9 @@ const useStyles = makeStyles(theme => ({
         width: '95%',
         height: '100%',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        paddingTop: '90px',
+        boxSizing: 'border-box',
         alignItems: 'center',
         backgroundColor: 'white',
     },
@@ -47,6 +50,7 @@ const useStyles = makeStyles(theme => ({
         height: '90%',
     },
     sliderContainer: {
+        margin: '10px',
         width: '80%',
     },
     gridContainer: {
@@ -82,11 +86,22 @@ export default function ProductList(props) {
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [sliderValue, setSliderValue] = useState(1);
+    const [minRate, setMinRate] = useState(0);
     const history = useHistory();
+
+    const getProductListByRate = (rate) => {
+        setIsLoading(true);
+        console.log(sliderValue, rate);
+        getProductList(sliderValue, location, rate).then((response) => {
+            setProductList(response);
+            setIsLoading(false);
+        });
+    };
 
     const getProductListByKm = (km) => {
         setIsLoading(true);
-        getProductList(km, location).then((response) => {
+        console.log(km, minRate);
+        getProductList(km, location, minRate).then((response) => {
             setProductList(response);
             setIsLoading(false);
         });
@@ -95,7 +110,7 @@ export default function ProductList(props) {
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((location) => {
-                setLocation({lng: location?.coords?.longitude,lat: location?.coords?.latitude});
+                setLocation({lng: location?.coords?.longitude, lat: location?.coords?.latitude});
             });
         } else {
             toast.error('Geolocation is not supported by this browser.');
@@ -108,13 +123,18 @@ export default function ProductList(props) {
         setSliderValue(newValue);
     };
 
-    const handleInputChange = (event) => {
+    const handleKmChange = (event) => {
         if (event.target.value < 0) {
             setSliderValue(0);
         } else if (event.target.value > 35) {
             setSliderValue(35);
         }
         setSliderValue(event.target.value === '' ? '' : Number(event.target.value));
+    };
+
+    const handleRaterChange = (newValue) => {
+        setMinRate(newValue);
+        getProductListByRate(newValue);
     };
 
     const handleBlur = () => {
@@ -173,7 +193,10 @@ export default function ProductList(props) {
                 <Paper elevation={5} className={classes.paramsSection}>
                     <div className={classes.sliderContainer}>
                         <KmSlider getProductListByKm={getProductListByKm} value={sliderValue} handleBlur={handleBlur}
-                                  handleInputChange={handleInputChange} handleSliderChange={handleSliderChange}/>
+                                  handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
+                    </div>
+                    <div className={classes.sliderContainer}>
+                        <Rater value={minRate} handleInputChange={handleRaterChange}/>
                     </div>
                 </Paper>
             </div>
@@ -183,7 +206,9 @@ export default function ProductList(props) {
                 </Grid>
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
-                <Fab onClick={() => {history.push('/add-product')}} style={{backgroundColor: 'white', color: '#40ee49'}} aria-label="add">
+                <Fab onClick={() => {
+                    history.push('/add-product')
+                }} style={{backgroundColor: 'white', color: '#40ee49'}} aria-label="add">
                     <AddIcon/>
                 </Fab>
             </div>

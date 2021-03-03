@@ -13,14 +13,16 @@ export default function StatusIndicator(props) {
         'waiting-for-reservation': 'Awaiting for the giver to confirm your reservation',
         reserved: 'Awaiting validation of the exchange',
         given: 'Awaiting your notation',
-        archived: 'Archived product'
+        noted: 'Archived product',
+        deleted: 'Archived product'
     }
     const statusTextDictGiver = {
         available: 'The product is available',
         'waiting-for-reservation': 'Awaiting for your confirmation',
         reserved: 'Awaiting validation of the exchange',
         given: 'Awaiting the picker notation',
-        archived: 'Archived product'
+        noted: 'Archived product',
+        deleted: 'Archived product'
 
     }
 
