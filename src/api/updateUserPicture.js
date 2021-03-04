@@ -23,14 +23,14 @@ async function sendRequest(config) {
 }
 
 export default async function updateUserPicture(newPicture) {
-    let config = setAxiosConfig('POST', UPDATE_USER_PICTURE_URL, false);
+    let config = setAxiosConfig('POST', UPDATE_USER_PICTURE_URL, true);
     const formData = new FormData();
 
     if (!newPicture) {
         toast.error("Required picture file");
         return;
     }
-    formData.append('file', newPicture);
+    formData.append('file', newPicture[0]);
     config['headers']['Content-Type'] = 'multipart/form-data';
     config['data'] = formData;
     return sendRequest(config);

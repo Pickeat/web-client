@@ -4,7 +4,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
-import getUserProductListApi from '../api/getUserProductList'
+import getUserProductListApi from '../api/getUserProductList';
+import updateUserPictureApi from "../api/updateUserPicture";
 import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
 import Paper from "@material-ui/core/Paper";
@@ -160,6 +161,11 @@ export default function Profil(props) {
         });
     };
 
+   const onDrop = (newPicture) => {
+       updateUserPictureApi(newPicture).then((response) => {
+           console.log("success");
+       });
+    }
     const getUserProductListCall = () => {
         setIsUserUploadProductsLoading(true);
         getUserProductListApi().then((response) => {
@@ -200,6 +206,7 @@ export default function Profil(props) {
                             buttonText="Change image profil"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
+                            onChange={onDrop}
                         />
                         <Typography style={{
                             paddingTop: '5%',
