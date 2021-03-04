@@ -131,6 +131,8 @@ export default function Profil(props) {
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
     const [userDescription, setUserDescription] = useState("");
+    const [userBirthday, setUserBirthday] = useState();
+    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userProductList, setUserProductList] = useState([]);
@@ -249,6 +251,8 @@ export default function Profil(props) {
                                 label="birthdate"
                                 desciption="birthdate"
                                 autoComplete="birthdate"
+                                valuee={userBirthday}
+                                onChange={(event => setUserBirthday(event.target.value()))}
                                 autoFocus
                             />
                             <PickeatTextField
@@ -259,6 +263,8 @@ export default function Profil(props) {
                                 label="gender"
                                 desciption="gender"
                                 autoComplete="gender"
+                                value={userGender}
+                                onChange={(event => setUserGender(event.target.value()))}
                                 autoFocus
                             />
                             <Button

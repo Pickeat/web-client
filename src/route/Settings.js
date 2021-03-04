@@ -101,7 +101,10 @@ export default function Settings(props) {
   };
 
   const componentList = [
-    { key: 0, component: <div className={classes.formUserInfoContainer}>
+    { key: 0, component: <div className={classes.formUserInfoContainer}  style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
         <Typography component="h1" variant="h5">
           Change password:
         </Typography>
@@ -146,7 +149,10 @@ export default function Settings(props) {
         >
           Save Changes
         </Button></div> },
-    { key: 1, component: <div className={classes.formUserInfoContainer}>
+    { key: 1, component: <div className={classes.formUserInfoContainer}  style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
         <Typography component="h1" variant="h5">
           New mail address:
         </Typography>
@@ -177,7 +183,10 @@ export default function Settings(props) {
         >
           Save Changes
         </Button></div> },
-    { key: 2, component: <div className={classes.formUserInfoContainer}>
+    { key: 2, component: <div className={classes.formUserInfoContainer}  style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
           <Typography component="h1" variant="h5">
       New phone number:
     </Typography>
@@ -208,7 +217,10 @@ export default function Settings(props) {
     >
       Save Changes
     </Button></div> },
-    { key: 3, component: <div className={classes.formUserInfoContainer}>
+    { key: 3, component: <div className={classes.formUserInfoContainer}  style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
         <Typography component="h1" variant="h5">
         Delete account:
       </Typography>
