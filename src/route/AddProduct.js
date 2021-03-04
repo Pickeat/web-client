@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import {PickeatTextField} from "../components/PickeatTextField";
 import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
-import moment from "moment";
 import {Chip, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";

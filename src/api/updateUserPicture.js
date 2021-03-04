@@ -1,7 +1,7 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {UPDATE_PHONE_URL, UPDATE_USER_PICTURE_URL} from '../constants/apiEndpoints';
+import {UPDATE_USER_PICTURE_URL} from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
 import handleErrorToast from '../helpers/handleErrorToast';
 

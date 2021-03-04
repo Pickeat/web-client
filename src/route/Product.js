@@ -3,7 +3,6 @@ import {useParams} from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
-import backgroundSrc from '../assets/wallpaper-login.jpg';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
@@ -22,10 +21,7 @@ import DefaultProductPicture from '../assets/wallpaper-login.jpg'
 import {Modal, Tooltip, Zoom} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
 import getUserMeApi from "../api/getUserMeApi";
-import {PickeatTextField} from "../components/PickeatTextField";
 import TextField from "@material-ui/core/TextField";
-import HelpIcon from '@material-ui/icons/Help';
-import IconButton from "@material-ui/core/IconButton";
 import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
