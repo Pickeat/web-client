@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserAvailabilities(props) {
     const classes = useStyles();
-    const [data, setData] = useState(props.data);
+    const [data] = useState(props.data);
 
     useEffect(() => {
     }, []);

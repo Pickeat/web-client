@@ -3,7 +3,6 @@ import {useParams} from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
-import backgroundSrc from '../assets/wallpaper-login.jpg';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
@@ -22,12 +21,10 @@ import DefaultProductPicture from '../assets/wallpaper-login.jpg'
 import {Modal, Tooltip, Zoom} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
 import getUserMeApi from "../api/getUserMeApi";
-import {PickeatTextField} from "../components/PickeatTextField";
 import TextField from "@material-ui/core/TextField";
-import HelpIcon from '@material-ui/icons/Help';
-import IconButton from "@material-ui/core/IconButton";
 import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
+import StatusIndicator from "../components/StatusIndicator";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -110,6 +107,12 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '20%',
     },
+    statusContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
     contactBtnContainer: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -117,7 +120,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '40%',
     },
-    contactBtnContainerButtom: {
+    contactBtnContainerButton: {
         position: 'absolute',
         bottom: '0px',
         display: 'flex',
@@ -204,8 +207,6 @@ export default function Product(props) {
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
     const [isReserveLoading, setIsReserveLoading] = useState(false);
-    const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
-    const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
 
     useEffect(() => {
         getProductApi(id).then((res) => {
@@ -247,7 +248,7 @@ export default function Product(props) {
         getOwnUserNameCall();
         if (!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
             return (
-                <div className={classes.contactBtnContainerButtom}>
+                <div className={classes.contactBtnContainerButton}>
                     <Button onClick={() => {
                         setIsEditMode(true)
                     }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Edit Product</Button>
@@ -255,7 +256,7 @@ export default function Product(props) {
             )
         } else if (!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
             return (
-                <div className={classes.contactBtnContainerButtom}>
+                <div className={classes.contactBtnContainerButton}>
                     <Button onClick={() => {
                         setIsEditMode(false)
                     }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
@@ -469,54 +470,65 @@ export default function Product(props) {
             </div>
         );
 
-    // const buildReservationSection = () => {
-    //     function confirmProductReservation() {
-    //         setIsReserveLoading(true);
-    //         confirmProductReservationApi().then(success => {
-    //             setIsReserveLoading(false);
-    //         });
-    //     }
-    //
-    //     const reserveProduct = () => {
-    //         setIsReserveLoading(true);
-    //         reserveProductApi().then(success => {
-    //             setIsReserveLoading(false);
-    //         });
-    //     }
-    //
-    //     if (isUserOwner()) {
-    //         return (
-    //             <div className={classes.contactBtnContainer}>
-    //                 <Tooltip
-    //                     TransitionComponent={Zoom}
-    //                     title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
-    //                     "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
-    //                     arrow>
-    //                     <Button className="pickeatBtn"
-    //                             onClick={() => {
-    //                                 confirmProductReservation()
-    //                             }}
-    //                             style={{width: '100%', height: '40px'}}>
-    //                         {(isReserveLoading ?
-    //                             <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
-    //                     </Button>
-    //                 </Tooltip>
-    //             </div>
-    //         );
-    //     } else {
-    //         return (
-    //             <div className={classes.contactBtnContainer}>
-    //                 <Button className="pickeatBtn"
-    //                         onClick={() => {
-    //                             reserveProduct()
-    //                         }}
-    //                         style={{width: '100%', height: '40px'}}>
-    //                     {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
-    //                 </Button>
-    //             </div>
-    //         )
-    //     }
-    // }
+    const buildReservationSection = () => {
+        function confirmProductReservation() {
+            setIsReserveLoading(true);
+            confirmProductReservationApi().then(success => {
+                setIsReserveLoading(false);
+            });
+        }
+
+        const reserveProduct = () => {
+            setIsReserveLoading(true);
+            reserveProductApi(id).then(success => {
+                setIsReserveLoading(false);
+                window.location.reload();
+            });
+        }
+
+        if (isEmpty(data))
+            return
+        if (OwnId && OwnId === data.user._id) {
+            if (data.status === 'available')
+                return;
+            else if (data.status === 'waiting-for-reservation') {
+                return (
+                    <div className={classes.contactBtnContainer}>
+                        <Tooltip
+                            TransitionComponent={Zoom}
+                            title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
+                            "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+                            arrow>
+                            <Button className="pickeatBtn"
+                                    onClick={() => {
+                                        confirmProductReservation()
+                                    }}
+                                    style={{width: '100%', height: '40px'}}>
+                                {(isReserveLoading ?
+                                    <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                            </Button>
+                        </Tooltip>
+                    </div>
+                );
+            }
+        } else {
+            if (data.status === 'available')
+                return (
+                    <div className={classes.contactBtnContainer}>
+                        <Button className="pickeatBtn"
+                                onClick={() => {
+                                    reserveProduct()
+                                }}
+                                style={{width: '100%', height: '40px'}}>
+                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
+                        </Button>
+                    </div>
+                )
+            else if (data.status === 'waiting-for-reservation') {
+                return;
+            }
+        }
+    }
 
     return (
         <div className={classes.main}>
@@ -543,6 +555,10 @@ export default function Product(props) {
                             <Rating name="read-only" value={data?.user?.note} readOnly/>
                         </div>
                         <div style={{width: '80%', height: '40%'}}>
+                            <div className={classes.statusContainer}>
+                                <StatusIndicator status={data.status}
+                                                 isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}/>
+                            </div>
                             <div className={classes.contactBtnContainer}>
                                 <Button className="pickeatBtn" onClick={() => {
                                     setAvailabilitiesModalIsOpen(true)

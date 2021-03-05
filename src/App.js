@@ -70,5 +70,6 @@ function App() {
 
 //TODO: Afficher la section reservation en fonction du statut de reservation
 //TODO: Faire les req API de Reservation sur la page product
+//TODO; adapter les stattus dans le dico dans StatusIndicator.js
 
 export default App;

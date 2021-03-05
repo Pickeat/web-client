@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import {PickeatTextField} from "../components/PickeatTextField";
 import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
-import moment from "moment";
 import {Chip, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
@@ -122,7 +121,8 @@ export default function AddProduct(props) {
             navigator.geolocation.getCurrentPosition((location) => {
                 const userLocation = {lng: location?.coords?.longitude, lat: location?.coords?.latitude};
                 addProductApi(image, title, userLocation, description, date, labels).then((e) => {
-                    history.push('/product-list');
+                    if (e != null)
+                        history.push('/product-list');
                 });
             }, () => {
                 toast.error('Geolocation is not supported by this browser.');

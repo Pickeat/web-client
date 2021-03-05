@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useHistory} from 'react-router-dom';
-import Button from "@material-ui/core/Button";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton";
-import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
     main: {

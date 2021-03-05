@@ -51,8 +51,10 @@ export default async function addProductApi(file, title, location, description, 
             return await createProduct(response.data.name, title, location, description, date, labels);
         } else {
             toast.warn(response.data.message);
+            return null;
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return null
     });
 }
