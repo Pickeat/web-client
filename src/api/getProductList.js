@@ -5,9 +5,14 @@ import { GET_PRODUCT_LIST_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 export default async function getProductList(km, location, minRate) {
-  let config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
-  config['data'] = {
-    location: location,
+  let config;
+  if (location.lng && location.lat && km)
+    config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}?lng=${location.lng}&lat=${location.lat}&radius=${km * 1000}`, false);
+  else
+    config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
+  config['params'] = {
+    lng: location.lng,
+    lat: location.lat,
     radius: km * 1000,
     rate: minRate
   };
