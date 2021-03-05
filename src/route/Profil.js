@@ -4,7 +4,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
-import getUserProductListApi from '../api/getUserProductList'
+import getUserProductListApi from '../api/getUserProductList';
+import updateUserPictureApi from "../api/updateUserPicture";
 import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
 import Paper from "@material-ui/core/Paper";
@@ -131,6 +132,8 @@ export default function Profil(props) {
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
     const [userDescription, setUserDescription] = useState("");
+    const [userBirthday, setUserBirthday] = useState();
+    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userProductList, setUserProductList] = useState([]);
@@ -158,6 +161,11 @@ export default function Profil(props) {
         });
     };
 
+   const onDrop = (newPicture) => {
+       updateUserPictureApi(newPicture).then((response) => {
+           console.log("success");
+       });
+    }
     const getUserProductListCall = () => {
         setIsUserUploadProductsLoading(true);
         getUserProductListApi().then((response) => {
@@ -198,6 +206,7 @@ export default function Profil(props) {
                             buttonText="Change image profil"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
+                            onChange={onDrop}
                         />
                         <Typography style={{
                             paddingTop: '5%',
@@ -249,6 +258,8 @@ export default function Profil(props) {
                                 label="birthdate"
                                 desciption="birthdate"
                                 autoComplete="birthdate"
+                                valuee={userBirthday}
+                                onChange={(event => setUserBirthday(event.target.value()))}
                                 autoFocus
                             />
                             <PickeatTextField
@@ -259,6 +270,8 @@ export default function Profil(props) {
                                 label="gender"
                                 desciption="gender"
                                 autoComplete="gender"
+                                value={userGender}
+                                onChange={(event => setUserGender(event.target.value()))}
                                 autoFocus
                             />
                             <Button

@@ -5,7 +5,6 @@ import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { PickeatTextField } from '../components/PickeatTextField';
-import backgroundSrc from '../assets/wallpaper-login.jpg';
 import Background from '../components/Background';
 import signUpApi from '../api/signUpApi';
 import Paper from '@material-ui/core/Paper';
