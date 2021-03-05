@@ -204,6 +204,8 @@ export default function Product(props) {
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
     const [isReserveLoading, setIsReserveLoading] = useState(false);
+    const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
+    const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
 
     useEffect(() => {
         getProductApi(id).then((res) => {
@@ -407,6 +409,16 @@ export default function Product(props) {
         )
     }
 
+    const confirmMeetUp = (meetUpHappened) => {
+        console.log("heyyyyyyy")
+        if (meetUpHappened) {
+            setIsMeetUpPositiveButtonLoading(true);
+        } else {
+            setIsMeetUpNegativeButtonLoading(true);
+        }
+
+    }
+
     const getOwnUserNameCall = () => {
         getUserMeApi().then((response) => {
             setOwnId(response._id);
@@ -416,8 +428,22 @@ export default function Product(props) {
     const buildMeetUpButtons = () => {
         return(
             <div className={classes.contactBtnContainer}>
-                <Button className="pickeatBtn" style={{width: '45%', height: '40px'}}>L’échange a eu lieu</Button>
-                <Button className="pickeatBtnRed" style={{width: '50%', height: '40px'}}>L’échange n’a pas eu lieu</Button>
+                <Button className="pickeatBtn"
+                        onClick={() => {
+                            confirmMeetUp(true)
+                        }}
+                        style={{width: '45%', height: '40px'}}>
+                    {(isMeetUpPositiveButtonLoading ?
+                        <CircularProgress style={{color: 'white'}}/> : "L’échange a eu lieu")}
+                </Button>
+                <Button className="pickeatBtnRed"
+                        onClick={() => {
+                            confirmMeetUp(false)
+                        }}
+                        style={{width: '50%', height: '40px'}}>
+                    {(isMeetUpNegativeButtonLoading ?
+                        <CircularProgress style={{color: 'white'}}/> : "L’échange n’a pas eu lieu")}
+                </Button>
             </div>
         )
     }
@@ -443,54 +469,54 @@ export default function Product(props) {
             </div>
         );
 
-    const buildReservationSection = () => {
-        function confirmProductReservation() {
-            setIsReserveLoading(true);
-            confirmProductReservationApi().then(success => {
-                setIsReserveLoading(false);
-            });
-        }
-
-        const reserveProduct = () => {
-            setIsReserveLoading(true);
-            reserveProductApi().then(success => {
-                setIsReserveLoading(false);
-            });
-        }
-
-        if (isUserOwner()) {
-            return (
-                <div className={classes.contactBtnContainer}>
-                    <Tooltip
-                        TransitionComponent={Zoom}
-                        title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
-                        "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
-                        arrow>
-                        <Button className="pickeatBtn"
-                                onClick={() => {
-                                    confirmProductReservation()
-                                }}
-                                style={{width: '100%', height: '40px'}}>
-                            {(isReserveLoading ?
-                                <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
-                        </Button>
-                    </Tooltip>
-                </div>
-            );
-        } else {
-            return (
-                <div className={classes.contactBtnContainer}>
-                    <Button className="pickeatBtn"
-                            onClick={() => {
-                                reserveProduct()
-                            }}
-                            style={{width: '100%', height: '40px'}}>
-                        {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
-                    </Button>
-                </div>
-            )
-        }
-    }
+    // const buildReservationSection = () => {
+    //     function confirmProductReservation() {
+    //         setIsReserveLoading(true);
+    //         confirmProductReservationApi().then(success => {
+    //             setIsReserveLoading(false);
+    //         });
+    //     }
+    //
+    //     const reserveProduct = () => {
+    //         setIsReserveLoading(true);
+    //         reserveProductApi().then(success => {
+    //             setIsReserveLoading(false);
+    //         });
+    //     }
+    //
+    //     if (isUserOwner()) {
+    //         return (
+    //             <div className={classes.contactBtnContainer}>
+    //                 <Tooltip
+    //                     TransitionComponent={Zoom}
+    //                     title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
+    //                     "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+    //                     arrow>
+    //                     <Button className="pickeatBtn"
+    //                             onClick={() => {
+    //                                 confirmProductReservation()
+    //                             }}
+    //                             style={{width: '100%', height: '40px'}}>
+    //                         {(isReserveLoading ?
+    //                             <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+    //                     </Button>
+    //                 </Tooltip>
+    //             </div>
+    //         );
+    //     } else {
+    //         return (
+    //             <div className={classes.contactBtnContainer}>
+    //                 <Button className="pickeatBtn"
+    //                         onClick={() => {
+    //                             reserveProduct()
+    //                         }}
+    //                         style={{width: '100%', height: '40px'}}>
+    //                     {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
+    //                 </Button>
+    //             </div>
+    //         )
+    //     }
+    // }
 
     return (
         <div className={classes.main}>
