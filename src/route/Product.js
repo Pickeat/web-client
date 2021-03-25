@@ -473,8 +473,9 @@ export default function Product(props) {
     const buildReservationSection = () => {
         function confirmProductReservation() {
             setIsReserveLoading(true);
-            confirmProductReservationApi().then(success => {
+            confirmProductReservationApi(id).then(success => {
                 setIsReserveLoading(false);
+                window.location.reload();
             });
         }
 

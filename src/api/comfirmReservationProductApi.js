@@ -4,10 +4,12 @@ import {toast} from "react-toastify";
 import { CONFIRM_RESERVE_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-export default async function confirmProductReservationApi() {
-    let config = setAxiosConfig('POST', `${CONFIRM_RESERVE_URL}`, false);
+export default async function confirmProductReservationApi(id) {
+    let config = setAxiosConfig('POST', `${CONFIRM_RESERVE_URL}/${id}`, false);
 
-    config['data'] = "";
+    config['data'] = {
+        confirm: true
+    };
     return await axios(config).then(async (response) => {
         if (response.status === 200) {
             return true;
