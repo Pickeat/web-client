@@ -4,7 +4,8 @@ import {toast} from "react-toastify";
 import { GET_PRODUCT_LIST_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-export default async function getProductList(km, location, minRate) {
+export default async function getProductList(km, location, minRate, maxDate) {
+  console.log(km, location, minRate, maxDate);
   let config;
   if (location.lng && location.lat && km)
     config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}?lng=${location.lng}&lat=${location.lat}&radius=${km * 1000}`, false);
@@ -14,10 +15,10 @@ export default async function getProductList(km, location, minRate) {
     lng: location.lng,
     lat: location.lat,
     radius: km * 1000,
-    rate: minRate
+    rate: minRate,
+    date: maxDate
   };
 
-  console.log(config);
   return await axios(config).then((response) => {
     if (response.status === 200) {
       return response.data;

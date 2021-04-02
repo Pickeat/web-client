@@ -4,7 +4,7 @@ import {toast} from "react-toastify";
 import { POST_PRODUCT_IMAGE, PRODUCT_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-async function  createProduct(imageRef, title, location, description, date, labels){
+async function createProduct(imageRef, title, location, description, date, labels){
     let config = setAxiosConfig('POST', `${PRODUCT_URL}`, false);
     let body = {
         title: title,

@@ -16,6 +16,7 @@ export const GET_PRODUCT_LIST_URL = BASE_URL + '/announces';
 export const PRODUCT_URL = BASE_URL + '/announces';
 export const RESERVE_URL = BASE_URL + '/announces_reserve';
 export const CONFIRM_RESERVE_URL = BASE_URL + '/announces_confirm_reserve';
+export const RATE_GIVER_URL = BASE_URL + '/announces_note';
 export const USER_PUBLIC_INFO_URL = BASE_URL + '/users/public_infos';
 export const FACEBOOK_CONNECT_URL = BASE_URL + '/auth/facebook';
 export const GOOGLE_CONNECT_URL = BASE_URL + '/auth/google';

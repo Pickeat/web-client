@@ -25,6 +25,8 @@ import TextField from "@material-ui/core/TextField";
 import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
+import Rater from "../components/Rater";
+import PickerRateSection from "../components/PickerRateSection";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -448,6 +450,7 @@ export default function Product(props) {
 
         if (isEmpty(data))
             return
+        //GIVER SECTION
         if (OwnId && OwnId === data.user._id) {
             if (data.status === 'available')
                 return;
@@ -472,6 +475,7 @@ export default function Product(props) {
                 );
             }
         } else {
+            //PICKER SECTION
             if (data.status === 'available')
                 return (
                     <div className={classes.contactBtnContainer}>
@@ -486,6 +490,10 @@ export default function Product(props) {
                 )
             else if (data.status === 'waiting-for-reservation') {
                 return;
+            } else if (data.status === 'given') {
+                return (
+                    <PickerRateSection productId={id}/>
+                )
             }
         }
     }
@@ -511,8 +519,8 @@ export default function Product(props) {
                         </div>
                         <div className={classes.profileRatingContainer}>
               <span className="textMedium"
-                    style={{fontSize: '30px'}}>{(data?.user?.note ? `${data?.user?.note}/5` : 'No note yet')}</span>
-                            <Rating name="read-only" value={data?.user?.note} readOnly/>
+                    style={{fontSize: '30px'}}>{(data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet')}</span>
+                            <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly/>
                         </div>
                         <div style={{width: '80%', height: '40%'}}>
                             <div className={classes.statusContainer}>
