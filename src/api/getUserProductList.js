@@ -11,7 +11,6 @@ export default async function getProductList() {
         status: 'waiting-for-reservation'
     };
 
-    console.log(config);
     return await axios(config).then((response) => {
         if (response.status === 200) {
             return response.data;

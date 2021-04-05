@@ -13,6 +13,7 @@ import postGoogleLogin from "../api/postGoogleLogin";
 import postFacebookLogin from "../api/postFacebookLogin";
 import {GoogleLogin} from "react-google-login";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 
 const responseGoogle = (response) => {
     console.log(response.tokenObj.id_token)
@@ -66,6 +67,11 @@ export default function SignIn(props) {
 
     const loginApiCall = (email, password) => {
         signInApi(email, password).then((response) => {
+            getMyReservedAnnounces(['given']).then((res) => {
+                if (res.length === 0)
+                    return
+                props.history.push(`/rate-your-giver/${res[0]?._id}`);
+            });
             props.history.push('/product-list');
         });
     };
