@@ -3,9 +3,12 @@ import Rater from "./Rater";
 import {Button} from "@material-ui/core";
 import rateGiverApi from "../api/rateGiverApi";
 import PropTypes from "prop-types";
+import {useHistory} from "react-router-dom";
 
 export default function PickerRateSection(props) {
     const [rate, setRate] = useState(0);
+    const history = useHistory();
+
     useEffect(() => {
     }, []);
 
@@ -15,8 +18,11 @@ export default function PickerRateSection(props) {
 
     const rateGiver = (rate) => {
         rateGiverApi(props.productId, rate).then((status) => {
-            if (status)
+            if (status) {
+                if (props.redirect)
+                    history.push(props.redirect);
                 window.location.reload();
+            }
         })
     }
 
@@ -34,4 +40,5 @@ export default function PickerRateSection(props) {
 
 PickerRateSection.propTypes = {
     productId: PropTypes.string.isRequired,
+    redirect: PropTypes.string
 };
