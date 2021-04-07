@@ -27,6 +27,7 @@ import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
 import Rater from "../components/Rater";
 import PickerRateSection from "../components/PickerRateSection";
+import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -201,6 +202,7 @@ export default function Product(props) {
     const classes = useStyles();
     const {id} = useParams();
     const [data, setData] = useState({});
+    const [userProfilePicture, setUserProfilePicture] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const [OwnId, setOwnId] = useState("");
     const [productDistance, setProductDistance] = useState(-1);
@@ -216,6 +218,9 @@ export default function Product(props) {
             setProductTitle(res?.title);
             setProductDescription(res?.description);
             setProductExpirationDate(res?.expiration_date);
+        });
+        getUserPublicInfoApi(id).then((res) => {
+            setUserProfilePicture(res.image);
         });
     }, []);
 
@@ -507,7 +512,7 @@ export default function Product(props) {
                         <div className={classes.profilePictureContainer}>
                             <img style={{maxWidth: '100%', maxHeight: '100%'}}
                                  alt={'giver profile picture'}
-                                 src={(data?.user?.profile_image ? data?.user?.profile_image : DefaultProfilePicture)}/>
+                                 src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
                         </div>
                         <div className={classes.profileInfoContainer}>
                             <div className="textMedium"
