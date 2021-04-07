@@ -14,6 +14,7 @@ import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
+import defaultImage from "../assets/wallpaper-login.jpg";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -131,7 +132,7 @@ export default function Profil(props) {
     const [isUserUploadProductsLoading, setIsUserUploadProductsLoading] = useState(true);
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
-    const [userProfilPicture, setUserProfilPicture] = useState("");
+    const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userBirthday, setUserBirthday] = useState();
     const [userGender, setUserGender] = useState();
@@ -152,7 +153,7 @@ export default function Profil(props) {
             setUserDescription(response.description);
             setCurrentName(response.name);
             setCurrentDescription(response.description);
-            setUserProfilPicture(response.image);
+            setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
         });
     };
@@ -201,7 +202,7 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={userProfilPicture}/>
+                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
                         <ImageUploader
                             withIcon={false}
                             withLabel={false}
