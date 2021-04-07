@@ -28,6 +28,7 @@ import StatusIndicator from "../components/StatusIndicator";
 import Rater from "../components/Rater";
 import PickerRateSection from "../components/PickerRateSection";
 import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
+import postReportUserApi from "../api/reportUserApi";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -203,6 +204,7 @@ export default function Product(props) {
     const {id} = useParams();
     const [data, setData] = useState({});
     const [userProfilePicture, setUserProfilePicture] = useState("");
+    const [userId, setUserId] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const [OwnId, setOwnId] = useState("");
     const [productDistance, setProductDistance] = useState(-1);
@@ -212,6 +214,11 @@ export default function Product(props) {
     const [productExpirationDate, setProductExpirationDate] = useState("");
     const [isReserveLoading, setIsReserveLoading] = useState(false);
 
+    const reportGiverApiCall = () => {
+        postReportUserApi(userId).then((response) => {
+            toast.success("User wil be reported")
+        });
+    };
     useEffect(() => {
         getProductApi(id).then((res) => {
             setData(res);
@@ -219,8 +226,9 @@ export default function Product(props) {
             setProductDescription(res?.description);
             setProductExpirationDate(res?.expiration_date);
         });
-        getUserPublicInfoApi(id).then((res) => {
+        getUserMeApi().then((res) => {
             setUserProfilePicture(res.image);
+            setUserId(res._id);
         });
     }, []);
 
@@ -536,6 +544,13 @@ export default function Product(props) {
                                 <Button className="pickeatBtn" onClick={() => {
                                     setAvailabilitiesModalIsOpen(true)
                                 }} style={{width: '100%', height: '40px'}}>Giver availabilities</Button>
+                            </div>
+                            <div className={classes.contactBtnContainer}>
+                                <Button className="pickeatBtn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    reportGiverApiCall(id)
+                                }} style={{width: '100%', height: '40px'}}>Report giver</Button>
                             </div>
                             <Modal
                                 open={availabilitiesModalIsOpen}
