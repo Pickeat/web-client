@@ -131,6 +131,7 @@ export default function Profil(props) {
     const [isUserUploadProductsLoading, setIsUserUploadProductsLoading] = useState(true);
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
+    const [userProfilPicture, setUserProfilPicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userBirthday, setUserBirthday] = useState();
     const [userGender, setUserGender] = useState();
@@ -151,6 +152,7 @@ export default function Profil(props) {
             setUserDescription(response.description);
             setCurrentName(response.name);
             setCurrentDescription(response.description);
+            setUserProfilPicture(response.image);
             setIsUserInfoLoading(false);
         });
     };
@@ -199,7 +201,7 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={"https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg"}/>
+                             src={userProfilPicture}/>
                         <ImageUploader
                             withIcon={false}
                             withLabel={false}
@@ -259,7 +261,7 @@ export default function Profil(props) {
                                 desciption="birthdate"
                                 autoComplete="birthdate"
                                 valuee={userBirthday}
-                                onChange={(event => setUserBirthday(event.target.value()))}
+                                onChange={(event => setUserBirthday(event.target.value))}
                                 autoFocus
                             />
                             <PickeatTextField
@@ -271,7 +273,7 @@ export default function Profil(props) {
                                 desciption="gender"
                                 autoComplete="gender"
                                 value={userGender}
-                                onChange={(event => setUserGender(event.target.value()))}
+                                onChange={(event => setUserGender(event.target.value))}
                                 autoFocus
                             />
                             <Button
