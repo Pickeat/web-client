@@ -91,7 +91,7 @@ export default function Intro() {
           </a>
         </div>
           <div className={classes.googlePlayContainer}>
-            <a href='https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40mathieugery/Pickeat-a3222dc79408430d88d98a0c64e9f846-signed.apk'>
+            <a href='https://download-apk.pickeat.fr/'>
               <img
                 style={{maxWidth: '100%', maxHeight: '100%'}}
                 alt='Get it on Google Play'
