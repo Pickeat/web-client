@@ -12,6 +12,7 @@ async function sendRequest(config) {
 
     return await axios(config).then((response) => {
         if (response.status === 200) {
+            toast.success("User wil be reported")
             return response.data;
         } else {
             toast.warn(response.data.message);

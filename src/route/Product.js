@@ -203,8 +203,6 @@ export default function Product(props) {
     const classes = useStyles();
     const {id} = useParams();
     const [data, setData] = useState({});
-    const [userProfilePicture, setUserProfilePicture] = useState("");
-    const [userId, setUserId] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const [OwnId, setOwnId] = useState("");
     const [productDistance, setProductDistance] = useState(-1);
@@ -215,8 +213,7 @@ export default function Product(props) {
     const [isReserveLoading, setIsReserveLoading] = useState(false);
 
     const reportGiverApiCall = () => {
-        postReportUserApi(userId).then((response) => {
-            toast.success("User wil be reported")
+        postReportUserApi(data.user._id).then(() => {
         });
     };
     useEffect(() => {
@@ -225,10 +222,6 @@ export default function Product(props) {
             setProductTitle(res?.title);
             setProductDescription(res?.description);
             setProductExpirationDate(res?.expiration_date);
-        });
-        getUserMeApi().then((res) => {
-            setUserProfilePicture(res.image);
-            setUserId(res._id);
         });
     }, []);
 
@@ -509,6 +502,7 @@ export default function Product(props) {
                 )
             }
         }
+
     }
 
     return (
@@ -520,7 +514,7 @@ export default function Product(props) {
                         <div className={classes.profilePictureContainer}>
                             <img style={{maxWidth: '100%', maxHeight: '100%'}}
                                  alt={'giver profile picture'}
-                                 src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
+                                 src={(data.user.image ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
                         </div>
                         <div className={classes.profileInfoContainer}>
                             <div className="textMedium"
@@ -544,13 +538,6 @@ export default function Product(props) {
                                 <Button className="pickeatBtn" onClick={() => {
                                     setAvailabilitiesModalIsOpen(true)
                                 }} style={{width: '100%', height: '40px'}}>Giver availabilities</Button>
-                            </div>
-                            <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtn" onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    reportGiverApiCall(id)
-                                }} style={{width: '100%', height: '40px'}}>Report giver</Button>
                             </div>
                             <Modal
                                 open={availabilitiesModalIsOpen}
@@ -595,6 +582,13 @@ export default function Product(props) {
                                 </div>
                             </Modal>
                             {buildReservationSection()}
+                            <div className={classes.contactBtnContainer}>
+                                <Button className="pickeatBtn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    reportGiverApiCall(id)
+                                }} style={{width: '100%', height: '40px'}}>Reporter le giver</Button>
+                            </div>
                         </div>
                     </Paper>
                 </div>
