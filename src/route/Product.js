@@ -29,6 +29,7 @@ import Rater from "../components/Rater";
 import PickerRateSection from "../components/PickerRateSection";
 import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 import postReportUserApi from "../api/reportUserApi";
+import defaultImage from "../assets/wallpaper-login.jpg";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -514,7 +515,7 @@ export default function Product(props) {
                         <div className={classes.profilePictureContainer}>
                             <img style={{maxWidth: '100%', maxHeight: '100%'}}
                                  alt={'giver profile picture'}
-                                 src={(data.user.image ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
+                                 src={(data.user.image ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=` : defaultImage)}/>
                         </div>
                         <div className={classes.profileInfoContainer}>
                             <div className="textMedium"
@@ -587,7 +588,7 @@ export default function Product(props) {
                                     e.stopPropagation();
                                     e.preventDefault();
                                     reportGiverApiCall(id)
-                                }} style={{width: '100%', height: '40px'}}>Reporter le giver</Button>
+                                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
                             </div>
                         </div>
                     </Paper>
