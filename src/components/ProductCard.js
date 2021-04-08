@@ -105,7 +105,7 @@ export default function ProductCard(props) {
                              }}/>
                     </div>
                     <div className={classes.infoContainer}>
-                        <Avatar alt="user_picture" src={(data.user.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)} className={classes.userAvatar}/>
+                        <Avatar alt="user_picture" src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)} className={classes.userAvatar}/>
                         <div className={classes.cardBottom}>
                             <div className="textRegular" style={{lineHeight: '22px'}}>{data.title}</div>
                         </div>
