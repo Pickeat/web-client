@@ -15,6 +15,8 @@ import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
 import defaultImage from "../assets/wallpaper-login.jpg";
+import Modal from "../components/Modal";
+import DispoModal from "../components/DispoModal";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -139,6 +141,7 @@ export default function Profil(props) {
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userProductList, setUserProductList] = useState([]);
+    const [showDispoModal, setShowDispoModal] = useState(false);
 
 
     useEffect(() => {
@@ -364,6 +367,8 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
+            <Button className="pickeatBtn" onClick={() => {setShowDispoModal(true)}}>Show modal</Button>
+            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {setShowDispoModal(false)}}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>
