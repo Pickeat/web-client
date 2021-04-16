@@ -550,36 +550,7 @@ export default function Product(props) {
                                 }}
                             >
                                 <div style={{width: '800px', height: '500px'}}>
-                                    <UserAvailabilities data={{
-                                        "Monday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Tuesday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Wednesday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Thursday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Friday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Saturday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Sunday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                    }}/>
+                                    <UserAvailabilities data={data.user?.availability}/>
                                 </div>
                             </Modal>
                             {buildReservationSection()}
