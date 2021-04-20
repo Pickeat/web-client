@@ -8,7 +8,7 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ENV REACT_APP_GOOGLE_LOGIN_CLIENT_ID=$google_login_client_id
 ENV REACT_APP_FACEBOOK_LOGIN_APP_ID=$facebook_login_app_id
-ENV REACT_APP_BASE_URL_API_LINK=$base_url_api_link
+ENV REACT_APP_BASE_URL_API_LINK=$base_url_api_link1
 COPY ./package.json /app/
 RUN npm install
 COPY . /app
