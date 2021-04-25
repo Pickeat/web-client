@@ -8,6 +8,7 @@ export default async function getProductList(km, location, minRate, maxDate) {
     console.log(km, location, minRate, maxDate);
     const config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
 
+    config['params'] = {};
     if (location.lat && location.lng && km) {
         config['params'].lng = location.lng;
         config['params'].lat = location.lat;
