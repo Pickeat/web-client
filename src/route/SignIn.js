@@ -15,17 +15,6 @@ import {GoogleLogin} from "react-google-login";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 
-const responseGoogle = (response) => {
-    console.log(response.tokenObj.id_token)
-    postGoogleLogin(response.tokenObj.id_token)
-    this.setState({redirect: "/product-list"});
-};
-
-const responseFacebook = (response) => {
-    postFacebookLogin(response.accessToken)
-};
-
-
 const useStyles = makeStyles((theme) => ({
     main: {
         paddingTop: '5rem',
@@ -64,6 +53,18 @@ export default function SignIn(props) {
     const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const responseGoogle = (response) => {
+        postGoogleLogin(response.tokenObj.id_token).then ((response) => {
+            props.history.push('/product-list');
+        })
+    };
+
+    const responseFacebook = (response) => {
+        postFacebookLogin(response.accessToken).then ((response) => {
+            props.history.push('/product-list');
+        })
+    };
 
     const loginApiCall = (email, password) => {
         signInApi(email, password).then((response) => {

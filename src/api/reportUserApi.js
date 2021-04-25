@@ -11,7 +11,7 @@ async function sendRequest(config) {
     config['headers']['Authorization'] = `Bearer ${token}`;
 
     return await axios(config).then((response) => {
-        if (response.status === 200) {
+        if (response.status === 204) {
             toast.success("Giver signalé !")
             return response.data;
         } else {
