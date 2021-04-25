@@ -94,7 +94,7 @@ export default function ProductList(props) {
     const getProductListByRate = (rate) => {
         setIsLoading(true);
         getProductList(sliderValue, location, rate, maxDate).then((response) => {
-            setProductList(response);
+            setProductList(response.docs);
             setIsLoading(false);
         });
     };
@@ -102,7 +102,7 @@ export default function ProductList(props) {
     const getProductListByDate = (date) => {
         setIsLoading(true);
         getProductList(sliderValue, location, minRate, date).then((response) => {
-            setProductList(response);
+            setProductList(response.docs);
             setIsLoading(false);
         });
     };
@@ -110,7 +110,7 @@ export default function ProductList(props) {
     const getProductListByKm = (km) => {
         setIsLoading(true);
         getProductList(km, location, minRate, maxDate).then((response) => {
-            setProductList(response);
+            setProductList(response.docs);
             setIsLoading(false);
         });
     };
@@ -159,6 +159,7 @@ export default function ProductList(props) {
     };
 
     const buildGrid = () => {
+        console.log(productList);
         if (isLoading) {
             return (
                 <div style={{
