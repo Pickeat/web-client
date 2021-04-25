@@ -123,7 +123,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        height: '40%',
+        height: '30%',
     },
     contactBtnContainerButton: {
         position: 'absolute',
