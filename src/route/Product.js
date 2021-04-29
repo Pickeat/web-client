@@ -430,7 +430,6 @@ export default function Product(props) {
     }
 
     const confirmMeetUp = (meetUpHappened) => {
-        console.log("heyyyyyyy")
         if (meetUpHappened) {
             setIsMeetUpPositiveButtonLoading(true);
             confirmExchangeApi(data._id, true).then((response) => {
@@ -507,7 +506,8 @@ export default function Product(props) {
             return
         //GIVER SECTION
         if (OwnId && OwnId === data.user._id) {
-            if (data.status === 'available')
+            if (data.status === 'available') {
+
                 return;
             } else if (data.status === 'waiting-for-reservation') {
                 return (
@@ -535,11 +535,13 @@ export default function Product(props) {
                             {buildMeetUpButtons()}
                         </>
                     )
+                } else {
+                    return;
                 }
             }
         } else {
             //PICKER SECTION
-            if (data.status === 'available')
+            if (data.status === 'available') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Button className="pickeatBtn"
@@ -551,7 +553,7 @@ export default function Product(props) {
                         </Button>
                     </div>
                 )
-            else if (data.status === 'waiting-for-reservation') {
+            } else if (data.status === 'waiting-for-reservation') {
                 return;
             } else if (data.status === 'reserved') {
                 if (data?.confirmation?.picker === false) {
@@ -560,6 +562,8 @@ export default function Product(props) {
                             {buildMeetUpButtons()}
                         </>
                     )
+                } else {
+                    return;
                 }
             } else if (data.status === 'given') {
                 return (

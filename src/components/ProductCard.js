@@ -9,7 +9,7 @@ import {isEmpty} from '../helpers/isEmpty';
 import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-// import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
 
 const useStyles = makeStyles(theme => ({
