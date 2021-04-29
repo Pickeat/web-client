@@ -14,6 +14,9 @@ import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
+import defaultImage from "../assets/wallpaper-login.jpg";
+import Modal from "../components/Modal";
+import DispoModal from "../components/DispoModal";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -131,12 +134,14 @@ export default function Profil(props) {
     const [isUserUploadProductsLoading, setIsUserUploadProductsLoading] = useState(true);
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
+    const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userBirthday, setUserBirthday] = useState();
     const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userProductList, setUserProductList] = useState([]);
+    const [showDispoModal, setShowDispoModal] = useState(false);
 
 
     useEffect(() => {
@@ -151,6 +156,7 @@ export default function Profil(props) {
             setUserDescription(response.description);
             setCurrentName(response.name);
             setCurrentDescription(response.description);
+            setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
         });
     };
@@ -199,7 +205,7 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={"https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg"}/>
+                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
                         <ImageUploader
                             withIcon={false}
                             withLabel={false}
@@ -259,7 +265,7 @@ export default function Profil(props) {
                                 desciption="birthdate"
                                 autoComplete="birthdate"
                                 valuee={userBirthday}
-                                onChange={(event => setUserBirthday(event.target.value()))}
+                                onChange={(event => setUserBirthday(event.target.value))}
                                 autoFocus
                             />
                             <PickeatTextField
@@ -271,7 +277,7 @@ export default function Profil(props) {
                                 desciption="gender"
                                 autoComplete="gender"
                                 value={userGender}
-                                onChange={(event => setUserGender(event.target.value()))}
+                                onChange={(event => setUserGender(event.target.value))}
                                 autoFocus
                             />
                             <Button
@@ -361,6 +367,8 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
+            <Button className="pickeatBtn" onClick={() => {setShowDispoModal(true)}}>Availabilities</Button>
+            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {setShowDispoModal(false)}}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>

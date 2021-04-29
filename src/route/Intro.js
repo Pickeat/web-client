@@ -8,16 +8,6 @@ import postFacebookLogin from "../api/postFacebookLogin";
 import postGoogleLogin from "../api/postGoogleLogin";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
-const responseGoogle = (response) => {
-  console.log(response.tokenObj.id_token)
-  postGoogleLogin(response.tokenObj.id_token)
-  this.setState({ redirect: "/product-list" });
-};
-
-const responseFacebook = (response) => {
-  postFacebookLogin(response.accessToken)
-};
-
 const useStyles = makeStyles(theme => ({
   main: {
     paddingTop: '5rem',
@@ -69,8 +59,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Intro() {
+export default function Intro(props) {
   const classes = useStyles();
+
+  const responseGoogle = (response) => {
+    postGoogleLogin(response.tokenObj.id_token).then ((response) => {
+      props.history.push('/product-list');
+    })
+  };
+
+  const responseFacebook = (response) => {
+    postFacebookLogin(response.accessToken).then ((response) => {
+      props.history.push('/product-list');
+    })
+  };
 
   useEffect(() => {
   }, []);
@@ -91,7 +93,7 @@ export default function Intro() {
           </a>
         </div>
           <div className={classes.googlePlayContainer}>
-            <a href='https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40mathieugery/Pickeat-5687b1d1571243b4adc0c1faba213662-signed.apk'>
+            <a href='https://download-apk.pickeat.fr/'>
               <img
                 style={{maxWidth: '100%', maxHeight: '100%'}}
                 alt='Get it on Google Play'
@@ -114,10 +116,10 @@ export default function Intro() {
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           scope={[
-            "profile",
-            "email",
+            "https://www.googleapis.com/auth/user.emails.read",
             "https://www.googleapis.com/auth/user.phonenumbers.read",
-            "https://www.googleapis.com/auth/user.addresses.read",
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email",
           ].join(" ")}
           cookiePolicy={'single_host_origin'}
         />

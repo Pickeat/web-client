@@ -6,6 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Background from '../components/Background';
 import Paper from '@material-ui/core/Paper';
 import {useParams} from "react-router-dom";
+import confirmAccountApi from "../api/confirmAccountApi";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -46,8 +47,7 @@ export default function ConfirmAccount() {
     const { token } = useParams();
 
     const buildPaper = () => {
-        console.log("TOKEN --->" + token);
-        confirmAccountCall();
+        confirmAccountCall(token.slice(7));
         return (
             <>
                 <Avatar className={classes.avatar}>
@@ -60,10 +60,10 @@ export default function ConfirmAccount() {
         )
     }
 
-    const confirmAccountCall = () => {
-        // confirmAccountApi(confirmToken).then((response) => {
-        //     console.log(response);
-        // });
+    const confirmAccountCall = (token) => {
+         confirmAccountApi(token).then((response) => {
+             console.log(response);
+        });
     };
 
     return (

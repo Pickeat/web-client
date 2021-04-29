@@ -4,7 +4,7 @@ import {toast} from "react-toastify";
 import { POST_PRODUCT_IMAGE, PRODUCT_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-async function  createProduct(imageRef, title, location, description, date, labels){
+async function createProduct(imageRef, title, location, description, date, labels){
     let config = setAxiosConfig('POST', `${PRODUCT_URL}`, false);
     let body = {
         title: title,
@@ -36,7 +36,6 @@ async function  createProduct(imageRef, title, location, description, date, labe
 export default async function addProductApi(file, title, location, description, date, labels) {
     let config = setAxiosConfig('POST', `${POST_PRODUCT_IMAGE}`, false);
     const formData = new FormData();
-    console.log(location);
 
     if (!title || !file || !location) {
         toast.error("One or more required field(s) is/are missing");
@@ -47,7 +46,6 @@ export default async function addProductApi(file, title, location, description, 
     config['data'] = formData;
     return await axios(config).then(async (response) => {
         if (response.status === 200) {
-            console.log(response.data);
             return await createProduct(response.data.name, title, location, description, date, labels);
         } else {
             toast.warn(response.data.message);

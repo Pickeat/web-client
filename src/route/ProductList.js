@@ -13,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {useHistory} from 'react-router-dom';
 import Background from "../components/Background";
 import Rater from "../components/Rater";
+import DateFilter from "../components/DateFilter";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -87,22 +88,29 @@ export default function ProductList(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [sliderValue, setSliderValue] = useState(1);
     const [minRate, setMinRate] = useState(0);
+    const [maxDate, setMaxDate] = useState(null);
     const history = useHistory();
 
     const getProductListByRate = (rate) => {
         setIsLoading(true);
-        console.log(sliderValue, rate);
-        getProductList(sliderValue, location, rate).then((response) => {
-            setProductList(response);
+        getProductList(sliderValue, location, rate, maxDate).then((response) => {
+            setProductList(response.docs);
+            setIsLoading(false);
+        });
+    };
+
+    const getProductListByDate = (date) => {
+        setIsLoading(true);
+        getProductList(sliderValue, location, minRate, date).then((response) => {
+            setProductList(response.docs);
             setIsLoading(false);
         });
     };
 
     const getProductListByKm = (km) => {
         setIsLoading(true);
-        console.log(km, minRate);
-        getProductList(km, location, minRate).then((response) => {
-            setProductList(response);
+        getProductList(km, location, minRate, maxDate).then((response) => {
+            setProductList(response.docs);
             setIsLoading(false);
         });
     };
@@ -137,6 +145,11 @@ export default function ProductList(props) {
         getProductListByRate(newValue);
     };
 
+    const handleDateChange = (newValue) => {
+        setMaxDate(newValue);
+        getProductListByDate(newValue);
+    };
+
     const handleBlur = () => {
         if (sliderValue < 0) {
             setSliderValue(0);
@@ -146,6 +159,7 @@ export default function ProductList(props) {
     };
 
     const buildGrid = () => {
+        console.log(productList);
         if (isLoading) {
             return (
                 <div style={{
@@ -196,7 +210,10 @@ export default function ProductList(props) {
                                   handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
                     </div>
                     <div className={classes.sliderContainer}>
-                        <Rater value={minRate} handleInputChange={handleRaterChange}/>
+                        <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
+                    </div>
+                    <div className={classes.sliderContainer}>
+                        <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
                     </div>
                 </Paper>
             </div>

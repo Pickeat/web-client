@@ -3,8 +3,10 @@ import React, {useEffect} from 'react';
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import {InputLabel} from "@material-ui/core";
+import {PickeatTextField} from "./PickeatTextField";
 
-export default function Rater(props) {
+export default function DateFilter(props) {
     useEffect(() => {
     }, []);
 
@@ -19,16 +21,21 @@ export default function Rater(props) {
                 alignItems: 'center',
                 width: '90%',
             }}>
-                <Rating value={props.value} onChange={(event, newValue) => {
-                    props.handleInputChange(newValue)
-                }} name="half-rating" precision={0.5}/>
+                <PickeatTextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    type="date"
+                    id="date"
+                    name="date"
+                    onChange={(event) => {props.handleInputChange(event.target.value)}}
+                />
             </div>
         </div>
     );
 }
 
-Rater.propTypes = {
-    value: PropTypes.number.isRequired,
+DateFilter.propTypes = {
     handleInputChange: PropTypes.func,
     label: PropTypes.string.isRequired
 };
