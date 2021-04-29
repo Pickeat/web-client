@@ -25,6 +25,7 @@
     "react-router-dom": "latest",
     "react-scripts": "3.4.1",
     "react-toastify": "^6.0.8",
+    "styled-components": "^5.2.1",
     "universal-cookie": "^4.0.3",
     "use-position": "0.0.7"
   },

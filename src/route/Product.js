@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
@@ -25,6 +25,10 @@ import TextField from "@material-ui/core/TextField";
 import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
+import deleteAnnounceApi from "../api/deleteAnnounceApi";
+import { withRouter } from 'react-router-dom'
+import confirmExchangeApi from "../api/confirmExchangeApi";
+
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -69,6 +73,9 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         width: '30%',
         height: '100%',
+    },
+    deleteAnnounceText: {
+        textDecoration: 'underline',
     },
     productContainer: {
         display: 'flex',
@@ -207,6 +214,9 @@ export default function Product(props) {
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
     const [isReserveLoading, setIsReserveLoading] = useState(false);
+    const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
+    const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
+
 
     useEffect(() => {
         getProductApi(id).then((res) => {
@@ -414,10 +424,17 @@ export default function Product(props) {
         console.log("heyyyyyyy")
         if (meetUpHappened) {
             setIsMeetUpPositiveButtonLoading(true);
+            confirmExchangeApi(data._id, true).then((response) => {
+                window.location.reload();
+
+            })
         } else {
             setIsMeetUpNegativeButtonLoading(true);
-        }
+            confirmExchangeApi(data._id, false).then((response) => {
+                window.location.reload();
 
+            })
+        }
     }
 
     const getOwnUserNameCall = () => {
@@ -427,7 +444,7 @@ export default function Product(props) {
     }
 
     const buildMeetUpButtons = () => {
-        return(
+        return (
             <div className={classes.contactBtnContainer}>
                 <Button className="pickeatBtn"
                         onClick={() => {
@@ -449,14 +466,6 @@ export default function Product(props) {
         )
     }
 
-    const buildReservationSection = () => {
-        return (
-            <>
-                {buildMeetUpButtons()}
-            </>
-        )
-    }
-
     const buildProductDistance = () => {
         if (productDistance === -1)
             return ('Sorry we had a problem computing the distance');
@@ -471,7 +480,7 @@ export default function Product(props) {
         );
 
     const buildReservationSection = () => {
-        function confirmProductReservation() {
+        const confirmProductReservation = () => {
             setIsReserveLoading(true);
             confirmProductReservationApi(id).then(success => {
                 setIsReserveLoading(false);
@@ -489,10 +498,10 @@ export default function Product(props) {
 
         if (isEmpty(data))
             return
-        if (OwnId && OwnId === data.user._id) {
-            if (data.status === 'available')
+        if (OwnId && OwnId === data.user._id) { //Giver
+            if (data.status === 'available') {
                 return;
-            else if (data.status === 'waiting-for-reservation') {
+            } else if (data.status === 'waiting-for-reservation') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Tooltip
@@ -511,6 +520,14 @@ export default function Product(props) {
                         </Tooltip>
                     </div>
                 );
+            } else if (data.status === 'reserved') {
+                if (data?.confirmation?.giver === false) {
+                    return (
+                        <>
+                            {buildMeetUpButtons()}
+                        </>
+                    )
+                }
             }
         } else {
             if (data.status === 'available')
@@ -527,7 +544,35 @@ export default function Product(props) {
                 )
             else if (data.status === 'waiting-for-reservation') {
                 return;
+            } else if (data.status === 'reserved') {
+                if (data?.confirmation?.picker === false) {
+                    return (
+                        <>
+                            {buildMeetUpButtons()}
+                        </>
+                    )
+                }
             }
+        }
+    }
+
+    const buildDeleteAnnounce = () => {
+        const deleteAnnounceApiCall = () => {
+            console.log(data._id)
+            deleteAnnounceApi(data._id).then((response) => {
+                console.log("oui oui c'est delete");
+                toast.success("Announce successfully deleted");
+                props.history.push('/product-list');
+                // window.location.reload();
+
+            });
+        }
+        if (OwnId && OwnId === data.user._id) { //Giver
+            return (
+                <div>
+                    <p className={classes.deleteAnnounceText} onClick={deleteAnnounceApiCall}>Remove announce</p>
+                </div>
+            )
         }
     }
 
@@ -608,6 +653,7 @@ export default function Product(props) {
                                 </div>
                             </Modal>
                             {buildReservationSection()}
+                            {buildDeleteAnnounce()}
                         </div>
                     </Paper>
                 </div>
@@ -640,3 +686,23 @@ export default function Product(props) {
         </div>
     );
 }
+
+// la vache vincra
+//                                       /;    ;\
+//                                   __  \\____//
+//                                  /{_\_/   `'\____
+//                                  \___   (o)  (o  }
+//       _____________________________/          :--'
+//   ,-,'`@@@@@@@@       @@@@@@         \_    `__\
+//  ;:(  @@@@@@@@@        @@@             \___(o'o)
+//  :: )  @@@@          @@@@@@        ,'@@(  `===='
+//     :: : @@@@@:          @@@@         `@@@:
+//  :: \  @@@@@:       @@@@@@@)    (  '@@@'
+//  ;; /\      /`,    @@@@@@@@@\   :@@@@@)
+// ::/  )    {_----------------:  :~`,~~;
+// ;;'`; :   )                  :  / `; ;
+// ;;;; : :   ;                  :  ;  ; :
+// `'`' / :  :                   :  :  : :
+// )_ \__;      ";"          :_ ;  \_\       `,','
+//    :__\  \    * `,'*         \  \  :  \   *  8`;'*
+// `^'     \ :/           `^'  `-^-'   \v/ :

@@ -4,7 +4,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
-import getUserProductListApi from '../api/getUserProductList';
+import getUserProductListApi from '../api/getUserOwnProductListApi';
+import getUserReservedProductListApi from '../api/getUserOwnProductListApi';
 import updateUserPictureApi from "../api/updateUserPicture";
 import Typography from "@material-ui/core/Typography";
 import {PickeatTextField} from "../components/PickeatTextField";
@@ -128,7 +129,7 @@ export default function Profil(props) {
     const classes = useStyles();
 
     const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
-    const [isUserUploadProductsLoading, setIsUserUploadProductsLoading] = useState(true);
+    const [isUserOwnProductsLoading, setIsUserOwnProductsLoading] = useState(true);
     const [isUserReservationProductsLoading, setIsUserReservationProductsLoading] = useState(true);
     const [userName, setUserName] = useState("");
     const [userDescription, setUserDescription] = useState("");
@@ -136,12 +137,14 @@ export default function Profil(props) {
     const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
-    const [userProductList, setUserProductList] = useState([]);
+    const [userOwnProductList, setUserOwnProductList] = useState([]);
+    const [userReservedProductList, setReservedUserProductList] = useState([]);
 
 
     useEffect(() => {
         getUserPublicInfoCall();
-        getUserProductListCall();
+        getUserOwnProductListCall();
+        getUserReservedProductListCall();
     }, []);
 
     const getUserPublicInfoCall = () => {
@@ -161,16 +164,26 @@ export default function Profil(props) {
         });
     };
 
-   const onDrop = (newPicture) => {
-       updateUserPictureApi(newPicture).then((response) => {
-           console.log("success");
-       });
+    const onDrop = (newPicture) => {
+        updateUserPictureApi(newPicture).then((response) => {
+            console.log("success");
+        });
     }
-    const getUserProductListCall = () => {
-        setIsUserUploadProductsLoading(true);
+    const getUserOwnProductListCall = () => {
+        setIsUserOwnProductsLoading(true);
         getUserProductListApi().then((response) => {
+            console.log("Own product");
             console.log(response);
-            setUserProductList(response);
+            setUserOwnProductList(response);
+            setIsUserOwnProductsLoading(false);
+        });
+    };
+    const getUserReservedProductListCall = () => {
+        setIsUserReservationProductsLoading(true);
+        getUserReservedProductListApi().then((response) => {
+            console.log("reserved product");
+            console.log(response);
+            setReservedUserProductList(response);
             setIsUserReservationProductsLoading(false);
         });
     };
@@ -296,8 +309,16 @@ export default function Profil(props) {
         }
     }
 
-    const buildUserUploadProducts = () => {
-        if (isUserReservationProductsLoading) {
+    const buildProductCard = (product, index) => {
+        if (product.status === "deleted")
+            return ;
+        return (
+            <ProductCard data={product}/>
+        )
+    }
+
+    const buildUserOwnProducts = () => {
+        if (isUserOwnProductsLoading) {
             return (
                 <div style={{
                     width: '100%',
@@ -309,7 +330,7 @@ export default function Profil(props) {
                     <CircularProgress/>
                 </div>
             );
-        } else if (!isUserReservationProductsLoading && userProductList?.length === 0) {
+        } else if (!isUserReservationProductsLoading && userOwnProductList?.length === 0) {
             return (
                 <div style={{
                     width: '100%',
@@ -324,11 +345,11 @@ export default function Profil(props) {
                 </div>
             );
         } else {
-            return userProductList?.map((product, index) => {
+            return userOwnProductList?.map((product, index) => {
                 return (
                     <Grid item key={'product-' + index} className={classes.productCardContainer}>
                         <Paper elevation={2} className={classes.productCard}>
-                            <ProductCard data={product}/>
+                            {buildProductCard(product, index)}
                         </Paper>
                     </Grid>
                 );
@@ -337,7 +358,7 @@ export default function Profil(props) {
     }
 
     const buildUserReservationProducts = () => {
-        if (isUserUploadProductsLoading) {
+        if (isUserReservationProductsLoading) {
             return (
                 <div style={{
                     width: '100%',
@@ -350,11 +371,15 @@ export default function Profil(props) {
                 </div>
             );
         } else {
-            return (
-                <>
-
-                </>
-            );
+            return userReservedProductList?.map((product, index) => {
+                return (
+                    <Grid item key={'product-' + index} className={classes.productCardContainer}>
+                        <Paper elevation={2} className={classes.productCard}>
+                            {buildProductCard(product, index)}
+                        </Paper>
+                    </Grid>
+                );
+            });
         }
     }
 
@@ -372,7 +397,7 @@ export default function Profil(props) {
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
-                        {buildUserUploadProducts()}
+                        {buildUserOwnProducts()}
                     </Grid>
                 </div>
                 <div className={classes.productListContainer}>
@@ -382,9 +407,8 @@ export default function Profil(props) {
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
-                        {buildUserUploadProducts()}
+                        {buildUserReservationProducts()}
                     </Grid>
-                    {/*{buildUserReservationProducts()}*/}
                 </div>
             </div>
         </div>

@@ -1,15 +1,16 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {GET_PRODUCT_LIST_URL} from '../constants/apiEndpoints';
+import {DELETE_ANNOUNCE_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
+import Cookies from "js-cookie";
 
-export default async function getProductList() {
-    let config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}_me`, false);
+export default async function deleteAnnounceApi(id) {
+    let config = setAxiosConfig('DELETE', `${DELETE_ANNOUNCE_URL}/${id}`, false);
 
-    config['data'] = {
-        status: 'waiting-for-reservation'
-    };
+    let token = Cookies.get('jwt');
+
+    config['headers']['Authorization'] = `Bearer ${token}`;
 
     console.log(config);
     return await axios(config).then((response) => {
