@@ -16,6 +16,7 @@ import ProductList from "./route/ProductList";
 import Settings from './route/Settings';
 import Profil from './route/Profil';
 import AddProduct from "./route/AddProduct";
+import RateYourGiver from "./route/RateYourGiver";
 
 toast.configure({
   autoClose: 4000,
@@ -59,6 +60,7 @@ function App() {
             <PrivateRoute exact path="/add-product" component={AddProduct}/>
             <PrivateRoute exact path="/product-list" component={ProductList}/>
             <PrivateRoute exact path="/product/:id" component={Product}/>
+            <PrivateRoute exact path="/rate-your-giver/:id" component={RateYourGiver}/>
             <PrivateRoute exact path="/settings" component={Settings}/>
             <PrivateRoute exact path="/profile" component={Profil}/>
           </Switch>
@@ -68,8 +70,6 @@ function App() {
   );
 }
 
-//TODO: Afficher la section reservation en fonction du statut de reservation
 //TODO: Faire les req API de Reservation sur la page product
-//TODO; adapter les stattus dans le dico dans StatusIndicator.js
 
 export default App;

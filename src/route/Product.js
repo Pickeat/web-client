@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Background from '../components/Background';
@@ -28,7 +28,11 @@ import StatusIndicator from "../components/StatusIndicator";
 import deleteAnnounceApi from "../api/deleteAnnounceApi";
 import { withRouter } from 'react-router-dom'
 import confirmExchangeApi from "../api/confirmExchangeApi";
-
+import Rater from "../components/Rater";
+import PickerRateSection from "../components/PickerRateSection";
+import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
+import postReportUserApi from "../api/reportUserApi";
+import defaultImage from "../assets/wallpaper-login.jpg";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -125,7 +129,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        height: '40%',
+        height: '30%',
     },
     contactBtnContainerButton: {
         position: 'absolute',
@@ -218,6 +222,11 @@ export default function Product(props) {
     const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
 
 
+
+    const reportGiverApiCall = () => {
+        postReportUserApi(data.user._id).then(() => {
+        });
+    };
     useEffect(() => {
         getProductApi(id).then((res) => {
             setData(res);
@@ -426,13 +435,11 @@ export default function Product(props) {
             setIsMeetUpPositiveButtonLoading(true);
             confirmExchangeApi(data._id, true).then((response) => {
                 window.location.reload();
-
             })
         } else {
             setIsMeetUpNegativeButtonLoading(true);
             confirmExchangeApi(data._id, false).then((response) => {
                 window.location.reload();
-
             })
         }
     }
@@ -498,8 +505,9 @@ export default function Product(props) {
 
         if (isEmpty(data))
             return
-        if (OwnId && OwnId === data.user._id) { //Giver
-            if (data.status === 'available') {
+        //GIVER SECTION
+        if (OwnId && OwnId === data.user._id) {
+            if (data.status === 'available')
                 return;
             } else if (data.status === 'waiting-for-reservation') {
                 return (
@@ -530,6 +538,7 @@ export default function Product(props) {
                 }
             }
         } else {
+            //PICKER SECTION
             if (data.status === 'available')
                 return (
                     <div className={classes.contactBtnContainer}>
@@ -552,6 +561,10 @@ export default function Product(props) {
                         </>
                     )
                 }
+            } else if (data.status === 'given') {
+                return (
+                    <PickerRateSection productId={id}/>
+                )
             }
         }
     }
@@ -585,7 +598,7 @@ export default function Product(props) {
                         <div className={classes.profilePictureContainer}>
                             <img style={{maxWidth: '100%', maxHeight: '100%'}}
                                  alt={'giver profile picture'}
-                                 src={(data?.user?.profile_image ? data?.user?.profile_image : DefaultProfilePicture)}/>
+                                 src={(data.user.image ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=` : defaultImage)}/>
                         </div>
                         <div className={classes.profileInfoContainer}>
                             <div className="textMedium"
@@ -597,8 +610,8 @@ export default function Product(props) {
                         </div>
                         <div className={classes.profileRatingContainer}>
               <span className="textMedium"
-                    style={{fontSize: '30px'}}>{(data?.user?.note ? `${data?.user?.note}/5` : 'No note yet')}</span>
-                            <Rating name="read-only" value={data?.user?.note} readOnly/>
+                    style={{fontSize: '30px'}}>{(data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet')}</span>
+                            <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly/>
                         </div>
                         <div style={{width: '80%', height: '40%'}}>
                             <div className={classes.statusContainer}>
@@ -620,39 +633,17 @@ export default function Product(props) {
                                 }}
                             >
                                 <div style={{width: '800px', height: '500px'}}>
-                                    <UserAvailabilities data={{
-                                        "Monday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Tuesday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Wednesday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Thursday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Friday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Saturday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                        "Sunday": {
-                                            "start": 8.00,
-                                            "end": 20.00
-                                        },
-                                    }}/>
+                                    <UserAvailabilities data={data.user?.availability}/>
                                 </div>
                             </Modal>
                             {buildReservationSection()}
+                            <div className={classes.contactBtnContainer}>
+                                <Button className="pickeatBtn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    reportGiverApiCall(id)
+                                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
+                            </div>
                             {buildDeleteAnnounce()}
                         </div>
                     </Paper>

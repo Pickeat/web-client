@@ -1,22 +1,21 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {RESET_PASSWORD_URL} from '../constants/apiEndpoints';
-import Cookies from 'js-cookie';
+import {POST_CONFIRM_ACCOUNT} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 
 export default async function confirmAccountApi(confirmToken) {
     let body = {};
-    let config = setAxiosConfig('POST', RESET_PASSWORD_URL, true);
+    let config = setAxiosConfig('POST', POST_CONFIRM_ACCOUNT, true);
 
     config['data'] = body;
-    config['headers']['Authorization'] = `Bearer ${token}`;
+    config['headers']['Authorization'] = `Bearer ${confirmToken}`;
 
     return await axios(config).then((response) => {
 
-        if (response.status === 200) {
-            Cookies.set('jwt', response.data.access_token.token);
+        if (response.status === 204) {
+            toast.success(response.data.message);
             return response.data;
         } else {
             toast.warn(response.data.message);

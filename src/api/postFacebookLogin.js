@@ -14,6 +14,7 @@ export default async function postFacebookLogin(token) {
     return await axios(config).then((response) => {
         if (response.status === 200) {
             Cookies.set('jwt', response.data.access_token.token);
+            Cookies.set('user_id', response.data.user_id);
             return response.data;
         } else {
             toast.warn(response.data.message);
