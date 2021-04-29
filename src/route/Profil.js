@@ -88,6 +88,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
     },
+    productCard: {
+        height: '100%',
+        width: '100%',
+    },
     mainContentSection: {
         width: '100%',
         height: '100%',
@@ -106,6 +110,15 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Colfax-Regular',
         fontSize: '14px',
         justifyContent: 'normal'
+    },
+    productCardContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '300px',
+        minWidth: '400px',
+        height: '55%',
+        width: '100%',
     },
     productListContainer: {
         margin: '2%',
@@ -187,7 +200,7 @@ export default function Profil(props) {
     };
     const getUserReservedProductListCall = () => {
         setIsUserReservationProductsLoading(true);
-        getUserReservedProductListApi().then((response) => {
+        getMyReservedAnnounces(['given','reserved','waiting-for-reservation']).then((response) => {
             console.log("reserved product");
             console.log(response);
             setReservedUserProductList(response);
@@ -402,7 +415,7 @@ export default function Profil(props) {
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
                         <Typography style={{fontFamily: 'Colfax-medium'}}>
-                            User's Announces
+                            Your Announces
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
@@ -412,7 +425,7 @@ export default function Profil(props) {
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
                         <Typography style={{fontFamily: 'Colfax-medium'}}>
-                            User's Reservations
+                            Your Reservations
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
