@@ -212,6 +212,9 @@ export default function Product(props) {
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
     const [isReserveLoading, setIsReserveLoading] = useState(false);
+    const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
+    const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
+
 
     const reportGiverApiCall = () => {
         postReportUserApi(data.user._id).then(() => {
@@ -458,13 +461,13 @@ export default function Product(props) {
         )
     }
 
-    const buildReservationSection = () => {
-        return (
-            <>
-                {buildMeetUpButtons()}
-            </>
-        )
-    }
+    // const buildReservationSection = () => {
+    //     return (
+    //         <>
+    //             {buildMeetUpButtons()}
+    //         </>
+    //     )
+    // }
 
     const buildProductDistance = () => {
         if (productDistance === -1)

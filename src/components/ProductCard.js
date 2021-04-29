@@ -10,7 +10,7 @@ import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import {useHistory} from 'react-router-dom';
+// import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -118,53 +118,54 @@ export default function ProductCard(props) {
         }
 
     }
-
-    const buildProductCard = () => {
-        if (isEmpty(data)) {
-            return (
-                <div className={classes.main} style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <CircularProgress/>
-                </div>
-            );
-        } else {
-            return (
-                <div onClick={() => {
-                    history.push(`/product/${data?._id}`);
-                }} className={classes.main}>
-                    {buildBanner()}
-                    <div className={classes.productImgContainer}>
-                        <img alt={'product_image'}
-                             src={(data.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : defaultImage)}
-                             style={{
-                                 width: '100%',
-                                 maxHeight: '100%',
-                                 height: '100%',
-                                 maxWidth: '100%',
-                                 objectFit: 'cover'
-                             }}/>
-                    </div>
-                    <div className={classes.infoContainer}>
-                        <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
-                        <div className={classes.cardBottom}>
-                            {productDistance !== -1 &&
-                            <div style={{display: 'flex'}}><RoomIcon/>
-                                <div style={{lineHeight: '22px'}}>{productDistance}m</div>
-                            </div>
-                            }
-                            {data.expiration_date &&
-                            <div style={{display: 'flex'}}><EventAvailableIcon/>
-                                <div style={{
-                                    lineHeight: '22px',
-                                    marginLeft: '5px',
-                                }}>{moment(data?.expiration_date).format('DD/MM/YYYY')}</div>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    };
+    //
+    // const buildProductCard = () => {
+    //     if (isEmpty(data)) {
+    //         return (
+    //             <div className={classes.main} style={{justifyContent: 'center', alignItems: 'center'}}>
+    //                 <CircularProgress/>
+    //             </div>
+    //         );
+    //     } else {
+    //         return (
+    //             <div onClick={() => {
+    //                 history.push(`/product/${data?._id}`);
+    //             }} className={classes.main}>
+    //                 {buildBanner()}
+    //                 <div className={classes.productImgContainer}>
+    //                     <img alt={'product_image'}
+    //                          src={(data.image ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=` : defaultImage)}
+    //                          style={{
+    //                              width: '100%',
+    //                              maxHeight: '100%',
+    //                              height: '100%',
+    //                              maxWidth: '100%',
+    //                              objectFit: 'cover'
+    //                          }}/>
+    //                 </div>
+    //                 <div className={classes.infoContainer}>
+    //                     <Avatar alt="user_picture" src={data?.user?.profile_image} className={classes.userAvatar}/>
+    //                     <div className={classes.cardBottom}>
+    //                         {productDistance !== -1 &&
+    //                         <div style={{display: 'flex'}}><RoomIcon/>
+    //                             <div style={{lineHeight: '22px'}}>{productDistance}m</div>
+    //                         </div>
+    //                         }
+    //                         {data.expiration_date &&
+    //                         <div style={{display: 'flex'}}><EventAvailableIcon/>
+    //                             <div style={{
+    //                                 lineHeight: '22px',
+    //                                 marginLeft: '5px',
+    //                             }}>{moment(data?.expiration_date).format('DD/MM/YYYY')}</div>
+    //                         </div>
+    //                         }
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         );
+    //     }
+    // };
+    //
     const buildProductCard = () => {
         if (isEmpty(data)) {
             return (
