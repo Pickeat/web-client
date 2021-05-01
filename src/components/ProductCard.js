@@ -27,14 +27,14 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         maxHeight: '70%',
-        height: '70%',
+        height: '60%',
         backgroundColor: 'pink'
     },
     banner: {
         display: "flex",
         justifyContent: 'center',
         alignItems: 'center',
-        height: "20%",
+        height: "10%",
     },
     infoContainer: {
         display: 'flex',
