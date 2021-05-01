@@ -14,6 +14,7 @@ import postFacebookLogin from "../api/postFacebookLogin";
 import {GoogleLogin} from "react-google-login";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -67,7 +68,14 @@ export default function SignIn(props) {
     };
 
     const loginApiCall = (email, password) => {
+        if (!email || !password) {
+            toast.error("Empty email or password")
+            return
+        }
         signInApi(email, password).then((response) => {
+            console.log(response)
+            if (!response)
+                return
             getMyReservedAnnounces(['given']).then((res) => {
                 if (res.length === 0)
                     return

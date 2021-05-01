@@ -16,7 +16,7 @@ export default async function signInApi(email, password) {
   config['data'] = body;
   if (!email || !password) {
     toast.error("One or more field(s) is/are blank");
-    return;
+    return "error";
   }
   return await axios(config).then((response) => {
 
