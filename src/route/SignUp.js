@@ -60,7 +60,10 @@ export default function SignIn(props) {
   const [age, setAge] = useState('');
 
   const signUpApiCall = (email, password, confirmPassword, phone, age) => {
-    signUpApi(email, password, confirmPassword, phone, age).then(() => {
+    signUpApi(email, password, confirmPassword, phone, age).then((response) => {
+      console.log(response)
+      if (!response)
+        return
       props.history.push('/sign-in');
     });
   };
