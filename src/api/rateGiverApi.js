@@ -1,7 +1,7 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { RATE_GIVER_URL } from '../constants/apiEndpoints';
+import {RATE_GIVER_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 export default async function rateGiverApi(id, note) {

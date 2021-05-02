@@ -1,13 +1,13 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {POST_CONFIRM_ACCOUNT} from '../constants/apiEndpoints';
+import {DELETE_CONFIRM_ACCOUNT} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 
-export default async function confirmAccountApi(confirmToken) {
+export default async function confirmDeleteAccountApi(confirmToken) {
     let body = {};
-    let config = setAxiosConfig('POST', POST_CONFIRM_ACCOUNT, true);
+    let config = setAxiosConfig('DELETE', DELETE_CONFIRM_ACCOUNT, true);
 
     config['data'] = body;
     config['headers']['Authorization'] = `Bearer ${confirmToken}`;

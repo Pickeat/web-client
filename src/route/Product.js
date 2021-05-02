@@ -16,8 +16,8 @@ import Map from '../components/Map';
 import {getDistance} from 'geolib';
 import {toast} from 'react-toastify';
 import getProductApi from '../api/getProductApi';
-import DefaultProfilePicture from '../assets/unknow_picture_user.jpg'
 import DefaultProductPicture from '../assets/wallpaper-login.jpg'
+import defaultImage from '../assets/wallpaper-login.jpg'
 import {Modal, Tooltip, Zoom} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
 import getUserMeApi from "../api/getUserMeApi";
@@ -26,13 +26,9 @@ import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
 import deleteAnnounceApi from "../api/deleteAnnounceApi";
-import { withRouter } from 'react-router-dom'
 import confirmExchangeApi from "../api/confirmExchangeApi";
-import Rater from "../components/Rater";
 import PickerRateSection from "../components/PickerRateSection";
-import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 import postReportUserApi from "../api/reportUserApi";
-import defaultImage from "../assets/wallpaper-login.jpg";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -221,14 +217,17 @@ export default function Product(props) {
     const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
     const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
 
-
-
     const reportGiverApiCall = () => {
         postReportUserApi(data.user._id).then(() => {
         });
     };
     useEffect(() => {
         getProductApi(id).then((res) => {
+            console.log(res)
+            if (!res.user) {
+                toast.error("User no longer exist")
+                return
+            }
             setData(res);
             setProductTitle(res?.title);
             setProductDescription(res?.description);
@@ -455,7 +454,7 @@ export default function Product(props) {
 
     const getOwnUserNameCall = () => {
         getUserMeApi().then((response) => {
-            setOwnId(response._id);
+            setOwnId(response?._id);
         });
     }
 
@@ -517,15 +516,13 @@ export default function Product(props) {
         //GIVER SECTION
         if (OwnId && OwnId === data.user._id) {
             if (data.status === 'available') {
-
                 return;
             } else if (data.status === 'waiting-for-reservation') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Tooltip
                             TransitionComponent={Zoom}
-                            title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
-                            "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+                            title={"Once the request is accepted, we will send your number by email to the person wishing to collect your product so that you can agree on a date and time"}
                             arrow>
                             <Button className="pickeatBtn"
                                     onClick={() => {
@@ -533,7 +530,7 @@ export default function Product(props) {
                                     }}
                                     style={{width: '100%', height: '40px'}}>
                                 {(isReserveLoading ?
-                                    <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                                    <CircularProgress style={{color: 'white'}}/> : "Confirm reservation")}
                             </Button>
                         </Tooltip>
                     </div>
@@ -546,7 +543,7 @@ export default function Product(props) {
                         </>
                     )
                 } else {
-                    return;
+
                 }
             }
         } else {
@@ -559,12 +556,12 @@ export default function Product(props) {
                                     reserveProduct()
                                 }}
                                 style={{width: '100%', height: '40px'}}>
-                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
+                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserve the product")}
                         </Button>
                     </div>
                 )
             } else if (data.status === 'waiting-for-reservation') {
-                return;
+
             } else if (data.status === 'reserved') {
                 if (data?.confirmation?.picker === false) {
                     return (
@@ -573,7 +570,7 @@ export default function Product(props) {
                         </>
                     )
                 } else {
-                    return;
+
                 }
             } else if (data.status === 'given') {
                 return (
@@ -583,15 +580,27 @@ export default function Product(props) {
         }
     }
 
+    const buildReportSection = () => {
+        if (OwnId && OwnId === data.user._id) {
+            return (<div></div>)
+        } else {
+            return (<div className={classes.contactBtnContainer}>
+                <Button className="pickeatBtnSlim" onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    reportGiverApiCall(id)
+                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
+            </div>)
+        }
+    }
+
     const buildDeleteAnnounce = () => {
         const deleteAnnounceApiCall = () => {
             console.log(data._id)
             deleteAnnounceApi(data._id).then((response) => {
-                console.log("oui oui c'est delete");
                 toast.success("Announce successfully deleted");
                 props.history.push('/product-list');
                 // window.location.reload();
-
             });
         }
         if (OwnId && OwnId === data.user._id) { //Giver
@@ -651,13 +660,7 @@ export default function Product(props) {
                                 </div>
                             </Modal>
                             {buildReservationSection()}
-                            <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtn" onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    reportGiverApiCall(id)
-                                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
-                            </div>
+                            {buildReportSection()}
                             {buildDeleteAnnounce()}
                         </div>
                     </Paper>

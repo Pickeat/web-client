@@ -12,6 +12,7 @@ async function sendRequest(config) {
 
     return await axios(config).then((response) => {
         if (response.status === 200) {
+            console.log(response)
             return response.data;
         } else {
             toast.warn(response.data.message);

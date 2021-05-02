@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import {isEmpty} from '../helpers/isEmpty';
 import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
 
@@ -27,14 +26,14 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         maxHeight: '70%',
-        height: '70%',
+        height: '60%',
         backgroundColor: 'pink'
     },
     banner: {
         display: "flex",
         justifyContent: 'center',
         alignItems: 'center',
-        height: "20%",
+        height: "10%",
     },
     infoContainer: {
         display: 'flex',
@@ -89,7 +88,6 @@ export default function ProductCard(props) {
     }, [data, props.location]);
 
     const buildBanner = () => {
-        console.log(data)
         if (data.status === "available") {
             return (
                 <div className={classes.banner}>
@@ -149,7 +147,9 @@ export default function ProductCard(props) {
                              }}/>
                     </div>
                     <div className={classes.infoContainer}>
-                        <Avatar alt="user_picture" src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)} className={classes.userAvatar}/>
+                        <Avatar alt="user_picture"
+                                src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)}
+                                className={classes.userAvatar}/>
                         <div className={classes.cardBottom}>
                             <div className="textRegular" style={{lineHeight: '22px'}}>{data.title}</div>
                         </div>

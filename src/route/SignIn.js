@@ -14,6 +14,7 @@ import postFacebookLogin from "../api/postFacebookLogin";
 import {GoogleLogin} from "react-google-login";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -55,19 +56,26 @@ export default function SignIn(props) {
     const [password, setPassword] = useState("");
 
     const responseGoogle = (response) => {
-        postGoogleLogin(response.tokenObj.id_token).then ((response) => {
+        postGoogleLogin(response.tokenObj.id_token).then((response) => {
             props.history.push('/product-list');
         })
     };
 
     const responseFacebook = (response) => {
-        postFacebookLogin(response.accessToken).then ((response) => {
+        postFacebookLogin(response.accessToken).then((response) => {
             props.history.push('/product-list');
         })
     };
 
     const loginApiCall = (email, password) => {
+        if (!email || !password) {
+            toast.error("Empty email or password")
+            return
+        }
         signInApi(email, password).then((response) => {
+            console.log(response)
+            if (!response)
+                return
             getMyReservedAnnounces(['given']).then((res) => {
                 if (res.length === 0)
                     return
@@ -152,7 +160,8 @@ export default function SignIn(props) {
                         appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
                         fields="name,email,picture"
                         render={renderProps => (
-                            <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with Facebook</Button>
+                            <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with
+                                Facebook</Button>
                         )}
                         callback={responseFacebook}/>
                 </div>

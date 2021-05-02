@@ -1,7 +1,7 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { CONFIRM_RESERVE_URL } from '../constants/apiEndpoints';
+import {CONFIRM_RESERVE_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 export default async function confirmProductReservationApi(id) {

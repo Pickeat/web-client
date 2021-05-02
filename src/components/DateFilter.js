@@ -1,9 +1,6 @@
 import React, {useEffect} from 'react';
-
-import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import {InputLabel} from "@material-ui/core";
 import {PickeatTextField} from "./PickeatTextField";
 
 export default function DateFilter(props) {
@@ -28,7 +25,9 @@ export default function DateFilter(props) {
                     type="date"
                     id="date"
                     name="date"
-                    onChange={(event) => {props.handleInputChange(event.target.value)}}
+                    onChange={(event) => {
+                        props.handleInputChange(event.target.value)
+                    }}
                 />
             </div>
         </div>

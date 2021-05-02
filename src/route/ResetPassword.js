@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import { PickeatTextField } from '../components/PickeatTextField';
+import {PickeatTextField} from '../components/PickeatTextField';
 import Background from '../components/Background';
 import resetPasswordApi from '../api/resetPasswordApi';
 import Paper from '@material-ui/core/Paper';
@@ -49,15 +49,14 @@ export default function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState('');
     const [emailSent, setEmailSent] = useState(false);
-    const { token } = useParams();
+    const {token} = useParams();
 
     const buildPaper = () => {
-        console.log(token);
         if (!emailSent) {
             return (
                 <>
                     <Avatar className={classes.avatar}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                        <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Reset Password
@@ -95,7 +94,7 @@ export default function ResetPassword() {
                             onClick={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
-                                resetPasswordCall(password)
+                                resetPasswordCall(password, confirmPassword, token)
                             }}
                             className="pickeatBtn"
                         >
@@ -104,24 +103,27 @@ export default function ResetPassword() {
                     </form>
                 </>
             )
-            } else {
-                return (
-                    <>
-                        <Avatar className={classes.avatar}>
-                            <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Password has been reset !
-                        </Typography>
-                    </>
-                )
-            }
+        } else {
+            return (
+                <>
+                    <Avatar className={classes.avatar}>
+                        <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Password has been reset !
+                    </Typography>
+                </>
+            )
+        }
     }
 
-    const resetPasswordCall = (password, confirmPassword) => {
-        setEmailSent(true);
-        resetPasswordApi(password, confirmPassword, token).then((response) => {
+    const resetPasswordCall = (password, confirmPassword, token) => {
+        console.log(password, confirmPassword, token)
+        resetPasswordApi(password, confirmPassword, token.slice(7)).then((response) => {
             console.log(response);
+            if (!response)
+                return
+            setEmailSent(true);
         });
     };
 

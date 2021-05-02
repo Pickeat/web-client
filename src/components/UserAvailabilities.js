@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {Paper} from "@material-ui/core";
+import {isEmpty} from "../helpers/isEmpty";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -29,6 +30,7 @@ export default function UserAvailabilities(props) {
     const [data] = useState(props.data);
 
     useEffect(() => {
+        console.log(isEmpty(data));
     }, []);
 
     const buildContent = () => {
@@ -46,10 +48,21 @@ export default function UserAvailabilities(props) {
 
     return (
         <Paper elevation={24} className={classes.main}>
-            <div style={{fontFamily: 'colfax-medium', fontSize: '30px', height: '70px'}}>Availabilities</div>
-            <div className={classes.content}>
-                {buildContent()}
+            {!isEmpty(data) &&
+            <>
+                <div style={{fontFamily: 'colfax-medium', fontSize: '30px', height: '70px'}}>
+                    Availabilities
+                </div>
+                <div className={classes.content}>
+                    {buildContent()}
+                </div>
+            </>
+            }
+            {isEmpty(data) &&
+            <div className="textMedium" style={{fontSize: '20px'}}>
+                The giver didn't filled in his availabilities
             </div>
+            }
         </Paper>
     );
 }

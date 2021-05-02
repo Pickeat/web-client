@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Background from '../components/Background';
 import Paper from '@material-ui/core/Paper';
 import {useParams} from "react-router-dom";
-import confirmAccountApi from "../api/confirmAccountApi";
+import confirmDeleteAccountApi from "../api/confirmDeleteAccountApi";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ConfirmAccount() {
+export default function DeleteAccount() {
     const classes = useStyles();
     const {token} = useParams();
-    const [message, setMessage] = useState('Account has been confirmed !');
+    const [message, setMessage] = useState('Account has been deleted !');
 
     useEffect(() => {
-        confirmAccountCall(token.slice(7));
+        deleteAccountCall(token.slice(7));
     }, []);
 
     const buildPaper = () => {
@@ -64,10 +64,10 @@ export default function ConfirmAccount() {
         )
     }
 
-    const confirmAccountCall = (token) => {
-        confirmAccountApi(token).then((response) => {
+    const deleteAccountCall = (token) => {
+        confirmDeleteAccountApi(token).then((response) => {
             if (!response)
-                setMessage("Error during account confirmation")
+                setMessage("Error during account deletion")
         });
     };
 

@@ -1,5 +1,4 @@
-
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import mapboxgl from 'mapbox-gl';
 import './Map.css';
 
@@ -25,8 +24,8 @@ const Map = (props) => {
         });
         if (props.lng && props.lat) {
             new mapboxgl.Marker()
-              .setLngLat([props.lng, props.lat])
-              .addTo(map);
+                .setLngLat([props.lng, props.lat])
+                .addTo(map);
         }
         // Add navigation control (the +/- zoom buttons)
         map.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -39,12 +38,12 @@ const Map = (props) => {
 
         /*Add btn to geolocate user*/
         map.addControl(
-          new mapboxgl.GeolocateControl({
-              positionOptions: {
-                  enableHighAccuracy: true
-              },
-              trackUserLocation: true
-          })
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            })
         );
 
         // Clean up on unmount
@@ -53,7 +52,7 @@ const Map = (props) => {
 
     return (
         <div>
-            <div className='map-container' ref={mapContainerRef} />
+            <div className='map-container' ref={mapContainerRef}/>
         </div>
     );
 };

@@ -15,8 +15,6 @@ import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
-import defaultImage from "../assets/wallpaper-login.jpg";
-import Modal from "../components/Modal";
 import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 
@@ -152,9 +150,9 @@ export default function Profil(props) {
     const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userBirthday, setUserBirthday] = useState();
+    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
-    // const [currentBirthdate, setCurrentBirthdate] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
@@ -169,7 +167,6 @@ export default function Profil(props) {
     const getUserPublicInfoCall = () => {
         setIsUserInfoLoading(true);
         getUserPublicInfoApi().then((response) => {
-            console.log(response)
             setUserName(response.name);
             setUserDescription(response.description);
             setCurrentName(response.name);
@@ -233,13 +230,15 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
+                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}
+                             alt={'profile_picture'}/>
                         <ImageUploader
                             withIcon={false}
                             withLabel={false}
-                            buttonText="Change image profil"
+                            buttonText="Change picture"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
+                            singleImage={true}
                             onChange={onDrop}
                         />
                         <Typography style={{
@@ -308,7 +307,7 @@ export default function Profil(props) {
 
     const buildProductCard = (product, index) => {
         if (product.status === "deleted")
-            return ;
+            return;
         return (
             <ProductCard data={product}/>
         )
@@ -383,8 +382,12 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
-            <Button className="pickeatBtn" onClick={() => {setShowDispoModal(true)}}>Availabilities</Button>
-            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {setShowDispoModal(false)}}/>
+            <Button className="pickeatBtn" onClick={() => {
+                setShowDispoModal(true)
+            }}>Availabilities</Button>
+            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
+                setShowDispoModal(false)
+            }}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>
