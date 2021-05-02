@@ -8,6 +8,8 @@ import updateUserPhoneApi from "../api/updateUserPhone";
 import updateUserMailApi from "../api/updateUserMailApi";
 import updateUserPasswordCallApi from "../api/updateUserPasswordApi";
 import deleteUserAccountApi from "../api/deleteAccountApi";
+import resentMailConfirmAccountApi from "../api/resentMailConfirmAccountApi";
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -100,7 +102,13 @@ export default function Settings(props) {
         });
     };
 
-    const resentUserConfirmationCall = (userPassword) => {
+    const resentUserConfirmationCall = () => {
+        resentMailConfirmAccountApi().then((response) => {
+            if (response)
+                toast.success("A new email was sent");
+            else
+                toast.error("An error has occurred");
+        });
     };
 
 
