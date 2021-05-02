@@ -18,6 +18,7 @@ import Background from "../components/Background";
 import defaultImage from "../assets/wallpaper-login.jpg";
 import Modal from "../components/Modal";
 import DispoModal from "../components/DispoModal";
+import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -151,12 +152,11 @@ export default function Profil(props) {
     const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userBirthday, setUserBirthday] = useState();
-    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
+    // const [currentBirthdate, setCurrentBirthdate] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
-    const [userProductList, setUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
 
 
@@ -169,6 +169,7 @@ export default function Profil(props) {
     const getUserPublicInfoCall = () => {
         setIsUserInfoLoading(true);
         getUserPublicInfoApi().then((response) => {
+            console.log(response)
             setUserName(response.name);
             setUserDescription(response.description);
             setCurrentName(response.name);
@@ -282,30 +283,6 @@ export default function Profil(props) {
                                 multiline
                                 value={userDescription}
                                 onChange={(event => setUserDescription(event.target.value))}
-                            />
-                            <PickeatTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="birthdate"
-                                label="birthdate"
-                                desciption="birthdate"
-                                autoComplete="birthdate"
-                                valuee={userBirthday}
-                                onChange={(event => setUserBirthday(event.target.value))}
-                                autoFocus
-                            />
-                            <PickeatTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="gender"
-                                label="gender"
-                                desciption="gender"
-                                autoComplete="gender"
-                                value={userGender}
-                                onChange={(event => setUserGender(event.target.value))}
-                                autoFocus
                             />
                             <Button
                                 style={{width: '50%'}}
