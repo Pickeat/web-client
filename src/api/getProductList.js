@@ -5,7 +5,6 @@ import {GET_PRODUCT_LIST_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 export default async function getProductList(km, location, minRate, maxDate) {
-    console.log(km, location, minRate, maxDate);
     const config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
 
     config['params'] = {};
@@ -13,6 +12,8 @@ export default async function getProductList(km, location, minRate, maxDate) {
         config['params'].lng = location.lng;
         config['params'].lat = location.lat;
         config['params'].radius = km * 1000;
+    } else {
+        return {};
     }
     if (minRate)
         config['params'].min_rate = minRate;
