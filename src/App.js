@@ -17,6 +17,7 @@ import Settings from './route/Settings';
 import Profil from './route/Profil';
 import AddProduct from "./route/AddProduct";
 import RateYourGiver from "./route/RateYourGiver";
+import DeleteAccount from "./route/DeleteAccount";
 
 toast.configure({
   autoClose: 4000,
@@ -55,6 +56,7 @@ function App() {
             <Route exact path="/sign-up" component={SignUp}/>
             <Route exact path="/forgot-password" component={ForgotPassword}/>
             <Route exact path="/confirm_account/:token" component={ConfirmAccount}/>
+            <Route exact path="/delete_account/:token" component={DeleteAccount}/>
             <Route exact path="/reset-password/:token" component={ResetPassword}/>
             <Route exact path="/reset-password" component={ResetPassword}/>
             <PrivateRoute exact path="/add-product" component={AddProduct}/>

@@ -29,3 +29,4 @@ export const FACEBOOK_CONNECT_URL = BASE_URL + '/auth/facebook';
 export const GOOGLE_CONNECT_URL = BASE_URL + '/auth/google';
 export const POST_PRODUCT_IMAGE = BASE_URL + '/announces_picture';
 export const POST_CONFIRM_ACCOUNT = BASE_URL + '/users/confirm_account';
+export const DELETE_CONFIRM_ACCOUNT = BASE_URL + '/users/confirm_delete';
