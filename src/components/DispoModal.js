@@ -102,7 +102,7 @@ export default function DispoModal(props) {
         });
     }, []);
 
-    const confirmNewAvailabilities = () => {
+    const confirmNewAvailabilities = (closeModal) => {
         const data = {}
         if (startMonday && endMonday)
             data['monday'] = { start: (startMonday ? startMonday : ""), end: (endMonday ? endMonday : "")};
@@ -122,6 +122,7 @@ export default function DispoModal(props) {
 
         setUserPublicInfoApi("", "", data).then((res) => {
             console.log(res);
+            closeModal();
         });
     }
 
@@ -227,7 +228,7 @@ export default function DispoModal(props) {
                 <Button style={{marginRight: '20px'}} onClick={props.onClose} className={classes.closeBtn}>
                     Close
                 </Button>
-                <Button onClick={() => {confirmNewAvailabilities()}} className={"pickeatBtn"}>
+                <Button onClick={() => {confirmNewAvailabilities(props.onClose)}} className={"pickeatBtn"}>
                     Apply
                 </Button>
             </div>
