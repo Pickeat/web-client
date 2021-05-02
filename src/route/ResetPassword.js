@@ -52,7 +52,6 @@ export default function ResetPassword() {
     const { token } = useParams();
 
     const buildPaper = () => {
-        console.log(token);
         if (!emailSent) {
             return (
                 <>
@@ -95,7 +94,7 @@ export default function ResetPassword() {
                             onClick={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
-                                resetPasswordCall(password)
+                                resetPasswordCall(password, confirmPassword, token)
                             }}
                             className="pickeatBtn"
                         >
@@ -118,10 +117,13 @@ export default function ResetPassword() {
             }
     }
 
-    const resetPasswordCall = (password, confirmPassword) => {
-        setEmailSent(true);
-        resetPasswordApi(password, confirmPassword, token).then((response) => {
+    const resetPasswordCall = (password, confirmPassword, token) => {
+        console.log(password, confirmPassword, token)
+        resetPasswordApi(password, confirmPassword, token.slice(7)).then((response) => {
             console.log(response);
+            if (!response)
+                return
+            setEmailSent(true);
         });
     };
 

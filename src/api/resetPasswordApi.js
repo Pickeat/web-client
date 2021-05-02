@@ -16,21 +16,22 @@ export default async function resetPasswordApi(password, confirmPassword, token)
     config['headers']['Authorization'] = `Bearer ${token}`;
     if (!password) {
         toast.error("password field is blank");
-        return;
+        return false;
     }
     if (password !== confirmPassword) {
         toast.error("The two password are not identical");
-        return;
+        return false;
     }
     return await axios(config).then((response) => {
 
-        if (response.status === 200) {
-            Cookies.set('jwt', response.data.access_token.token);
-            return response.data;
+        if (response.status === 204) {
+            return response;
         } else {
             toast.warn(response.data.message);
+            return false
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return false
     });
 }
