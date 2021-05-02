@@ -21,7 +21,7 @@ async function sendRequest(config) {
     });
 }
 
-export default async function setUserPublicInfoApi(name, description, availability) {
+export default async function setUserPublicInfoApi(name, description, availability, userBirthday, userGender) {
     let body = {};
     if (name)
         body['name'] = name
@@ -29,6 +29,10 @@ export default async function setUserPublicInfoApi(name, description, availabili
         body['description'] = description
     if (availability)
         body['availability'] = availability
+    if (userBirthday)
+        body['age'] = userBirthday
+    if (userGender)
+        body['gender'] = userGender
 
     let config = setAxiosConfig('PUT', USER_PUBLIC_INFO_URL, true);
 

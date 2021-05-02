@@ -162,11 +162,13 @@ export default function Profil(props) {
             setCurrentDescription(response.description);
             setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
+            setUserGender(response.gender);
+            setUserBirthday(response.age);
         });
     };
 
-    const setUserPublicInfoCall = (newName, newDescription) => {
-        setUserPublicInfoApi(newName, newDescription).then((response) => {
+    const setUserPublicInfoCall = (newName, newDescription, userBirthday, userGender) => {
+        setUserPublicInfoApi(newName, newDescription, "", userBirthday, userGender).then((response) => {
             getUserPublicInfoCall();
         });
     };
@@ -279,7 +281,7 @@ export default function Profil(props) {
                                 label="birthdate"
                                 desciption="birthdate"
                                 autoComplete="birthdate"
-                                valuee={userBirthday}
+                                value={userBirthday}
                                 onChange={(event => setUserBirthday(event.target.value))}
                                 autoFocus
                             />
@@ -303,7 +305,7 @@ export default function Profil(props) {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    setUserPublicInfoCall(userName, userDescription);
+                                    setUserPublicInfoCall(userName, userDescription, userBirthday, userGender);
                                     getUserPublicInfoCall();
                                 }}
                                 className="pickeatBtn"
