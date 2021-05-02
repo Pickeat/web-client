@@ -226,6 +226,7 @@ export default function Profil(props) {
                             buttonText="Change image profil"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
+                            singleImage={true}
                             onChange={onDrop}
                         />
                         <Typography style={{
