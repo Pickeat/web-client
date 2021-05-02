@@ -57,7 +57,7 @@ function App() {
             <Route exact path="/forgot-password" component={ForgotPassword}/>
             <Route exact path="/confirm_account/:token" component={ConfirmAccount}/>
             <Route exact path="/delete_account/:token" component={DeleteAccount}/>
-            <Route exact path="/reset-password/:token" component={ResetPassword}/>
+            <Route exact path="/reset_password/:token" component={ResetPassword}/>
             <Route exact path="/reset-password" component={ResetPassword}/>
             <PrivateRoute exact path="/add-product" component={AddProduct}/>
             <PrivateRoute exact path="/product-list" component={ProductList}/>

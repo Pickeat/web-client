@@ -7,6 +7,7 @@ import { GoogleLogin } from 'react-google-login';
 import postFacebookLogin from "../api/postFacebookLogin";
 import postGoogleLogin from "../api/postGoogleLogin";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -75,6 +76,9 @@ export default function Intro(props) {
   };
 
   useEffect(() => {
+    const jwt = Cookies.get('jwt');
+    if (jwt)
+      props.history.push('/product-list');
   }, []);
 
   return (
