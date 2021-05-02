@@ -577,6 +577,22 @@ export default function Product(props) {
         }
     }
 
+    const buildReportSection = () => {
+        if (OwnId && OwnId === data.user._id) {
+            return (<div></div>)
+        }
+        else
+        {
+            return (<div className={classes.contactBtnContainer}>
+                <Button className="pickeatBtnSlim" onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    reportGiverApiCall(id)
+                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
+            </div>)
+        }
+    }
+
     const buildDeleteAnnounce = () => {
         const deleteAnnounceApiCall = () => {
             console.log(data._id)
@@ -645,13 +661,7 @@ export default function Product(props) {
                                 </div>
                             </Modal>
                             {buildReservationSection()}
-                            <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtnSlim" onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    reportGiverApiCall(id)
-                                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
-                            </div>
+                            {buildReportSection()}
                             {buildDeleteAnnounce()}
                         </div>
                     </Paper>
