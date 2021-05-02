@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Button} from "@material-ui/core";
+import {Button, Modal} from "@material-ui/core";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
 import getUserProductListApi from '../api/getUserOwnProductListApi';
@@ -17,6 +17,7 @@ import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
 import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
+import UserAvailabilities from "../components/UserAvailabilities";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -29,16 +30,18 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
     leftSection: {
-        height: '100%',
+        // height: '100%',
         width: '40%',
-        display: 'flex',
-        flexDirection: 'column',
+        // display: 'flex',
+        // flexDirection: 'column',
     },
     userInfoContainer: {
         display: 'flex',
-        height: '70%',
-        paddingLeft: '5%',
-        paddingTop: '5%',
+        // height: '100%',
+        marginLeft: '5%',
+        marginTop: '4%',
+        paddingTop: '25%',
+        paddingBottom: '30%',
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
@@ -70,6 +73,10 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Colfax-medium',
         height: '5%',
         display: 'flex',
+    },
+    profilePaper: {
+      paddingTop: '20%',
+        height: '70%',
     },
     gridContainer: {
         overflowY: 'scroll',
@@ -110,6 +117,13 @@ const useStyles = makeStyles(theme => ({
         fontSize: '14px',
         justifyContent: 'normal'
     },
+    btnContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        height: '30%',
+    },
     productCardContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -149,13 +163,14 @@ export default function Profil(props) {
     const [userName, setUserName] = useState("");
     const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
-    const [userBirthday, setUserBirthday] = useState();
-    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
+    const [availabilitiesModalIsOpen, setAvailabilitiesModalIsOpen] = useState(false);
+    const [userAvailability, setUserAvailability] = useState([]);
+
 
 
     useEffect(() => {
@@ -173,6 +188,7 @@ export default function Profil(props) {
             setCurrentDescription(response.description);
             setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
+            setUserAvailability(response.availability)
         });
     };
 
@@ -198,7 +214,7 @@ export default function Profil(props) {
     };
     const getUserReservedProductListCall = () => {
         setIsUserReservationProductsLoading(true);
-        getMyReservedAnnounces(['given','reserved','waiting-for-reservation']).then((response) => {
+        getMyReservedAnnounces(['given', 'reserved', 'waiting-for-reservation']).then((response) => {
             console.log("reserved product");
             console.log(response);
             setReservedUserProductList(response);
@@ -222,11 +238,11 @@ export default function Profil(props) {
             );
         } else {
             return (
-                <div className={classes.userInfoContainer}>
+                <Paper className={classes.userInfoContainer}>
                     <div className={classes.showUserInfoContainer}>
                         <img style={{
                             width: '100%',
-                            height: 'auto',
+                            // height: 'auto',
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
@@ -299,8 +315,36 @@ export default function Profil(props) {
                                 Save Changes
                             </Button>
                         </form>
+                        <div className={classes.btnContainer}>
+                            <Button
+                                style={{width: 'auto'}}
+                                className="pickeatBtn" onClick={() => {
+                                setAvailabilitiesModalIsOpen(true)
+                            }}>See availabilities</Button>
+                            <Button
+                                style={{width: 'auto'}}
+                                className="pickeatBtn" onClick={() => {
+                                setShowDispoModal(true)
+                                }}>Edit Availabilities</Button>
+                        </div>
+                        <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
+                            setShowDispoModal(false)
+                        }}/>
+                        <Modal
+                            open={availabilitiesModalIsOpen}
+                            onClose={() => setAvailabilitiesModalIsOpen(false)}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <div style={{width: '800px', height: '500px'}}>
+                                <UserAvailabilities data={userAvailability}/>
+                            </div>
+                        </Modal>
                     </div>
-                </div>
+                </Paper>
             );
         }
     }
@@ -382,12 +426,6 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
-            <Button className="pickeatBtn" onClick={() => {
-                setShowDispoModal(true)
-            }}>Availabilities</Button>
-            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
-                setShowDispoModal(false)
-            }}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>
