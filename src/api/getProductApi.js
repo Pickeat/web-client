@@ -12,8 +12,10 @@ export default async function getProductApi(id) {
       return response.data;
     } else {
       toast.warn(response.data.message);
+      return false
     }
   }).catch((error) => {
     handleErrorToast(error);
+    return false
   });
 }

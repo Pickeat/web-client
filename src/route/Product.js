@@ -228,6 +228,11 @@ export default function Product(props) {
     };
     useEffect(() => {
         getProductApi(id).then((res) => {
+            console.log(res)
+            if (!res.user) {
+                toast.error("User no longer exist")
+                return
+            }
             setData(res);
             setProductTitle(res?.title);
             setProductDescription(res?.description);

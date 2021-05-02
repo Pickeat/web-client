@@ -12,7 +12,7 @@ async function sendRequest(config) {
 
     return await axios(config).then((response) => {
         if (response.status === 204) {
-            toast.success("Account now deleted")
+            toast.success("Email confirmation has been sent")
             return response.data;
         } else {
             toast.warn(response.data.message);
