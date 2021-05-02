@@ -56,13 +56,13 @@ export default function SignIn(props) {
     const [password, setPassword] = useState("");
 
     const responseGoogle = (response) => {
-        postGoogleLogin(response.tokenObj.id_token).then ((response) => {
+        postGoogleLogin(response.tokenObj.id_token).then((response) => {
             props.history.push('/product-list');
         })
     };
 
     const responseFacebook = (response) => {
-        postFacebookLogin(response.accessToken).then ((response) => {
+        postFacebookLogin(response.accessToken).then((response) => {
             props.history.push('/product-list');
         })
     };
@@ -160,7 +160,8 @@ export default function SignIn(props) {
                         appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
                         fields="name,email,picture"
                         render={renderProps => (
-                            <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with Facebook</Button>
+                            <Button variant="outlined" color="primary" onClick={renderProps.onClick}>Login with
+                                Facebook</Button>
                         )}
                         callback={responseFacebook}/>
                 </div>

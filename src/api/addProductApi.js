@@ -1,10 +1,10 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { POST_PRODUCT_IMAGE, PRODUCT_URL } from '../constants/apiEndpoints';
+import {POST_PRODUCT_IMAGE, PRODUCT_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-async function createProduct(imageRef, title, location, description, date, labels){
+async function createProduct(imageRef, title, location, description, date, labels) {
     let config = setAxiosConfig('POST', `${PRODUCT_URL}`, false);
     let body = {
         title: title,
@@ -15,7 +15,7 @@ async function createProduct(imageRef, title, location, description, date, label
     if (description)
         body.description = description;
     if (date)
-        body.expiration_date  = date;
+        body.expiration_date = date;
     if (labels.length > 0)
         body.labels = labels;
     config['data'] = body;

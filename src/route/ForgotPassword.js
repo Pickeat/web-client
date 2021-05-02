@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import { PickeatTextField } from '../components/PickeatTextField';
+import {PickeatTextField} from '../components/PickeatTextField';
 import Background from '../components/Background';
 import forgotPasswordApi from "../api/forgotPasswordApi";
 import Paper from '@material-ui/core/Paper';
@@ -54,7 +54,7 @@ export default function ForgotPassword() {
             return (
                 <>
                     <Avatar className={classes.avatar}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                        <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Forgot Password
@@ -94,7 +94,7 @@ export default function ForgotPassword() {
             return (
                 <>
                     <Avatar className={classes.avatar}>
-                        <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                        <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Email Sent !

@@ -2,7 +2,6 @@ import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {RESET_PASSWORD_URL} from '../constants/apiEndpoints';
-import Cookies from 'js-cookie';
 import handleErrorToast from '../helpers/handleErrorToast';
 
 

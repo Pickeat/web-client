@@ -1,7 +1,7 @@
 import setAxiosConfig from "../helpers/setAxiosConfig";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { GET_USER_ME} from '../constants/apiEndpoints';
+import {GET_USER_ME} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 import Cookies from 'js-cookie';
 

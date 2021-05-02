@@ -16,8 +16,8 @@ import Map from '../components/Map';
 import {getDistance} from 'geolib';
 import {toast} from 'react-toastify';
 import getProductApi from '../api/getProductApi';
-import DefaultProfilePicture from '../assets/unknow_picture_user.jpg'
 import DefaultProductPicture from '../assets/wallpaper-login.jpg'
+import defaultImage from '../assets/wallpaper-login.jpg'
 import {Modal, Tooltip, Zoom} from "@material-ui/core";
 import UserAvailabilities from "../components/UserAvailabilities";
 import getUserMeApi from "../api/getUserMeApi";
@@ -26,14 +26,9 @@ import reserveProductApi from "../api/reserveProductApi";
 import confirmProductReservationApi from "../api/comfirmReservationProductApi";
 import StatusIndicator from "../components/StatusIndicator";
 import deleteAnnounceApi from "../api/deleteAnnounceApi";
-import { withRouter } from 'react-router-dom'
 import confirmExchangeApi from "../api/confirmExchangeApi";
-import Rater from "../components/Rater";
 import PickerRateSection from "../components/PickerRateSection";
-import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 import postReportUserApi from "../api/reportUserApi";
-import defaultImage from "../assets/wallpaper-login.jpg";
-import ConfirmReportAccountModal from "../components/ConfirmReportAccountModal";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -512,7 +507,7 @@ export default function Product(props) {
         if (OwnId && OwnId === data.user._id) {
             if (data.status === 'available') {
 
-                return;
+
             } else if (data.status === 'waiting-for-reservation') {
                 return (
                     <div className={classes.contactBtnContainer}>
@@ -540,7 +535,7 @@ export default function Product(props) {
                         </>
                     )
                 } else {
-                    return;
+
                 }
             }
         } else {
@@ -558,7 +553,7 @@ export default function Product(props) {
                     </div>
                 )
             } else if (data.status === 'waiting-for-reservation') {
-                return;
+
             } else if (data.status === 'reserved') {
                 if (data?.confirmation?.picker === false) {
                     return (
@@ -567,7 +562,7 @@ export default function Product(props) {
                         </>
                     )
                 } else {
-                    return;
+
                 }
             } else if (data.status === 'given') {
                 return (
@@ -580,9 +575,7 @@ export default function Product(props) {
     const buildReportSection = () => {
         if (OwnId && OwnId === data.user._id) {
             return (<div></div>)
-        }
-        else
-        {
+        } else {
             return (<div className={classes.contactBtnContainer}>
                 <Button className="pickeatBtnSlim" onClick={(e) => {
                     e.stopPropagation();

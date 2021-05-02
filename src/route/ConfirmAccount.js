@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ConfirmAccount() {
     const classes = useStyles();
-    const { token } = useParams();
+    const {token} = useParams();
     const [message, setMessage] = useState('Account has been confirmed !');
 
     useEffect(() => {
@@ -55,7 +55,7 @@ export default function ConfirmAccount() {
         return (
             <>
                 <Avatar className={classes.avatar}>
-                    <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                    <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     {message}
@@ -65,9 +65,9 @@ export default function ConfirmAccount() {
     }
 
     const confirmAccountCall = (token) => {
-         confirmAccountApi(token).then((response) => {
-             if (!response)
-                 setMessage("Error during account confirmation")
+        confirmAccountApi(token).then((response) => {
+            if (!response)
+                setMessage("Error during account confirmation")
         });
     };
 

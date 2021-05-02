@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import {isEmpty} from '../helpers/isEmpty';
 import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
 
@@ -149,7 +148,9 @@ export default function ProductCard(props) {
                              }}/>
                     </div>
                     <div className={classes.infoContainer}>
-                        <Avatar alt="user_picture" src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)} className={classes.userAvatar}/>
+                        <Avatar alt="user_picture"
+                                src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)}
+                                className={classes.userAvatar}/>
                         <div className={classes.cardBottom}>
                             <div className="textRegular" style={{lineHeight: '22px'}}>{data.title}</div>
                         </div>

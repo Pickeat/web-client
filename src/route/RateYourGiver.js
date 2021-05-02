@@ -36,9 +36,7 @@ const useStyles = makeStyles(theme => ({
         maxWidth: '50%',
         maxHeight: '300px'
     },
-    productTitleContainer: {
-
-    }
+    productTitleContainer: {}
 }));
 
 export default function RateYourGiver(props) {

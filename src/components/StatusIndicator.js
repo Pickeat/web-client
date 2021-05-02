@@ -1,9 +1,9 @@
 import React from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
 const useStyles = makeStyles(theme => ({
-    main: {
-    },
+    main: {},
 }));
 
 export default function StatusIndicator(props) {

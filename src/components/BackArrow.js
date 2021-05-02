@@ -19,7 +19,9 @@ export default function BackArrow(props) {
 
     return (
         <div className={classes.main}>
-            <IconButton onClick={() => {history.goBack()}}>
+            <IconButton onClick={() => {
+                history.goBack()
+            }}>
                 <ArrowBackIcon fontSize="large"/>
             </IconButton>
         </div>

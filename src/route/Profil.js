@@ -15,8 +15,6 @@ import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
-import defaultImage from "../assets/wallpaper-login.jpg";
-import Modal from "../components/Modal";
 import DispoModal from "../components/DispoModal";
 
 const useStyles = makeStyles(theme => ({
@@ -321,7 +319,7 @@ export default function Profil(props) {
 
     const buildProductCard = (product, index) => {
         if (product.status === "deleted")
-            return ;
+            return;
         return (
             <ProductCard data={product}/>
         )
@@ -396,8 +394,12 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
-            <Button className="pickeatBtn" onClick={() => {setShowDispoModal(true)}}>Availabilities</Button>
-            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {setShowDispoModal(false)}}/>
+            <Button className="pickeatBtn" onClick={() => {
+                setShowDispoModal(true)
+            }}>Availabilities</Button>
+            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
+                setShowDispoModal(false)
+            }}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>

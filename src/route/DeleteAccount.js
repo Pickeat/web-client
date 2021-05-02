@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Background from '../components/Background';
 import Paper from '@material-ui/core/Paper';
 import {useParams} from "react-router-dom";
-import confirmAccountApi from "../api/confirmAccountApi";
 import confirmDeleteAccountApi from "../api/confirmDeleteAccountApi";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DeleteAccount() {
     const classes = useStyles();
-    const { token } = useParams();
+    const {token} = useParams();
     const [message, setMessage] = useState('Account has been deleted !');
 
     useEffect(() => {
@@ -56,7 +55,7 @@ export default function DeleteAccount() {
         return (
             <>
                 <Avatar className={classes.avatar}>
-                    <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                    <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     {message}

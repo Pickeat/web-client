@@ -105,19 +105,22 @@ export default function DispoModal(props) {
     const confirmNewAvailabilities = (closeModal) => {
         const data = {}
         if (startMonday && endMonday)
-            data['monday'] = { start: (startMonday ? startMonday : ""), end: (endMonday ? endMonday : "")};
+            data['monday'] = {start: (startMonday ? startMonday : ""), end: (endMonday ? endMonday : "")};
         if (startTuesday && endTuesday)
-            data['tuesday'] = { start: (startTuesday ? startTuesday : ""), end: (endTuesday ? endTuesday : "")};
+            data['tuesday'] = {start: (startTuesday ? startTuesday : ""), end: (endTuesday ? endTuesday : "")};
         if (startWednesday && endWednesday)
-            data['wednesday'] = { start: (startWednesday ? startWednesday : ""), end: (endWednesday ? endWednesday : "")};
+            data['wednesday'] = {
+                start: (startWednesday ? startWednesday : ""),
+                end: (endWednesday ? endWednesday : "")
+            };
         if (startThursday && endThursday)
-            data['thursday'] = { start: (startThursday ? startThursday : ""), end: (endThursday ? endThursday : "")};
+            data['thursday'] = {start: (startThursday ? startThursday : ""), end: (endThursday ? endThursday : "")};
         if (startFriday && endFriday)
-            data['friday'] = { start: (startFriday ? startFriday : ""), end: (endFriday ? endFriday : "")};
+            data['friday'] = {start: (startFriday ? startFriday : ""), end: (endFriday ? endFriday : "")};
         if (startSaturday && endSaturday)
-            data['saturday'] = { start: (startSaturday ? startSaturday : ""), end: (endSaturday ? endSaturday : "")};
+            data['saturday'] = {start: (startSaturday ? startSaturday : ""), end: (endSaturday ? endSaturday : "")};
         if (startSunday && endSunday)
-            data['sunday'] = { start: (startSunday ? startSunday : ""), end: (endSunday ? endSunday : "")};
+            data['sunday'] = {start: (startSunday ? startSunday : ""), end: (endSunday ? endSunday : "")};
 
 
         setUserPublicInfoApi("", "", data).then((res) => {
@@ -137,20 +140,28 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Monday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startMonday} onChange={(event) => {setStartMonday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startMonday} onChange={(event) => {
+                            setStartMonday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endMonday} onChange={(event) => {setEndMonday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endMonday} onChange={(event) => {
+                            setEndMonday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
                 </div>
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Tuesday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startTuesday} onChange={(event) => {setStartTuesday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startTuesday} onChange={(event) => {
+                            setStartTuesday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endTuesday} onChange={(event) => {setEndTuesday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endTuesday} onChange={(event) => {
+                            setEndTuesday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -158,10 +169,14 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Wednesday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startWednesday} onChange={(event) => {setStartWednesday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startWednesday} onChange={(event) => {
+                            setStartWednesday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endWednesday} onChange={(event) => {setEndWednesday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endWednesday} onChange={(event) => {
+                            setEndWednesday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -169,10 +184,14 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Thursday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startThursday} onChange={(event) => {setStartThursday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startThursday} onChange={(event) => {
+                            setStartThursday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endThursday} onChange={(event) => {setEndThursday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endThursday} onChange={(event) => {
+                            setEndThursday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -180,10 +199,14 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Friday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startFriday} onChange={(event) => {setStartFriday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startFriday} onChange={(event) => {
+                            setStartFriday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endFriday} onChange={(event) => {setEndFriday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endFriday} onChange={(event) => {
+                            setEndFriday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -191,10 +214,14 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Saturday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startSaturday} onChange={(event) => {setStartSaturday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startSaturday} onChange={(event) => {
+                            setStartSaturday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endSaturday} onChange={(event) => {setEndSaturday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endSaturday} onChange={(event) => {
+                            setEndSaturday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -202,10 +229,14 @@ export default function DispoModal(props) {
                 <div className={classes.inputElement}>
                     <div className={classes.dayContainer}>Sunday:</div>
                     <div className={classes.inputSection}>
-                        <TextField value={startSunday} onChange={(event) => {setStartSunday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={startSunday} onChange={(event) => {
+                            setStartSunday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                         <span className="textMedium"> - </span>
-                        <TextField value={endSunday} onChange={(event) => {setEndSunday(event.target.value)}} type="time" className={classes.textField}
+                        <TextField value={endSunday} onChange={(event) => {
+                            setEndSunday(event.target.value)
+                        }} type="time" className={classes.textField}
                                    InputLabelProps={{shrink: true}} inputProps={{step: 300}}/>
                     </div>
 
@@ -228,7 +259,9 @@ export default function DispoModal(props) {
                 <Button style={{marginRight: '20px'}} onClick={props.onClose} className={classes.closeBtn}>
                     Close
                 </Button>
-                <Button onClick={() => {confirmNewAvailabilities(props.onClose)}} className={"pickeatBtn"}>
+                <Button onClick={() => {
+                    confirmNewAvailabilities(props.onClose)
+                }} className={"pickeatBtn"}>
                     Apply
                 </Button>
             </div>
