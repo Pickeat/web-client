@@ -25,6 +25,15 @@
     color: white!important;
 }
 
+.pickeatBtnSlim {
+    font-family: Colfax-Medium, serif !important;
+    text-transform: none !important;
+    background-color: #d21b40 !important;
+    /*color: #343434;*/
+    color: white!important;
+}
+
+
 .pickeatBtnRed {
     font-family: Colfax-Medium, serif !important;
     text-transform: none !important;

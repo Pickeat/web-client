@@ -100,6 +100,10 @@ export default function Settings(props) {
     });
   };
 
+  const resentUserConfirmationCall = (userPassword) => {
+  };
+
+
   const componentList = [
     { key: 0, component: <div className={classes.formUserInfoContainer}  style={{
         position: 'absolute', left: '50%', top: '50%',
@@ -217,7 +221,29 @@ export default function Settings(props) {
     >
       Save Changes
     </Button></div> },
+
     { key: 3, component: <div className={classes.formUserInfoContainer}  style={{
+        position: 'center', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
+        <Typography component="h1" variant="h5">
+          Resent account confirmation link
+        </Typography>
+        <Button
+            style={{width: '50%', margin: '50%'}}
+            type="submit"
+            variant="contained"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              resentUserConfirmationCall();
+            }}
+            className="pickeatBtn"
+            color={"inherit"}
+        >
+          Resent email
+        </Button></div> },
+    { key: 4, component: <div className={classes.formUserInfoContainer}  style={{
         position: 'absolute', left: '50%', top: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
@@ -285,6 +311,11 @@ export default function Settings(props) {
           </div>
           <div className={classes.menuButtonContainer}>
             <Button onClick={() => setActivePage(3)} className={classes.menuButton}>
+              <div className={classes.menuButtonText}>Confirm your account</div>
+            </Button>
+          </div>
+          <div className={classes.menuButtonContainer}>
+            <Button onClick={() => setActivePage(4)} className={classes.menuButton}>
               <div className={classes.menuButtonText}>Delete account</div>
             </Button>
           </div>

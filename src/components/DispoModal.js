@@ -3,7 +3,6 @@ import Modal from "./Modal";
 import PropTypes from "prop-types";
 import {Button, CircularProgress, TextField} from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {PickeatTextField} from "./PickeatTextField";
 import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 import setUserPublicInfoApi from "../api/setUserPublicInfoApi";
 

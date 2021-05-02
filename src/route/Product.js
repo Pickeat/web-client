@@ -33,6 +33,7 @@ import PickerRateSection from "../components/PickerRateSection";
 import getUserPublicInfoApi from "../api/getUserPublicInfoApi";
 import postReportUserApi from "../api/reportUserApi";
 import defaultImage from "../assets/wallpaper-login.jpg";
+import ConfirmReportAccountModal from "../components/ConfirmReportAccountModal";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -220,8 +221,6 @@ export default function Product(props) {
     const [isReserveLoading, setIsReserveLoading] = useState(false);
     const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
     const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
-
-
 
     const reportGiverApiCall = () => {
         postReportUserApi(data.user._id).then(() => {
@@ -642,7 +641,7 @@ export default function Product(props) {
                             </Modal>
                             {buildReservationSection()}
                             <div className={classes.contactBtnContainer}>
-                                <Button className="pickeatBtn" onClick={(e) => {
+                                <Button className="pickeatBtnSlim" onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
                                     reportGiverApiCall(id)
