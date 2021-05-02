@@ -507,15 +507,13 @@ export default function Product(props) {
         //GIVER SECTION
         if (OwnId && OwnId === data.user._id) {
             if (data.status === 'available') {
-
                 return;
             } else if (data.status === 'waiting-for-reservation') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Tooltip
                             TransitionComponent={Zoom}
-                            title={"Une fois la demande acceptée, nous enverrons votre numéro par mail à la personne souhaitant " +
-                            "récupérer votre produit pour que vous puissiez convenir d’une date et d’une horaire"}
+                            title={"Once the request is accepted, we will send your number by email to the person wishing to collect your product so that you can agree on a date and time"}
                             arrow>
                             <Button className="pickeatBtn"
                                     onClick={() => {
@@ -523,7 +521,7 @@ export default function Product(props) {
                                     }}
                                     style={{width: '100%', height: '40px'}}>
                                 {(isReserveLoading ?
-                                    <CircularProgress style={{color: 'white'}}/> : "Confirmer la reservation")}
+                                    <CircularProgress style={{color: 'white'}}/> : "Confirm reservation")}
                             </Button>
                         </Tooltip>
                     </div>
@@ -549,7 +547,7 @@ export default function Product(props) {
                                     reserveProduct()
                                 }}
                                 style={{width: '100%', height: '40px'}}>
-                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserver le produit")}
+                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserve the product")}
                         </Button>
                     </div>
                 )
@@ -577,11 +575,9 @@ export default function Product(props) {
         const deleteAnnounceApiCall = () => {
             console.log(data._id)
             deleteAnnounceApi(data._id).then((response) => {
-                console.log("oui oui c'est delete");
                 toast.success("Announce successfully deleted");
                 props.history.push('/product-list');
                 // window.location.reload();
-
             });
         }
         if (OwnId && OwnId === data.user._id) { //Giver
@@ -646,7 +642,7 @@ export default function Product(props) {
                                     e.stopPropagation();
                                     e.preventDefault();
                                     reportGiverApiCall(id)
-                                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
+                                }} style={{width: '100%', height: '40px'}}>Report the giver</Button>
                             </div>
                             {buildDeleteAnnounce()}
                         </div>

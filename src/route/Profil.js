@@ -219,11 +219,12 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}/>
+                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}
+                             alt={'profile_picture'}/>
                         <ImageUploader
                             withIcon={false}
                             withLabel={false}
-                            buttonText="Change image profil"
+                            buttonText="Change picture"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
                             onChange={onDrop}
@@ -318,7 +319,7 @@ export default function Profil(props) {
 
     const buildProductCard = (product, index) => {
         if (product.status === "deleted")
-            return ;
+            return;
         return (
             <ProductCard data={product}/>
         )
@@ -393,8 +394,12 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
-            <Button className="pickeatBtn" onClick={() => {setShowDispoModal(true)}}>Availabilities</Button>
-            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {setShowDispoModal(false)}}/>
+            <Button className="pickeatBtn" onClick={() => {
+                setShowDispoModal(true)
+            }}>Availabilities</Button>
+            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
+                setShowDispoModal(false)
+            }}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>
