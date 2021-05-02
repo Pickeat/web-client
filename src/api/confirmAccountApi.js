@@ -15,12 +15,14 @@ export default async function confirmAccountApi(confirmToken) {
     return await axios(config).then((response) => {
 
         if (response.status === 204) {
-            toast.success(response.data.message);
-            return response.data;
+            toast.success(response.status.message);
+            return true;
         } else {
             toast.warn(response.data.message);
+            return false
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return false
     });
 }

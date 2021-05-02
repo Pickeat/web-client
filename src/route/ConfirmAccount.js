@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
@@ -45,16 +45,20 @@ const useStyles = makeStyles((theme) => ({
 export default function ConfirmAccount() {
     const classes = useStyles();
     const { token } = useParams();
+    const [message, setMessage] = useState('Account has been confirmed !');
+
+    useEffect(() => {
+        confirmAccountCall(token.slice(7));
+    }, []);
 
     const buildPaper = () => {
-        confirmAccountCall(token.slice(7));
         return (
             <>
                 <Avatar className={classes.avatar}>
                     <img style={{ maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Account has been confirmed !
+                    {message}
                 </Typography>
             </>
         )
@@ -62,7 +66,8 @@ export default function ConfirmAccount() {
 
     const confirmAccountCall = (token) => {
          confirmAccountApi(token).then((response) => {
-             console.log(response);
+             if (!response)
+                 setMessage("Error during account confirmation")
         });
     };
 
