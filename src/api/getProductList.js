@@ -9,10 +9,13 @@ export default async function getProductList(km, location, minRate, maxDate) {
     const config = setAxiosConfig('GET', `${GET_PRODUCT_LIST_URL}`, false);
 
     config['params'] = {};
+    console.log(location);
     if (location.lat && location.lng && km) {
         config['params'].lng = location.lng;
         config['params'].lat = location.lat;
         config['params'].radius = km * 1000;
+    } else {
+        return {};
     }
     if (minRate)
         config['params'].min_rate = minRate;

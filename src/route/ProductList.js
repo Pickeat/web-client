@@ -124,8 +124,12 @@ export default function ProductList(props) {
             toast.error('Geolocation is not supported by this browser.');
             setLocation(-1);
         }
-        getProductListByKm(1);
+        getProductListByKm(sliderValue);
     }, []);
+
+    useEffect(() => {
+        getProductListByKm(sliderValue);
+    }, [location]);
 
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -159,7 +163,6 @@ export default function ProductList(props) {
     };
 
     const buildGrid = () => {
-        console.log(productList);
         if (isLoading) {
             return (
                 <div style={{

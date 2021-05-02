@@ -89,7 +89,6 @@ export default function ProductCard(props) {
     }, [data, props.location]);
 
     const buildBanner = () => {
-        console.log(data)
         if (data.status === "available") {
             return (
                 <div className={classes.banner}>
