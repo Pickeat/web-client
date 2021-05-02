@@ -277,7 +277,7 @@ export default function Profil(props) {
                                 margin="normal"
                                 fullWidth
                                 id="birthdate"
-                                label="birthdate"
+                                label="age"
                                 desciption="birthdate"
                                 autoComplete="birthdate"
                                 value={userBirthday}
