@@ -445,7 +445,7 @@ export default function Product(props) {
 
     const getOwnUserNameCall = () => {
         getUserMeApi().then((response) => {
-            setOwnId(response._id);
+            setOwnId(response?._id);
         });
     }
 
