@@ -57,7 +57,7 @@ export default function DeleteAccount() {
                 <Avatar className={classes.avatar}>
                     <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" style={{textAlign: "center"}}>>
                     {message}
                 </Typography>
             </>
