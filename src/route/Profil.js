@@ -18,9 +18,8 @@ import Background from "../components/Background";
 import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 import SaveIcon from '@material-ui/icons/Save';
-import UserAvailabilities from "../components/UserAvailabilities";
-import Rater from "../components/Rater";
 import Rating from "@material-ui/lab/Rating";
+import getUserMeApi from "../api/getUserMeApi";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -184,7 +183,7 @@ export default function Profil(props) {
 
     const getUserPublicInfoCall = () => {
         setIsUserInfoLoading(true);
-        getUserPublicInfoApi().then((response) => {
+        getUserMeApi().then((response) => {
             console.log(response);
             setUserName(response.name);
             setCurrentNote(response.note);
@@ -323,7 +322,7 @@ export default function Profil(props) {
                                 <SaveIcon/>
                             </Button>
                         </form>
-                        <div className={classes.btnContainer} style={{justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '10px'}}>
+                        <div className={classes.btnContainer} style={{alignItems: 'flex-end', marginTop: '10px'}}>
                             <Button
                                 style={{width: 'auto'}}
                                 className="pickeatBtn" onClick={() => {
