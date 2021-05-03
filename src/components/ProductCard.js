@@ -20,16 +20,20 @@ const useStyles = makeStyles(theme => ({
         '& .MuiButton-label': {
             flexDirection: 'column',
         },
+        position: 'relative'
     },
     productImgContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         maxHeight: '70%',
-        height: '60%',
+        height: '70%',
         backgroundColor: 'pink'
     },
     banner: {
+        position: 'absolute',
+        top: '0px',
+        width: '100%',
         display: "flex",
         justifyContent: 'center',
         alignItems: 'center',
@@ -90,32 +94,32 @@ export default function ProductCard(props) {
     const buildBanner = () => {
         if (data.status === "available") {
             return (
-                <div className={classes.banner}>
-                    available
+                <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
+                    <span className="textRegular">available</span>
                 </div>
             )
         } else if (data.status === "reserved") {
             return (
-                <div className={classes.banner}>
-                    reserved
+                <div style={{backgroundColor: 'rgba(62, 174, 187, 0.90)'}} className={classes.banner}>
+                    <span className="textRegular">reserved</span>
                 </div>
             )
         } else if (data.status === "waiting-for-reservation") {
             return (
-                <div className={classes.banner}>
-                    waiting for reservation
+                <div style={{backgroundColor: 'rgba(187, 74, 62, 0.9)'}} className={classes.banner}>
+                    <span className="textRegular">waiting for reservation</span>
                 </div>
             )
         } else if (data.status === "given") {
             return (
-                <div className={classes.banner}>
-                    given
+                <div style={{backgroundColor: 'rgba(74, 62, 187, 0.9)'}} className={classes.banner}>
+                    <span className="textRegular">given</span>
                 </div>
             )
         } else if (data.status === "noted") {
             return (
-                <div className={classes.banner}>
-                    noted
+                <div style={{backgroundColor: 'rgba(218, 246, 8, 0.9)'}} className={classes.banner}>
+                    <span className="textRegular">noted</span>
                 </div>
             )
         }
