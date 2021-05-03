@@ -15,6 +15,7 @@ export const UPDATE_PASSWORD_URL = BASE_URL + '/users/password';
 export const GET_USER_ME = BASE_URL + '/users/me';
 export const POST_REPORT_USER_URL = BASE_URL + '/report';
 export const GET_PRODUCT_LIST_URL = BASE_URL + '/announces';
+export const POST_EDIT_ANNOUNCE_URL = BASE_URL + '/announces';
 export const GET_MY_RESERVE_PRODUCTS_URL = BASE_URL + '/announces_me_picker';
 export const GET_MY_PUBLISHED_PRODUCTS_URL = BASE_URL + '/announces_me';
 export const GET_OWN_ANNOUNCES_LIST_URL = BASE_URL + '/announces_me';

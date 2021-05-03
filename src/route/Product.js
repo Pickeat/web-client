@@ -29,6 +29,7 @@ import deleteAnnounceApi from "../api/deleteAnnounceApi";
 import confirmExchangeApi from "../api/confirmExchangeApi";
 import PickerRateSection from "../components/PickerRateSection";
 import postReportUserApi from "../api/reportUserApi";
+import postEditAnnounceApi from "../api/postEditAnnounce";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -262,8 +263,9 @@ export default function Product(props) {
         }
     }, [data]);
 
-    const setUserProductInfoCall = (productTitle, productDescription, productExpirationDate) => {
-
+    const setUserProductInfoCall = (id, productTitle, productDescription, productExpirationDate) => {
+        console.log(id)
+        postEditAnnounceApi(id, productTitle, productDescription, productExpirationDate)
     }
 
     const isUserOwner = () => {
@@ -282,7 +284,7 @@ export default function Product(props) {
                     <Button onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        setUserProductInfoCall(productTitle, productDescription, productExpirationDate);
+                        setUserProductInfoCall(id, productTitle, productDescription, productExpirationDate);
                         setIsEditMode(false)
                     }} className="pickeatBtn"
                        style={{width: '100%', height: '40px'}}
