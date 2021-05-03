@@ -262,6 +262,10 @@ export default function Product(props) {
         }
     }, [data]);
 
+    const setUserProductInfoCall = (productTitle, productDescription, productExpirationDate) => {
+
+    }
+
     const isUserOwner = () => {
         getOwnUserNameCall();
         if (!isEmpty(data) && OwnId && OwnId === data.user._id && !isEditMode) {
@@ -275,9 +279,15 @@ export default function Product(props) {
         } else if (!isEmpty(data) && OwnId && OwnId === data.user._id && isEditMode) {
             return (
                 <div className={classes.contactBtnContainerButton}>
-                    <Button onClick={() => {
+                    <Button onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setUserProductInfoCall(productTitle, productDescription, productExpirationDate);
                         setIsEditMode(false)
-                    }} className="pickeatBtn" style={{width: '100%', height: '40px'}}>Validate changes</Button>
+                    }} className="pickeatBtn"
+                       style={{width: '100%', height: '40px'}}
+                    >
+                        Validate changes</Button>
                 </div>
             )
         }
@@ -579,7 +589,7 @@ export default function Product(props) {
                     e.stopPropagation();
                     e.preventDefault();
                     reportGiverApiCall(id)
-                }} style={{width: '100%', height: '40px'}}>Signaler le giver</Button>
+                }} style={{width: '100%', height: '40px'}}>Report the giver</Button>
             </div>)
         }
     }
@@ -594,10 +604,13 @@ export default function Product(props) {
             });
         }
         if (OwnId && OwnId === data.user._id) { //Giver
-            return (
-                <div>
-                    <p className={classes.deleteAnnounceText} onClick={deleteAnnounceApiCall}>Remove announce</p>
-                </div>
+            return (<div className={classes.contactBtnContainer}>
+                <Button className="pickeatBtnSlim" onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    deleteAnnounceApiCall();
+                }} style={{width: '100%', height: '40px'}}>Remove announce</Button>
+        </div>
             )
         }
     }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Button} from "@material-ui/core";
+import {Button, Modal} from "@material-ui/core";
 import getUserPublicInfoApi from '../api/getUserPublicInfoApi';
 import setUserPublicInfoApi from '../api/setUserPublicInfoApi';
 import getUserProductListApi from '../api/getUserOwnProductListApi';
@@ -16,6 +16,8 @@ import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
 import DispoModal from "../components/DispoModal";
+import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
+import UserAvailabilities from "../components/UserAvailabilities";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -28,16 +30,18 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
     leftSection: {
-        height: '100%',
+        // height: '100%',
         width: '40%',
-        display: 'flex',
-        flexDirection: 'column',
+        // display: 'flex',
+        // flexDirection: 'column',
     },
     userInfoContainer: {
         display: 'flex',
-        height: '70%',
-        paddingLeft: '5%',
-        paddingTop: '5%',
+        // height: '100%',
+        marginLeft: '5%',
+        marginTop: '4%',
+        paddingTop: '25%',
+        paddingBottom: '30%',
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
@@ -70,6 +74,10 @@ const useStyles = makeStyles(theme => ({
         height: '5%',
         display: 'flex',
     },
+    profilePaper: {
+      paddingTop: '20%',
+        height: '70%',
+    },
     gridContainer: {
         overflowY: 'scroll',
         height: '95%'
@@ -85,6 +93,10 @@ const useStyles = makeStyles(theme => ({
         width: '60%',
         display: 'flex',
         flexDirection: 'row',
+    },
+    productCard: {
+        height: '100%',
+        width: '100%',
     },
     mainContentSection: {
         width: '100%',
@@ -104,6 +116,22 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Colfax-Regular',
         fontSize: '14px',
         justifyContent: 'normal'
+    },
+    btnContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        height: '30%',
+    },
+    productCardContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '300px',
+        minWidth: '400px',
+        height: '55%',
+        width: '100%',
     },
     productListContainer: {
         margin: '2%',
@@ -135,14 +163,14 @@ export default function Profil(props) {
     const [userName, setUserName] = useState("");
     const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
-    const [userBirthday, setUserBirthday] = useState();
-    const [userGender, setUserGender] = useState();
     const [currentName, setCurrentName] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
-    const [userProductList, setUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
+    const [availabilitiesModalIsOpen, setAvailabilitiesModalIsOpen] = useState(false);
+    const [userAvailability, setUserAvailability] = useState([]);
+
 
 
     useEffect(() => {
@@ -160,13 +188,12 @@ export default function Profil(props) {
             setCurrentDescription(response.description);
             setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
-            setUserGender(response.gender);
-            setUserBirthday(response.age);
+            setUserAvailability(response.availability)
         });
     };
 
-    const setUserPublicInfoCall = (newName, newDescription, userBirthday, userGender) => {
-        setUserPublicInfoApi(newName, newDescription, "", userBirthday, userGender).then((response) => {
+    const setUserPublicInfoCall = (newName, newDescription) => {
+        setUserPublicInfoApi(newName, newDescription).then((response) => {
             getUserPublicInfoCall();
         });
     };
@@ -187,7 +214,7 @@ export default function Profil(props) {
     };
     const getUserReservedProductListCall = () => {
         setIsUserReservationProductsLoading(true);
-        getUserReservedProductListApi().then((response) => {
+        getMyReservedAnnounces(['given', 'reserved', 'waiting-for-reservation']).then((response) => {
             console.log("reserved product");
             console.log(response);
             setReservedUserProductList(response);
@@ -211,11 +238,11 @@ export default function Profil(props) {
             );
         } else {
             return (
-                <div className={classes.userInfoContainer}>
+                <Paper className={classes.userInfoContainer}>
                     <div className={classes.showUserInfoContainer}>
                         <img style={{
                             width: '100%',
-                            height: 'auto',
+                            // height: 'auto',
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
@@ -272,30 +299,6 @@ export default function Profil(props) {
                                 value={userDescription}
                                 onChange={(event => setUserDescription(event.target.value))}
                             />
-                            <PickeatTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="birthdate"
-                                label="birthdate"
-                                desciption="birthdate"
-                                autoComplete="birthdate"
-                                value={userBirthday}
-                                onChange={(event => setUserBirthday(event.target.value))}
-                                autoFocus
-                            />
-                            <PickeatTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="gender"
-                                label="gender"
-                                desciption="gender"
-                                autoComplete="gender"
-                                value={userGender}
-                                onChange={(event => setUserGender(event.target.value))}
-                                autoFocus
-                            />
                             <Button
                                 style={{width: '50%'}}
                                 type="submit"
@@ -304,7 +307,7 @@ export default function Profil(props) {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    setUserPublicInfoCall(userName, userDescription, userBirthday, userGender);
+                                    setUserPublicInfoCall(userName, userDescription);
                                     getUserPublicInfoCall();
                                 }}
                                 className="pickeatBtn"
@@ -312,8 +315,36 @@ export default function Profil(props) {
                                 Save Changes
                             </Button>
                         </form>
+                        <div className={classes.btnContainer}>
+                            <Button
+                                style={{width: 'auto'}}
+                                className="pickeatBtn" onClick={() => {
+                                setAvailabilitiesModalIsOpen(true)
+                            }}>See availabilities</Button>
+                            <Button
+                                style={{width: 'auto'}}
+                                className="pickeatBtn" onClick={() => {
+                                setShowDispoModal(true)
+                                }}>Edit Availabilities</Button>
+                        </div>
+                        <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
+                            setShowDispoModal(false)
+                        }}/>
+                        <Modal
+                            open={availabilitiesModalIsOpen}
+                            onClose={() => setAvailabilitiesModalIsOpen(false)}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <div style={{width: '800px', height: '500px'}}>
+                                <UserAvailabilities data={userAvailability}/>
+                            </div>
+                        </Modal>
                     </div>
-                </div>
+                </Paper>
             );
         }
     }
@@ -395,12 +426,6 @@ export default function Profil(props) {
     return (
         <div className={classes.main}>
             <Background/>
-            <Button className="pickeatBtn" onClick={() => {
-                setShowDispoModal(true)
-            }}>Availabilities</Button>
-            <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
-                setShowDispoModal(false)
-            }}/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>
@@ -408,7 +433,7 @@ export default function Profil(props) {
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
                         <Typography style={{fontFamily: 'Colfax-medium'}}>
-                            User's Announces
+                            Your Announces
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
@@ -418,7 +443,7 @@ export default function Profil(props) {
                 <div className={classes.productListContainer}>
                     <div className={classes.announceListTitle}>
                         <Typography style={{fontFamily: 'Colfax-medium'}}>
-                            User's Reservations
+                            Your Reservations
                         </Typography>
                     </div>
                     <Grid container spacing={3} className={classes.gridContainer}>
