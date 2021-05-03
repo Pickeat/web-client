@@ -25,8 +25,10 @@ export default async function getProductList(km, location, minRate, maxDate) {
             return response.data;
         } else {
             toast.warn(response.data.message);
+            return {};
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return {};
     });
 }
