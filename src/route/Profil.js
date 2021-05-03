@@ -20,6 +20,12 @@ import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 import SaveIcon from '@material-ui/icons/Save';
 import Rating from "@material-ui/lab/Rating";
 import getUserMeApi from "../api/getUserMeApi";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
+import Select from '@material-ui/core/Select';
+import {PickeatDropdown} from "../components/PickeatDropdown";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -168,13 +174,16 @@ export default function Profil(props) {
     const [currentName, setCurrentName] = useState();
     const [currentNote, setCurrentNote] = useState(0);
     const [userAge, setUserAge] = useState();
-    const [userGender, setUserGender] = useState();
+    const [userGender, setUserGender] = useState("");
     const [currentDescription, setCurrentDescription] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
     const [userAvailability, setUserAvailability] = useState([]);
 
+    const handleChange = (event) => {
+        setUserGender(event.target.value);
+    };
 
 
     useEffect(() => {
@@ -186,7 +195,6 @@ export default function Profil(props) {
     const getUserPublicInfoCall = () => {
         setIsUserInfoLoading(true);
         getUserMeApi().then((response) => {
-            console.log(response);
             setUserName(response.name);
             setCurrentNote(response.note);
             setUserDescription(response.description);
@@ -323,34 +331,37 @@ export default function Profil(props) {
                                 value={userAge}
                                 onChange={(event => setUserAge(event.target.value))}
                             />
-                            <PickeatTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="gender"
-                                label="gender"
-                                desciption="gender"
-                                autoComplete="gender"
-                                autoFocus
-                                multiline
-                                value={userGender}
-                                onChange={(event => setUserGender(event.target.value))}
-                            />
-                            <Button
-                                style={{width: '50%'}}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    setUserPublicInfoCall(userName, userDescription, userAge, userGender);
-                                    getUserPublicInfoCall();
-                                }}
-                                className="pickeatBtn"
-                            >
-                                <SaveIcon/>
-                            </Button>
+                            <PickeatDropdown variant="outlined" className={classes.formControl}>
+                                <InputLabel id="user-gender-select-outlined-label" value={userGender}>Gender</InputLabel>
+                                <Select
+                                    labelId="user-gender-select-outlined-label"
+                                    id="user-gender-select-outlined-label"
+                                    value={userGender}
+                                    onChange={handleChange}
+                                    label="Gender"
+                                >
+                                    <MenuItem value={"male"}>male</MenuItem>
+                                    <MenuItem value={"female"}>female</MenuItem>
+                                    <MenuItem value={"other"}>other</MenuItem>
+                                </Select>
+                            </PickeatDropdown>
+                            <div style={{marginTop: '10px'}}>
+                                <Button
+                                    style={{width: '50%'}}
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        setUserPublicInfoCall(userName, userDescription, userAge, userGender);
+                                        getUserPublicInfoCall();
+                                    }}
+                                    className="pickeatBtn"
+                                >
+                                    <SaveIcon/>
+                                </Button>
+                            </div>
                         </form>
                         <div className={classes.btnContainer} style={{alignItems: 'flex-end', marginTop: '10px'}}>
                             <Button
