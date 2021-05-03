@@ -106,8 +106,6 @@ export default function Settings(props) {
         resentMailConfirmAccountApi().then((response) => {
             if (response)
                 toast.success("A new email was sent");
-            else
-                toast.error("User already confirmed");
         });
     };
 
