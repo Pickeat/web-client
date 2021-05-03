@@ -107,7 +107,7 @@ export default function Settings(props) {
             if (response)
                 toast.success("A new email was sent");
             else
-                toast.error("An error has occurred");
+                toast.error("User already confirmed");
         });
     };
 
