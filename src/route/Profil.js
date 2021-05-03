@@ -17,6 +17,7 @@ import ImageUploader from "react-images-upload";
 import Background from "../components/Background";
 import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
+import SaveIcon from '@material-ui/icons/Save';
 import UserAvailabilities from "../components/UserAvailabilities";
 
 const useStyles = makeStyles(theme => ({
@@ -168,7 +169,6 @@ export default function Profil(props) {
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
     const [showDispoModal, setShowDispoModal] = useState(false);
-    const [availabilitiesModalIsOpen, setAvailabilitiesModalIsOpen] = useState(false);
     const [userAvailability, setUserAvailability] = useState([]);
 
 
@@ -312,15 +312,10 @@ export default function Profil(props) {
                                 }}
                                 className="pickeatBtn"
                             >
-                                Save Changes
+                                <SaveIcon/>
                             </Button>
                         </form>
-                        <div className={classes.btnContainer}>
-                            <Button
-                                style={{width: 'auto'}}
-                                className="pickeatBtn" onClick={() => {
-                                setAvailabilitiesModalIsOpen(true)
-                            }}>See availabilities</Button>
+                        <div className={classes.btnContainer} style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
                             <Button
                                 style={{width: 'auto'}}
                                 className="pickeatBtn" onClick={() => {
@@ -330,19 +325,6 @@ export default function Profil(props) {
                         <DispoModal show={showDispoModal} width="50%" title={"Choose your availabilities"} onClose={() => {
                             setShowDispoModal(false)
                         }}/>
-                        <Modal
-                            open={availabilitiesModalIsOpen}
-                            onClose={() => setAvailabilitiesModalIsOpen(false)}
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <div style={{width: '800px', height: '500px'}}>
-                                <UserAvailabilities data={userAvailability}/>
-                            </div>
-                        </Modal>
                     </div>
                 </Paper>
             );
@@ -370,7 +352,7 @@ export default function Profil(props) {
                     <CircularProgress/>
                 </div>
             );
-        } else if (!isUserReservationProductsLoading && userOwnProductList?.length === 0) {
+        } else if (!isUserOwnProductsLoading && userOwnProductList?.length === 0) {
             return (
                 <div style={{
                     width: '100%',
@@ -408,6 +390,20 @@ export default function Profil(props) {
                     alignItems: 'center'
                 }}>
                     <CircularProgress/>
+                </div>
+            );
+        } else if (!isUserReservationProductsLoading && userReservedProductList?.length === 0) {
+            return (
+                <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <div className={classes.nothingToShow}>
+                        You have not reserved any product yet
+                    </div>
                 </div>
             );
         } else {
