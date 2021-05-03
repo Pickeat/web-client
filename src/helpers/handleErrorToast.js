@@ -2,7 +2,7 @@ import {toast} from "react-toastify";
 import logout from "./logout";
 
 export default function handleErrorToast(error) {
-    if (error.response.status === 422) {
+    if (error?.response?.data?.error === 'TokenExpired') {
         toast.error("Your authentication has expired or is not valid, try to reconnect");
         setTimeout(() => {
             logout();

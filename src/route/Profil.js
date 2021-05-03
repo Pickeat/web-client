@@ -19,6 +19,8 @@ import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 import SaveIcon from '@material-ui/icons/Save';
 import UserAvailabilities from "../components/UserAvailabilities";
+import Rater from "../components/Rater";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -165,6 +167,7 @@ export default function Profil(props) {
     const [userProfilePicture, setUserProfilePicture] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [currentName, setCurrentName] = useState();
+    const [currentNote, setCurrentNote] = useState(0);
     const [currentDescription, setCurrentDescription] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
@@ -182,7 +185,9 @@ export default function Profil(props) {
     const getUserPublicInfoCall = () => {
         setIsUserInfoLoading(true);
         getUserPublicInfoApi().then((response) => {
+            console.log(response);
             setUserName(response.name);
+            setCurrentNote(response.note);
             setUserDescription(response.description);
             setCurrentName(response.name);
             setCurrentDescription(response.description);
@@ -273,6 +278,9 @@ export default function Profil(props) {
                         <Typography component="h1" variant="h5">
                             User Info :
                         </Typography>
+                        <span className="textMedium"
+                              style={{fontSize: '20px', marginTop: '20px'}}>{(currentNote ? `${(currentNote).toFixed(1)}/5` : 'No note yet')}</span>
+                        <Rating name="read-only" precision={0.1} value={currentNote} readOnly/>
                         <form className={classes.form}>
                             <PickeatTextField
                                 variant="outlined"
@@ -315,7 +323,7 @@ export default function Profil(props) {
                                 <SaveIcon/>
                             </Button>
                         </form>
-                        <div className={classes.btnContainer} style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+                        <div className={classes.btnContainer} style={{justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '10px'}}>
                             <Button
                                 style={{width: 'auto'}}
                                 className="pickeatBtn" onClick={() => {
