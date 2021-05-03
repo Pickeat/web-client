@@ -486,7 +486,7 @@ export default function Product(props) {
     const buildProductDistance = () => {
         if (productDistance === -1)
             return ('Sorry we had a problem computing the distance');
-        return productDistance + 'm';
+        return ((productDistance/1000).toFixed(1) + ' Km');
     };
 
     if (isEmpty(data))

@@ -21,7 +21,7 @@ async function sendRequest(config) {
     });
 }
 
-export default async function setUserPublicInfoApi(name, description, availability, userBirthday, userGender) {
+export default async function setUserPublicInfoApi(name, description, availability, userAge, userGender) {
     let body = {};
     if (name)
         body['name'] = name
@@ -29,8 +29,8 @@ export default async function setUserPublicInfoApi(name, description, availabili
         body['description'] = description
     if (availability)
         body['availability'] = availability
-    if (userBirthday)
-        body['age'] = userBirthday
+    if (userAge)
+        body['age'] = userAge
     if (userGender)
         body['gender'] = userGender
 

@@ -156,7 +156,7 @@ export default function ProductCard(props) {
                         <div style={{marginTop: '10px'}} className={classes.cardBottom}>
                             {productDistance !== -1 &&
                             <div style={{display: 'flex'}}><RoomIcon/>
-                                <div style={{lineHeight: '22px'}}>{productDistance}m</div>
+                                <div style={{lineHeight: '22px'}}>{(productDistance/1000).toFixed(1)} Km</div>
                             </div>
                             }
                             {data.expiration_date &&

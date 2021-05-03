@@ -167,6 +167,8 @@ export default function Profil(props) {
     const [userDescription, setUserDescription] = useState("");
     const [currentName, setCurrentName] = useState();
     const [currentNote, setCurrentNote] = useState(0);
+    const [userAge, setUserAge] = useState();
+    const [userGender, setUserGender] = useState();
     const [currentDescription, setCurrentDescription] = useState();
     const [userOwnProductList, setUserOwnProductList] = useState([]);
     const [userReservedProductList, setReservedUserProductList] = useState([]);
@@ -192,12 +194,14 @@ export default function Profil(props) {
             setCurrentDescription(response.description);
             setUserProfilePicture(response.image);
             setIsUserInfoLoading(false);
-            setUserAvailability(response.availability)
+            setUserAvailability(response.availability);
+            setUserAge(response.age);
+            setUserGender(response.gender);
         });
     };
 
-    const setUserPublicInfoCall = (newName, newDescription) => {
-        setUserPublicInfoApi(newName, newDescription).then((response) => {
+    const setUserPublicInfoCall = (newName, newDescription, age, gender) => {
+        setUserPublicInfoApi(newName, newDescription, "", age, gender).then((response) => {
             getUserPublicInfoCall();
         });
     };
@@ -306,6 +310,32 @@ export default function Profil(props) {
                                 value={userDescription}
                                 onChange={(event => setUserDescription(event.target.value))}
                             />
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="age"
+                                label="age"
+                                desciption="age"
+                                autoComplete="age"
+                                autoFocus
+                                multiline
+                                value={userAge}
+                                onChange={(event => setUserAge(event.target.value))}
+                            />
+                            <PickeatTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="gender"
+                                label="gender"
+                                desciption="gender"
+                                autoComplete="gender"
+                                autoFocus
+                                multiline
+                                value={userGender}
+                                onChange={(event => setUserGender(event.target.value))}
+                            />
                             <Button
                                 style={{width: '50%'}}
                                 type="submit"
@@ -314,7 +344,7 @@ export default function Profil(props) {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    setUserPublicInfoCall(userName, userDescription);
+                                    setUserPublicInfoCall(userName, userDescription, userAge, userGender);
                                     getUserPublicInfoCall();
                                 }}
                                 className="pickeatBtn"
