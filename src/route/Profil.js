@@ -216,7 +216,7 @@ export default function Profil(props) {
 
     const onDrop = (newPicture) => {
         updateUserPictureApi(newPicture).then((response) => {
-            console.log("success");
+            getUserPublicInfoCall();
         });
     }
     const getUserOwnProductListCall = () => {
