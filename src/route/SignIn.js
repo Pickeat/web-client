@@ -141,7 +141,7 @@ export default function SignIn(props) {
                     </Button>
 
                 </form>
-                <div style={{margin: '2%'}}>
+                <div style={{width: '400px', height: '10%', margin: 20, display: 'flex', justifyContent: 'space-between'}}>
                     <GoogleLogin
                         clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}
                         buttonText="Login with Google"

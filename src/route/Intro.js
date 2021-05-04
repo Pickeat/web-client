@@ -112,7 +112,7 @@ export default function Intro(props) {
                 </Link>
             </div>
 
-            <div style={{width: '40%', height: '5%', margin: 20, display: 'flex', justifyContent: 'center'}}>
+            <div style={{width: '400px', height: '5%', margin: 20, display: 'flex', justifyContent: 'space-between'}}>
                 <GoogleLogin
                     style={{width: '40%'}}
                     clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}
@@ -128,7 +128,6 @@ export default function Intro(props) {
                     cookiePolicy={'single_host_origin'}
                 />
                 <FacebookLogin
-                    style={{width: '4000px'}}
                     appId={process.env.REACT_APP_FACEBOOK_LOGIN_APP_ID}
                     fields="name,email,picture"
                     render={renderProps => (
