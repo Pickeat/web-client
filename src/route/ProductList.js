@@ -86,7 +86,7 @@ export default function ProductList(props) {
     const [productList, setProductList] = useState([]);
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [sliderValue, setSliderValue] = useState(1);
+    const [sliderValue, setSliderValue] = useState(300);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
     const history = useHistory();
