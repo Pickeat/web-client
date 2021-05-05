@@ -32,7 +32,7 @@ export default function KmSlider(props) {
                     <Slider
                         style={{color: '#40ee49'}}
                         value={props.value}
-                        max={35}
+                        max={5000}
                         onChange={props.handleSliderChange}
                         aria-labelledby="input-slider"
                         onChangeCommitted={(event, value) => {
