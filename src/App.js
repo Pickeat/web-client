@@ -18,6 +18,7 @@ import Profil from './route/Profil';
 import AddProduct from "./route/AddProduct";
 import RateYourGiver from "./route/RateYourGiver";
 import DeleteAccount from "./route/DeleteAccount";
+import Chat from "./route/Chat";
 
 toast.configure({
     autoClose: 4000,
@@ -63,6 +64,7 @@ function App() {
                         <PrivateRoute exact path="/product-list" component={ProductList}/>
                         <PrivateRoute exact path="/product/:id" component={Product}/>
                         <PrivateRoute exact path="/rate-your-giver/:id" component={RateYourGiver}/>
+                        <PrivateRoute exact path="/chat" component={Chat}/>
                         <PrivateRoute exact path="/settings" component={Settings}/>
                         <PrivateRoute exact path="/profile" component={Profil}/>
                     </Switch>

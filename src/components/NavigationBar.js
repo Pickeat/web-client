@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        width: '30%',
+        width: '40%',
     },
     link: {
         color: '#202020',
@@ -87,6 +87,11 @@ export default function NavigationBar(props) {
                         <Link to={'/product-list'}>
                             <Button className={classes.link}>
                                 Main
+                            </Button>
+                        </Link>
+                        <Link to={'/chat'}>
+                            <Button className={classes.link}>
+                                Chat
                             </Button>
                         </Link>
                         <Link to={'/settings'}>
