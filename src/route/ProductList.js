@@ -14,6 +14,8 @@ import {useHistory} from 'react-router-dom';
 import Background from "../components/Background";
 import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -43,12 +45,24 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         backgroundColor: 'white',
     },
+    rightSection: {
+        display: 'flex',
+        flexDirection: "column",
+        width: '80%',
+        height: '100%',
+    },
     productListSectionContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '80%',
+        width: "100%",
         height: '90%',
+    },
+    toggleModeButtonContainer: {
+        height: '10%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     sliderContainer: {
         margin: '10px',
@@ -90,6 +104,7 @@ export default function ProductList(props) {
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
     const history = useHistory();
+    const [listMode, setlistMode] =useState('list');
 
     const getProductListByRate = (rate) => {
         setIsLoading(true);
@@ -162,6 +177,11 @@ export default function ProductList(props) {
         }
     };
 
+    const handleMode = (event, newMode) => {
+        console.log(newMode)
+        setlistMode(newMode)
+    }
+
     const buildGrid = () => {
         if (isLoading) {
             return (
@@ -203,6 +223,27 @@ export default function ProductList(props) {
         }
     };
 
+    const buildMap = () => {
+        return(
+            <p>map</p>
+        )
+    }
+
+    const buildListSection = () =>   {
+        if (listMode === 'list') {
+            return (
+                <Grid container spacing={3} className={classes.gridContainer}>
+                    {buildGrid()}
+                </Grid>
+            )
+        } else {
+            return (
+                <div>
+                    {buildMap()}
+                </div>
+            )
+        }
+    }
     return (
         <div className={classes.main}>
             <Background/>
@@ -220,10 +261,26 @@ export default function ProductList(props) {
                     </div>
                 </Paper>
             </div>
-            <div className={classes.productListSectionContainer}>
-                <Grid container spacing={3} className={classes.gridContainer}>
-                    {buildGrid()}
-                </Grid>
+            <div className={classes.rightSection}>
+                <div className={classes.toggleModeButtonContainer}>
+                    <ToggleButtonGroup
+                        value={listMode}
+                        exclusive
+                        onChange={handleMode}
+                        aria-label="text alignment"
+                        className={classes.toggleModeButton}
+                    >
+                        <ToggleButton value="list" aria-label="list-mode">
+                            List
+                        </ToggleButton>
+                        <ToggleButton value="map" aria-label="map-mode">
+                            Map
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                </div>
+                <div className={classes.productListSectionContainer}>
+                    {buildListSection()}
+                </div>
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
                 <Fab onClick={() => {
@@ -235,3 +292,23 @@ export default function ProductList(props) {
         </div>
     );
 }
+
+// la vache vincra
+//                                       /;    ;\
+//                                   __  \\____//
+//                                  /{_\_/   `'\____
+//                                  \___   (o)  (o  }
+//       _____________________________/          :--'
+//   ,-,'`@@@@@@@@       @@@@@@         \_    `__\
+//  ;:(  @@@@@@@@@        @@@             \___(o'o)
+//  :: )  @@@@          @@@@@@        ,'@@(  `===='
+//     :: : @@@@@:          @@@@         `@@@:
+//  :: \  @@@@@:       @@@@@@@)    (  '@@@'
+//  ;; /\      /`,    @@@@@@@@@\   :@@@@@)
+// ::/  )    {_----------------:  :~`,~~;
+// ;;'`; :   )                  :  / `; ;
+// ;;;; : :   ;                  :  ;  ; :
+// `'`' / :  :                   :  :  : :
+// )_ \__;      ";"          :_ ;  \_\       `,','
+//    :__\  \    * `,'*         \  \  :  \   *  8`;'*
+// `^'     \ :/           `^'  `-^-'   \v/ :
