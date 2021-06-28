@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import ProductCard from '../components/ProductCard';
 import Grid from '@material-ui/core/Grid';
-import getProductList from '../api/getProductList';
+import getProductListApi from '../api/getProductList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import KmSlider from '../components/KmSlider';
 import {toast} from 'react-toastify';
@@ -14,6 +14,7 @@ import {useHistory} from 'react-router-dom';
 import Background from "../components/Background";
 import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column',
         width: '80%',
         height: '90%',
     },
@@ -55,10 +57,10 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
     },
     gridContainer: {
-        maxWidth: '80%',
-        height: '100%',
+        maxWidth: '98%',
+        height: '90%',
         maxHeight: '90%',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     nothingToShow: {
         fontFamily: 'Colfax-Medium',
@@ -71,9 +73,9 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '300px',
-        minWidth: '400px',
+        minWidth: '370px',
         height: '300px',
-        width: '400px',
+        width: '370px',
     },
     productCard: {
         height: '100%',
@@ -89,28 +91,16 @@ export default function ProductList(props) {
     const [sliderValue, setSliderValue] = useState(300);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
+    const [page, setPage] = useState(1);
+    const [pageNb, setPageNb] = useState(1);
     const history = useHistory();
 
-    const getProductListByRate = (rate) => {
+    const getProductList = (params) => {
         setIsLoading(true);
-        getProductList(sliderValue, location, rate, maxDate).then((response) => {
+        getProductListApi(8, page - 1, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
+            console.log(response);
             setProductList(response.docs);
-            setIsLoading(false);
-        });
-    };
-
-    const getProductListByDate = (date) => {
-        setIsLoading(true);
-        getProductList(sliderValue, location, minRate, date).then((response) => {
-            setProductList(response.docs);
-            setIsLoading(false);
-        });
-    };
-
-    const getProductListByKm = (km) => {
-        setIsLoading(true);
-        getProductList(km, location, minRate, maxDate).then((response) => {
-            setProductList(response.docs);
+            setPageNb(response.totalPages);
             setIsLoading(false);
         });
     };
@@ -124,12 +114,12 @@ export default function ProductList(props) {
             toast.error('Geolocation is not supported by this browser.');
             setLocation(-1);
         }
-        getProductListByKm(sliderValue);
+        getProductList({km: sliderValue});
     }, []);
 
     useEffect(() => {
-        getProductListByKm(sliderValue);
-    }, [location]);
+        getProductList({});
+    }, [location, page]);
 
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -146,12 +136,12 @@ export default function ProductList(props) {
 
     const handleRaterChange = (newValue) => {
         setMinRate(newValue);
-        getProductListByRate(newValue);
+        getProductList({rate: newValue});
     };
 
     const handleDateChange = (newValue) => {
         setMaxDate(newValue);
-        getProductListByDate(newValue);
+        getProductList({date: newValue});
     };
 
     const handleBlur = () => {
@@ -209,7 +199,7 @@ export default function ProductList(props) {
             <div className={classes.paramsSectionContainer}>
                 <Paper elevation={5} className={classes.paramsSection}>
                     <div className={classes.sliderContainer}>
-                        <KmSlider getProductListByKm={getProductListByKm} value={sliderValue} handleBlur={handleBlur}
+                        <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
                                   handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
                     </div>
                     <div className={classes.sliderContainer}>
@@ -224,6 +214,9 @@ export default function ProductList(props) {
                 <Grid container spacing={3} className={classes.gridContainer}>
                     {buildGrid()}
                 </Grid>
+                <div style={{height: '10%', paddingTop: '30px'}}>
+                    <Pagination page={page} onChange={(event, value) => {setPage(value)}} count={pageNb} variant="outlined" style={{color: 'white'}}/>
+                </div>
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
                 <Fab onClick={() => {

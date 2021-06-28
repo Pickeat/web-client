@@ -36,13 +36,13 @@ export default function KmSlider(props) {
                         onChange={props.handleSliderChange}
                         aria-labelledby="input-slider"
                         onChangeCommitted={(event, value) => {
-                            props.getProductListByKm(value);
+                            props.getProductList({km: value});
                         }}
                     />
                 </div>
                 <form onSubmit={(event) => {
                     event.stopPropagation();
-                    props.getProductListByKm(props.value);
+                    props.getProductList({km: props.value});
                 }} style={{width: '20%'}}>
                     <input onBlur={props.handleBlur} title={'Press enter to validate'} type={'number'}
                            style={{width: '100%'}}
@@ -56,7 +56,7 @@ export default function KmSlider(props) {
 
 KmSlider.propTypes = {
     value: PropTypes.number.isRequired,
-    getProductListByKm: PropTypes.func.isRequired,
+    getProductList: PropTypes.func.isRequired,
     handleSliderChange: PropTypes.func.isRequired,
     handleInputChange: PropTypes.func.isRequired,
     handleBlur: PropTypes.func.isRequired
