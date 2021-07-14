@@ -89,6 +89,7 @@ export default function ProductList(props) {
     const [productList, setProductList] = useState([]);
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [searchValue, setSearchValue] = useState("");
     const [sliderValue, setSliderValue] = useState(300);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
@@ -98,7 +99,7 @@ export default function ProductList(props) {
 
     const getProductList = (params) => {
         setIsLoading(true);
-        getProductListApi(8, page - 1, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
+        getProductListApi(8, page - 1, params.search || searchValue, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
             console.log(response);
             setProductList(response.docs);
             setPageNb(response.totalPages);
@@ -138,6 +139,11 @@ export default function ProductList(props) {
     const handleRaterChange = (newValue) => {
         setMinRate(newValue);
         getProductList({rate: newValue});
+    };
+
+    const handleSearchChange = (newValue) => {
+        setSearchValue(newValue);
+        getProductList({search: newValue});
     };
 
     const handleDateChange = (newValue) => {
@@ -200,8 +206,7 @@ export default function ProductList(props) {
             <div className={classes.paramsSectionContainer}>
                 <Paper elevation={5} className={classes.paramsSection}>
                     <div className={classes.filterContainer}>
-                        <SearchProduct getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
-                                  handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
+                        <SearchProduct label={"Search"} handleInputChange={handleSearchChange}/>
                     </div>
                     <div className={classes.filterContainer}>
                         <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
