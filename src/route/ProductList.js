@@ -15,6 +15,7 @@ import Background from "../components/Background";
 import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
 import Pagination from '@material-ui/lab/Pagination';
+import SearchProduct from "../components/SearchProduct";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
         height: '90%',
     },
-    sliderContainer: {
+    filterContainer: {
         margin: '10px',
         width: '80%',
     },
@@ -198,14 +199,18 @@ export default function ProductList(props) {
             <Background/>
             <div className={classes.paramsSectionContainer}>
                 <Paper elevation={5} className={classes.paramsSection}>
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.filterContainer}>
+                        <SearchProduct getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
+                                  handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
+                    </div>
+                    <div className={classes.filterContainer}>
                         <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
                                   handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
                     </div>
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.filterContainer}>
                         <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
                     </div>
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.filterContainer}>
                         <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
                     </div>
                 </Paper>
