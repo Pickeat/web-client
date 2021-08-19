@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Message from "./Message";
 import Cookies from 'js-cookie';
+import {isEmpty} from "../helpers/isEmpty";
 
 export default function (props) {
     const [message, setMessage] = useState("");
@@ -16,18 +17,21 @@ export default function (props) {
     }
 
     useEffect(() => {
-        setAllMessages([]);
+        setAllMessages(props?.room?.messages);
+        console.log(props?.room?.messages)
         // requestMessages(props.roomId);
         // getChatMessageSocket(setAllMessages, messagesContainerRef);
-    }, [props.roomId]);
+    }, [props.room]);
 
     const buildMessageList = () => {
-        console.log(allMessages);
+        if (isEmpty(props.room)) {
+            return <div className="w-full text-center mt-6 text-gray-500">No room selected</div>
+        }
         if (!allMessages || allMessages?.length === 0) {
             return <div className="w-full text-center mt-6 text-gray-500">No message</div>
         }
         return allMessages?.map((message, index) => {
-            return <Message key={index} sent={message.username === Cookies.get("username")} name={message.username} text={message.message}/>
+            return <Message key={index} sent={message.from._id === Cookies.get("user_id")} name={message.from.name} text={message.message}/>
         })
     };
 
@@ -36,7 +40,7 @@ export default function (props) {
             {/*<div className="flex flex-row justify-center items-center border-b border-solid border-blueGray-200 p-2">*/}
             {/*    <div className="flex">Room: <div className="ml-2 font-bold">{props.roomId}</div></div>*/}
             {/*</div>*/}
-            <div className="flex flex-col overflow-y-scroll overflow-x-hidden" style={{height: '90vh'}}>
+            <div className="flex flex-col pt-8 overflow-y-hidden overflow-x-hidden" style={{height: '90vh'}}>
                 {buildMessageList()}
                 <div ref={messagesContainerRef}/>
             </div>
