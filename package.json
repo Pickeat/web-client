@@ -37,7 +37,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/*/*.js src/*.js"
+    "lint": "eslint src/*/*.js src/*.js",
+    "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,6 +58,7 @@
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.2.4",
     "autoprefixer": "^9.8.6",
+    "eslint": "^7.32.0",
     "postcss": "^7.0.36",
     "postcss-cli": "^8.3.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
