@@ -11,7 +11,7 @@ export default function IntroMobile(props) {
                     <img width="100%" src={logo} alt={'logo'}/>
                 </div>
                 <div className="textRegular text-center bg-green-900 text-white">
-                    Hello ! Welcome on Pickeat website, you can download our app on Android by clicking on this link
+                    Hello ! Welcome on Pickeat website, you can either download our app on Android by clicking on this link or enjoy the website by going on your computer
                 </div>
                 <div className="w-48">
                     <a href='https://download-apk.pickeat.fr/'>
