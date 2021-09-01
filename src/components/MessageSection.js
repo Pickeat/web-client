@@ -29,8 +29,11 @@ export default function (props) {
         setSocket(_socket);
         _socket.off("message");
         _socket.on("message", (message) => {
-            console.log("All messages: ", allMessages);
+            console.log("All messages: ", props?.room?.messages);
             console.log("New message: ", message);
+            let newMessageList = props?.room?.messages;
+            newMessageList.push(message);
+            setAllMessages(newMessageList);
 //             const convExist = conversations.find((conv: any) => conv.contactId === message.from);
 //             console.log(convExist)
 //             if(convExist) {
