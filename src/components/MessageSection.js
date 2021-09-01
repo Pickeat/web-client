@@ -1,27 +1,58 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Message from "./Message";
 import Cookies from 'js-cookie';
+import socketIOClient from "socket.io-client";
 import {isEmpty} from "../helpers/isEmpty";
+
 
 export default function (props) {
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const messagesContainerRef = useRef(null);
+    const [socket, setSocket] = useState(socketIOClient());
 
-    const sendMessage = (e) => {
-        if (message !== "") {
-            // sendMessageSocket(message, Cookies.get("username"), props.roomId);
-            setMessage("");
-            e.preventDefault();
-        }
-    }
 
     useEffect(() => {
         setAllMessages(props?.room?.messages);
-        console.log(props?.room?.messages)
-        // requestMessages(props.roomId);
-        // getChatMessageSocket(setAllMessages, messagesContainerRef);
+        console.log("room:", props?.room)
+        const user_id = Cookies.get('user_id');
+        const jwt = Cookies.get('jwt');
+        const _socket = socketIOClient("https://socket.pickeat.fr/", {
+            reconnectionAttempts: 2,
+            upgrade: false,
+            transports: ['websocket'],
+            query: {
+                id: user_id,
+                token: jwt,
+            }
+        });
+        setSocket(_socket);
+        _socket.off("message");
+        _socket.on("message", (message) => {
+            console.log("All messages: ", allMessages);
+            console.log("New message: ", message);
+//             const convExist = conversations.find((conv: any) => conv.contactId === message.from);
+//             console.log(convExist)
+//             if(convExist) {
+//                 setAllMessages([...message])
+//             } else {
+// //               A gerer plus tard pour refaire la req qui recupère les conversations pour afficher la nouvelle
+//             }
+        })
+        return(() => {
+            _socket.disconnect()
+        })
     }, [props.room]);
+
+    const sendMessage = (e) => {
+        e.preventDefault();
+        if (message !== "") {
+            const user_id = Cookies.get('user_id');
+            const to = props?.room?.contactId;
+            socket.emit("sendMessage", {to, from: user_id, message})
+            setMessage("");
+        }
+    }
 
     const buildMessageList = () => {
         if (isEmpty(props.room)) {

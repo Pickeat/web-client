@@ -5,18 +5,7 @@ export default function ChatList(props) {
 
     useEffect(() => {
         setRoomList(props.roomList)
-        console.log(props.roomList)
     }, [props])
-
-    useEffect(() => {
-        // listRooms().then((response) => {
-        //     if (response.success) {
-        //         setRoomList(response.success.rooms);
-        //     }
-        // }).catch((error) => {
-        //     console.log(error);
-        // });
-    }, []);
 
     const changeRoom = (e, room) => {
         e.preventDefault();
@@ -36,7 +25,7 @@ export default function ChatList(props) {
                                         <img className="h-10 w-10 rounded-full" src='https://picsum.photos/200/300' alt=""/>
                                     </span>
                                     <div className="ml-4 truncate">
-                                        <p className="text-sm font-medium text-gray-900 truncate">{room.contactName}</p>
+                                        <p className="text-sm font-medium text-gray-900 truncate">{room.contactName || room.contactId}</p>
                                     </div>
                                 </div>
                             </a>

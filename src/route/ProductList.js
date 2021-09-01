@@ -32,11 +32,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '20%',
+        width: '400px',
         height: '90%',
     },
     paramsSection: {
-        width: '95%',
+        width: '360px',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -90,7 +90,7 @@ export default function ProductList(props) {
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
-    const [sliderValue, setSliderValue] = useState(300);
+    const [sliderValue, setSliderValue] = useState(1);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
     const [page, setPage] = useState(1);
@@ -124,6 +124,7 @@ export default function ProductList(props) {
     }, [location, page]);
 
     const handleSliderChange = (event, newValue) => {
+        event.preventDefault();
         setSliderValue(newValue);
     };
 
