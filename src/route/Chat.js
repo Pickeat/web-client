@@ -6,10 +6,13 @@ import getAllMessagesInBdd from "../api/getAllMessagesInBdd";
 export default function Chat(props) {
     const [currentRoom, setCurrentRoom] = useState({});
     const [roomList, setRoomList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true);
         getAllMessagesInBdd().then((res) => {
             setRoomList(res);
+            setIsLoading(false);
         });
     }, []);
 
@@ -20,6 +23,9 @@ export default function Chat(props) {
                     <div className="flex-1 flex xl:overflow-hidden">
                         <section aria-labelledby="primary-heading" className="min-w-0 max-w-lg h-full flex flex-col overflow-hidden flex-1 lg:order-first">
                             <h1 id="primary-heading" className="sr-only text-black ">Account</h1>
+                            {isLoading &&
+                                <div className="textMedium">Loading...</div>
+                            }
                             <ChatList setRoom={setCurrentRoom} roomList={roomList}/>
                         </section>
 
