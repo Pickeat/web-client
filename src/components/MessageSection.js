@@ -4,13 +4,11 @@ import Cookies from 'js-cookie';
 import socketIOClient from "socket.io-client";
 import {isEmpty} from "../helpers/isEmpty";
 
-
 export default function (props) {
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const messagesContainerRef = useRef(null);
     const [socket, setSocket] = useState(socketIOClient());
-
 
     useEffect(() => {
         setAllMessages(props?.room?.messages);
@@ -27,22 +25,26 @@ export default function (props) {
             }
         });
         setSocket(_socket);
-        _socket.off("message");
-        _socket.on("message", (message) => {
-            console.log("All messages: ", allMessages);
-            console.log("New message: ", message);
-//             const convExist = conversations.find((conv: any) => conv.contactId === message.from);
-//             console.log(convExist)
-//             if(convExist) {
-//                 setAllMessages([...message])
-//             } else {
-// //               A gerer plus tard pour refaire la req qui recupère les conversations pour afficher la nouvelle
-//             }
-        })
         return (() => {
             _socket.disconnect()
         })
     }, [props.room]);
+
+    useEffect(() => {
+        if (!socket)
+            return;
+        socket.off("message");
+        socket.on("message", (message) => {
+            console.log("New message: ", message);
+            console.log("My ID :", Cookies.get('user_id'));
+            console.log("His ID: ", props?.room?.contactId);
+            //La conditon marche pas quand c'est toi qui envoie le message
+            if ((message.from._id === Cookies.get('user_id') || message.to._id === Cookies.get('user_id'))
+                && (message.from._id === props?.room?.contactId || message.to._id === props?.room?.contactId)) {
+                setAllMessages([...allMessages, message]);
+            }
+        })
+    }, [socket])
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -63,7 +65,8 @@ export default function (props) {
         }
         return <>
             {allMessages?.map((message, index) => {
-                return <Message key={index} sent={message.from._id === Cookies.get("user_id")} name={message.from.name}
+                return <Message key={index} sent={message.from._id === Cookies.get("user_id")}
+                                name={message?.from?.name || ""}
                                 text={message.message}/>
             })}
         </>
