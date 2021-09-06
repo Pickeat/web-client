@@ -30,6 +30,7 @@ import confirmExchangeApi from "../api/confirmExchangeApi";
 import PickerRateSection from "../components/PickerRateSection";
 import postReportUserApi from "../api/reportUserApi";
 import postEditAnnounceApi from "../api/postEditAnnounce";
+import ReservationSection from "../components/ReservationSection";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -214,9 +215,6 @@ export default function Product(props) {
     const [productTitle, setProductTitle] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [productExpirationDate, setProductExpirationDate] = useState("");
-    const [isReserveLoading, setIsReserveLoading] = useState(false);
-    const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
-    const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
 
     const reportGiverApiCall = () => {
         postReportUserApi(data.user._id).then(() => {
@@ -287,7 +285,7 @@ export default function Product(props) {
                         setUserProductInfoCall(id, productTitle, productDescription, productExpirationDate);
                         setIsEditMode(false)
                     }} className="pickeatBtn"
-                       style={{width: '100%', height: '40px'}}
+                            style={{width: '100%', height: '40px'}}
                     >
                         Validate changes</Button>
                 </div>
@@ -440,53 +438,16 @@ export default function Product(props) {
         )
     }
 
-    const confirmMeetUp = (meetUpHappened) => {
-        if (meetUpHappened) {
-            setIsMeetUpPositiveButtonLoading(true);
-            confirmExchangeApi(data._id, true).then((response) => {
-                window.location.reload();
-            })
-        } else {
-            setIsMeetUpNegativeButtonLoading(true);
-            confirmExchangeApi(data._id, false).then((response) => {
-                window.location.reload();
-            })
-        }
-    }
-
     const getOwnUserNameCall = () => {
         getUserMeApi().then((response) => {
             setOwnId(response?._id);
         });
     }
 
-    const buildMeetUpButtons = () => {
-        return (
-            <div className={classes.contactBtnContainer}>
-                <Button className="pickeatBtn"
-                        onClick={() => {
-                            confirmMeetUp(true)
-                        }}
-                        style={{width: '45%', height: '40px'}}>
-                    {(isMeetUpPositiveButtonLoading ?
-                        <CircularProgress style={{color: 'white'}}/> : "L’échange a eu lieu")}
-                </Button>
-                <Button className="pickeatBtnRed"
-                        onClick={() => {
-                            confirmMeetUp(false)
-                        }}
-                        style={{width: '50%', height: '40px'}}>
-                    {(isMeetUpNegativeButtonLoading ?
-                        <CircularProgress style={{color: 'white'}}/> : "L’échange n’a pas eu lieu")}
-                </Button>
-            </div>
-        )
-    }
-
     const buildProductDistance = () => {
         if (productDistance === -1)
             return ('Sorry we had a problem computing the distance');
-        return ((productDistance/1000).toFixed(1) + ' Km');
+        return ((productDistance / 1000).toFixed(1) + ' Km');
     };
 
     if (isEmpty(data))
@@ -495,92 +456,6 @@ export default function Product(props) {
                 <CircularProgress/>
             </div>
         );
-
-    const buildReservationSection = () => {
-        const confirmProductReservation = () => {
-            setIsReserveLoading(true);
-            confirmProductReservationApi(id).then(success => {
-                setIsReserveLoading(false);
-                window.location.reload();
-            });
-        }
-
-        const reserveProduct = () => {
-            setIsReserveLoading(true);
-            reserveProductApi(id).then(success => {
-                setIsReserveLoading(false);
-                window.location.reload();
-            });
-        }
-
-        if (isEmpty(data))
-            return
-        //GIVER SECTION
-        if (OwnId && OwnId === data.user._id) {
-            if (data.status === 'available') {
-                return;
-            } else if (data.status === 'waiting-for-reservation') {
-                return (
-                    <div className={classes.contactBtnContainer}>
-                        <Tooltip
-                            TransitionComponent={Zoom}
-                            title={"Once the request is accepted, we will send your number by email to the person wishing to collect your product so that you can agree on a date and time"}
-                            arrow>
-                            <Button className="pickeatBtn"
-                                    onClick={() => {
-                                        confirmProductReservation()
-                                    }}
-                                    style={{width: '100%', height: '40px'}}>
-                                {(isReserveLoading ?
-                                    <CircularProgress style={{color: 'white'}}/> : "Confirm reservation")}
-                            </Button>
-                        </Tooltip>
-                    </div>
-                );
-            } else if (data.status === 'reserved') {
-                if (data?.confirmation?.giver === false) {
-                    return (
-                        <>
-                            {buildMeetUpButtons()}
-                        </>
-                    )
-                } else {
-
-                }
-            }
-        } else {
-            //PICKER SECTION
-            if (data.status === 'available') {
-                return (
-                    <div className={classes.contactBtnContainer}>
-                        <Button className="pickeatBtn"
-                                onClick={() => {
-                                    reserveProduct()
-                                }}
-                                style={{width: '100%', height: '40px'}}>
-                            {(isReserveLoading ? <CircularProgress style={{color: 'white'}}/> : "Reserve the product")}
-                        </Button>
-                    </div>
-                )
-            } else if (data.status === 'waiting-for-reservation') {
-
-            } else if (data.status === 'reserved') {
-                if (data?.confirmation?.picker === false) {
-                    return (
-                        <>
-                            {buildMeetUpButtons()}
-                        </>
-                    )
-                } else {
-
-                }
-            } else if (data.status === 'given') {
-                return (
-                    <PickerRateSection productId={id}/>
-                )
-            }
-        }
-    }
 
     const buildReportSection = () => {
         if (OwnId && OwnId === data.user._id) {
@@ -607,12 +482,12 @@ export default function Product(props) {
         }
         if (OwnId && OwnId === data.user._id) { //Giver
             return (<div className={classes.contactBtnContainer}>
-                <Button className="pickeatBtnSlim" onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    deleteAnnounceApiCall();
-                }} style={{width: '100%', height: '40px'}}>Remove announce</Button>
-        </div>
+                    <Button className="pickeatBtnSlim" onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        deleteAnnounceApiCall();
+                    }} style={{width: '100%', height: '40px'}}>Remove announce</Button>
+                </div>
             )
         }
     }
@@ -664,7 +539,7 @@ export default function Product(props) {
                                     <UserAvailabilities data={data.user?.availability}/>
                                 </div>
                             </Modal>
-                            {buildReservationSection()}
+                            <ReservationSection ownId={OwnId} product={data}/>
                             {buildReportSection()}
                             {buildDeleteAnnounce()}
                         </div>

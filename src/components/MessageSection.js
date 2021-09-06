@@ -4,13 +4,11 @@ import Cookies from 'js-cookie';
 import socketIOClient from "socket.io-client";
 import {isEmpty} from "../helpers/isEmpty";
 
-
 export default function (props) {
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const messagesContainerRef = useRef(null);
     const [socket, setSocket] = useState(socketIOClient());
-
 
     useEffect(() => {
         setAllMessages(props?.room?.messages);
@@ -27,25 +25,26 @@ export default function (props) {
             }
         });
         setSocket(_socket);
-        _socket.off("message");
-        _socket.on("message", (message) => {
-            console.log("All messages: ", props?.room?.messages);
-            console.log("New message: ", message);
-            let newMessageList = props?.room?.messages;
-            newMessageList.push(message);
-            setAllMessages(newMessageList);
-//             const convExist = conversations.find((conv: any) => conv.contactId === message.from);
-//             console.log(convExist)
-//             if(convExist) {
-//                 setAllMessages([...message])
-//             } else {
-// //               A gerer plus tard pour refaire la req qui recupère les conversations pour afficher la nouvelle
-//             }
-        })
-        return(() => {
+        return (() => {
             _socket.disconnect()
         })
     }, [props.room]);
+
+    useEffect(() => {
+        if (!socket)
+            return;
+        socket.off("message");
+        socket.on("message", (message) => {
+            console.log("New message: ", message);
+            console.log("My ID :", Cookies.get('user_id'));
+            console.log("His ID: ", props?.room?.contactId);
+            //La conditon marche pas quand c'est toi qui envoie le message
+            if ((message.from._id === Cookies.get('user_id') || message.to._id === Cookies.get('user_id'))
+                && (message.from._id === props?.room?.contactId || message.to._id === props?.room?.contactId)) {
+                setAllMessages([...allMessages, message]);
+            }
+        })
+    }, [socket])
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -64,9 +63,13 @@ export default function (props) {
         if (!allMessages || allMessages?.length === 0) {
             return <div className="w-full text-center mt-6 text-gray-500">No message</div>
         }
-        return allMessages?.map((message, index) => {
-            return <Message key={index} sent={message.from._id === Cookies.get("user_id")} name={message.from.name} text={message.message}/>
-        })
+        return <>
+            {allMessages?.map((message, index) => {
+                return <Message key={index} sent={message.from._id === Cookies.get("user_id")}
+                                name={message?.from?.name || ""}
+                                text={message.message}/>
+            })}
+        </>
     };
 
     return (
@@ -74,7 +77,7 @@ export default function (props) {
             {/*<div className="flex flex-row justify-center items-center border-b border-solid border-blueGray-200 p-2">*/}
             {/*    <div className="flex">Room: <div className="ml-2 font-bold">{props.roomId}</div></div>*/}
             {/*</div>*/}
-            <div className="flex flex-col pt-8 overflow-y-hidden overflow-x-hidden" style={{height: '90vh'}}>
+            <div className="flex flex-col pt-8 overflow-y-scroll overflow-x-hidden" style={{height: '85vh'}}>
                 {buildMessageList()}
                 <div ref={messagesContainerRef}/>
             </div>
