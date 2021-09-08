@@ -16,6 +16,8 @@ import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
 import Pagination from '@material-ui/lab/Pagination';
 import SearchProduct from "../components/SearchProduct";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -96,6 +98,7 @@ export default function ProductList(props) {
     const [page, setPage] = useState(1);
     const [pageNb, setPageNb] = useState(1);
     const history = useHistory();
+    const [viewProductMode, SetViewProductMode] = React.useState('list');
 
     const getProductList = (params) => {
         setIsLoading(true);
@@ -152,6 +155,10 @@ export default function ProductList(props) {
         getProductList({date: newValue});
     };
 
+    const handleViewProductMode = (event, newMode) => {
+        SetViewProductMode(newMode);
+    };
+
     const handleBlur = () => {
         if (sliderValue < 0) {
             setSliderValue(0);
@@ -201,6 +208,29 @@ export default function ProductList(props) {
         }
     };
 
+    const BuildProductList = () => {
+        if (viewProductMode === 'list') {
+        return (
+            <div>
+                <Grid container spacing={3} className={classes.gridContainer}>
+                    {buildGrid()}
+                </Grid>
+                <div style={{height: '10%', paddingTop: '30px'}}>
+                    <Pagination page={page} onChange={(event, value) => {
+                        setPage(value)
+                    }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
+                </div>
+            </div>
+        )
+        } else {
+            return (
+                <div>
+                    maaaaaap
+                </div>
+            )
+        }
+    }
+
     return (
         <div className={classes.main}>
             <Background/>
@@ -222,12 +252,21 @@ export default function ProductList(props) {
                 </Paper>
             </div>
             <div className={classes.productListSectionContainer}>
-                <Grid container spacing={3} className={classes.gridContainer}>
-                    {buildGrid()}
-                </Grid>
-                <div style={{height: '10%', paddingTop: '30px'}}>
-                    <Pagination page={page} onChange={(event, value) => {setPage(value)}} count={pageNb} variant="outlined" style={{color: 'white'}}/>
-                </div>
+                <ToggleButtonGroup
+                    value={viewProductMode}
+                    exclusive
+                    onChange={handleViewProductMode}
+                    aria-label="view product mode"
+                    style={{}}
+                >
+                    <ToggleButton value="list" aria-label="list">
+                        List
+                    </ToggleButton>
+                    <ToggleButton value="map" aria-label="map">
+                        Map
+                    </ToggleButton>
+                </ToggleButtonGroup>
+                {BuildProductList()}
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
                 <Fab onClick={() => {
