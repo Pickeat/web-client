@@ -33,3 +33,4 @@ export const POST_CONFIRM_ACCOUNT = BASE_URL + '/users/confirm_account';
 export const DELETE_CONFIRM_ACCOUNT = BASE_URL + '/users/confirm_delete';
 export const POST_SENT_CONFIRM_EMAIL = BASE_URL + '/users/send_confirm_email';
 export const GET_ALL_MESSAGES = BASE_URL + '/messages';
+export const GET_CURRENT_TRADES = BASE_URL + '/current_trade';
