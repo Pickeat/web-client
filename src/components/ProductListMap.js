@@ -79,17 +79,13 @@ const ProductListMap = (props) => {
             })
         );
 
-        const handleClick = (e) => {
-            console.log("cool frog man")
-        }
-
         const BuildPopUp = (index) => {
             return (
                 '<h4>' +
                 productList[index].title +
-                '<a href="https://app.pickeat.fr/#/product/'+ productList[index]._id +'" target="_blank">' +
+                // '<a href="https://app.pickeat.fr/#/product/'+ productList[index]._id +'" target="_blank">' +
                     '<img style="height: 150px" src=' + 'https://minio.pickeat.fr/minio/download/products/' + productList[index].image + '?token=' + '>' +
-                '</a>' +
+                // '</a>' +
                 '</h4>'
             )
         };
@@ -102,14 +98,19 @@ const ProductListMap = (props) => {
             const popUp = new mapboxgl.Popup({className: classes.popUpMap })
                 .setHTML(BuildPopUp(index))
 
-            new mapboxgl.Marker()
+            const newMarker = new mapboxgl.Marker()
                 .setLngLat([productList[index].location[0], productList[index].location[1]])
                 .setPopup(popUp)
                 .addTo(map);
-            // popUp.getElement().addEventListener('click', () => {
-            //     console.log("Clicked");
-            //     history.push(`/product/${productList[index]?._id}`);
-            // });
+
+            const markerDiv = newMarker.getElement();
+
+            markerDiv.addEventListener('mouseenter', () => newMarker.togglePopup());
+            markerDiv.addEventListener('mouseleave', () => newMarker.togglePopup());
+            markerDiv.addEventListener('click', () => {
+                console.log("Clicked");
+                history.push(`/product/${productList[index]?._id}`);
+            });
         }
         // for (props.lng && props.lat) {
         //     new mapboxgl.Marker()
