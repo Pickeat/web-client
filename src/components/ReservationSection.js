@@ -9,7 +9,8 @@ import PickerRateSection from "./PickerRateSection";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import confirmExchangeApi from "../api/confirmExchangeApi";
 import PropTypes from "prop-types";
-import DispoModal from "./DispoModal";
+import getProductApi from "../api/getProductApi";
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
     contactBtnContainer: {
@@ -26,19 +27,30 @@ export default function ReservationSection(props) {
     const [isReserveLoading, setIsReserveLoading] = useState(false);
     const [isMeetUpPositiveButtonLoading, setIsMeetUpPositiveButtonLoading] = useState(false);
     const [isMeetUpNegativeButtonLoading, setIsMeetUpNegativeButtonLoading] = useState(false);
+    const [product, setProduct] = useState({});
+    const [ownId, setOwnId] = useState("");
 
     useEffect(() => {
-    }, []);
+        getProductApi(props?.product?._id).then((res) => {
+            console.log(res)
+            if (!res.user) {
+                toast.error("User no longer exist")
+                return
+            }
+            setProduct(res)
+        });
+        setOwnId(props.ownId)
+    }, [props, props.product, props.ownId]);
 
     const confirmMeetUp = (meetUpHappened) => {
         if (meetUpHappened) {
             setIsMeetUpPositiveButtonLoading(true);
-            confirmExchangeApi(props.product._id, true).then((response) => {
+            confirmExchangeApi(product._id, true).then((response) => {
                 window.location.reload();
             })
         } else {
             setIsMeetUpNegativeButtonLoading(true);
-            confirmExchangeApi(props.product._id, false).then((response) => {
+            confirmExchangeApi(product._id, false).then((response) => {
                 window.location.reload();
             })
         }
@@ -70,7 +82,7 @@ export default function ReservationSection(props) {
     const buildReservationSection = () => {
         const confirmProductReservation = () => {
             setIsReserveLoading(true);
-            confirmProductReservationApi(props.product._id).then(success => {
+            confirmProductReservationApi(product._id).then(success => {
                 setIsReserveLoading(false);
                 window.location.reload();
             });
@@ -78,19 +90,20 @@ export default function ReservationSection(props) {
 
         const reserveProduct = () => {
             setIsReserveLoading(true);
-            reserveProductApi(props.product._id).then(success => {
+            reserveProductApi(product._id).then(success => {
                 setIsReserveLoading(false);
                 window.location.reload();
             });
         }
 
-        if (isEmpty(props.product))
+        if (isEmpty(product))
             return
         //GIVER SECTION
-        if (props.ownId && props.ownId === props.product.user._id) {
-            if (props.product.status === 'available') {
+        console.log("product: ", product);
+        if (ownId && ownId === product.user._id) {
+            if (product.status === 'available') {
                 return;
-            } else if (props.product.status === 'waiting-for-reservation') {
+            } else if (product.status === 'waiting-for-reservation') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Tooltip
@@ -108,8 +121,9 @@ export default function ReservationSection(props) {
                         </Tooltip>
                     </div>
                 );
-            } else if (props.product.status === 'reserved') {
-                if (props.product?.confirmation?.giver === false) {
+            } else if (product.status === 'reserved') {
+                if (product?.confirmation?.giver === false) {
+                console.log('Ca passe là')
                     return (
                         <>
                             {buildMeetUpButtons()}
@@ -121,7 +135,7 @@ export default function ReservationSection(props) {
             }
         } else {
             //PICKER SECTION
-            if (props.product.status === 'available') {
+            if (product.status === 'available') {
                 return (
                     <div className={classes.contactBtnContainer}>
                         <Button className="pickeatBtn"
@@ -133,10 +147,10 @@ export default function ReservationSection(props) {
                         </Button>
                     </div>
                 )
-            } else if (props.product.status === 'waiting-for-reservation') {
+            } else if (product.status === 'waiting-for-reservation') {
 
-            } else if (props.product.status === 'reserved') {
-                if (props.product?.confirmation?.picker === false) {
+            } else if (product.status === 'reserved') {
+                if (product?.confirmation?.picker === false) {
                     return (
                         <>
                             {buildMeetUpButtons()}
@@ -145,9 +159,9 @@ export default function ReservationSection(props) {
                 } else {
 
                 }
-            } else if (props.product.status === 'given') {
+            } else if (product.status === 'given') {
                 return (
-                    <PickerRateSection productId={props.product._id}/>
+                    <PickerRateSection productId={product._id}/>
                 )
             }
         }

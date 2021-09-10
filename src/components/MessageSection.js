@@ -3,6 +3,7 @@ import Message from "./Message";
 import Cookies from 'js-cookie';
 import socketIOClient from "socket.io-client";
 import {isEmpty} from "../helpers/isEmpty";
+import getCurrentTradesBetweenTwoUsers from "../api/getCurrentTradesBetweenTwoUsers";
 
 export default function (props) {
     const [message, setMessage] = useState("");
