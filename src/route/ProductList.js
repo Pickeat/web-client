@@ -18,6 +18,8 @@ import Pagination from '@material-ui/lab/Pagination';
 import SearchProduct from "../components/SearchProduct";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ProductListMap from "../components/ProductListMap";
+import Map from "../components/Map";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -47,13 +49,26 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         backgroundColor: 'white',
     },
+    rightSection: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        height: '90%',
+        // backgroundColor: 'black',
+    },
     productListSectionContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        width: '80%',
-        height: '90%',
+        width: '95%',
+        height: '100%',
+    },
+    toggleViewProductModeButton: {
+        display: 'flex',
+        height: '5%',
+        paddingBottom: '1%'
     },
     filterContainer: {
         margin: '10px',
@@ -83,6 +98,12 @@ const useStyles = makeStyles(theme => ({
     productCard: {
         height: '100%',
         width: '100%',
+    },
+    productMapContainer: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        marginTop: '2%',
     },
 }));
 
@@ -210,25 +231,44 @@ export default function ProductList(props) {
 
     const BuildProductList = () => {
         if (viewProductMode === 'list') {
-        return (
-            <div>
-                <Grid container spacing={3} className={classes.gridContainer}>
-                    {buildGrid()}
-                </Grid>
-                <div style={{height: '10%', paddingTop: '30px'}}>
-                    <Pagination page={page} onChange={(event, value) => {
-                        setPage(value)
-                    }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
-                </div>
-            </div>
-        )
-        } else {
             return (
-                <div>
-                    maaaaaap
+                <div style={{height: '100%', width: '100%'}}>
+                    <Grid container spacing={3} className={classes.gridContainer}>
+                        {buildGrid()}
+                    </Grid>
+                    <div style={{height: '10%', paddingTop: '30px'}}>
+                        <Pagination page={page} onChange={(event, value) => {
+                            setPage(value)
+                        }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
+                    </div>
                 </div>
             )
+        } else {
+            return (
+                <Paper elevation={4} className={classes.productMapContainer}>
+                    <ProductListMap productList={productList} zoom={17}/>
+                </Paper>
+            )
         }
+    }
+
+    const BuildToggleButton = () => {
+        return (
+            <ToggleButtonGroup
+                value={viewProductMode}
+                exclusive
+                onChange={handleViewProductMode}
+                aria-label="view product mode"
+                className={classes.toggleViewProductModeButton}
+            >
+                <ToggleButton value="list" aria-label="list">
+                    List
+                </ToggleButton>
+                <ToggleButton value="map" aria-label="map">
+                    Map
+                </ToggleButton>
+            </ToggleButtonGroup>
+        )
     }
 
     return (
@@ -251,22 +291,11 @@ export default function ProductList(props) {
                     </div>
                 </Paper>
             </div>
-            <div className={classes.productListSectionContainer}>
-                <ToggleButtonGroup
-                    value={viewProductMode}
-                    exclusive
-                    onChange={handleViewProductMode}
-                    aria-label="view product mode"
-                    style={{}}
-                >
-                    <ToggleButton value="list" aria-label="list">
-                        List
-                    </ToggleButton>
-                    <ToggleButton value="map" aria-label="map">
-                        Map
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                {BuildProductList()}
+            <div className={classes.rightSection}>
+                {BuildToggleButton()}
+                <div className={classes.productListSectionContainer}>
+                    {BuildProductList()}
+                </div>
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
                 <Fab onClick={() => {
