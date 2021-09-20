@@ -34,22 +34,20 @@ const ProductListMap = (props) => {
     //     }
     // }));
     const classes = useStyles();
-    const [productList, setProductList] = useState(props.productList);
     const [zoom, setZoom] = useState(props.zoom);
-    const [geoPosition, setGeoPosition] = useState();
     const history = useHistory();
 
 
     // Initialize map when component mounts
     useEffect(() => {
-        if (!productList) {
+        if (!props.productList) {
             return;
         }
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             // center: [geoPosition.coords.longitude, geoPosition.coords.latitude], // starting position
-            center: [1.1508663, 49.4376803], // starting position
+            center: [props.location?.lng, props.location?.lat], // starting position
             zoom: zoom
         });
         map.on('load', function () {
@@ -82,24 +80,21 @@ const ProductListMap = (props) => {
         const BuildPopUp = (index) => {
             return (
                 '<h4>' +
-                productList[index].title +
-                // '<a href="https://app.pickeat.fr/#/product/'+ productList[index]._id +'" target="_blank">' +
-                    '<img style="height: 150px" src=' + 'https://minio.pickeat.fr/minio/download/products/' + productList[index].image + '?token=' + '>' +
+                props.productList[index].title +
+                // '<a href="https://app.pickeat.fr/#/product/'+ props.productList[index]._id +'" target="_blank">' +
+                    '<img style="height: 150px" src=' + 'https://minio.pickeat.fr/minio/download/products/' + props.productList[index].image + '?token=' + '>' +
                 // '</a>' +
                 '</h4>'
             )
         };
 
 
-        for (const index in productList) {
-            //debug
-            console.log(productList[index])
-
+        for (const index in props.productList) {
             const popUp = new mapboxgl.Popup({className: classes.popUpMap })
                 .setHTML(BuildPopUp(index))
 
             const newMarker = new mapboxgl.Marker()
-                .setLngLat([productList[index].location[0], productList[index].location[1]])
+                .setLngLat([props.productList[index].location[0], props.productList[index].location[1]])
                 .setPopup(popUp)
                 .addTo(map);
 
@@ -108,8 +103,7 @@ const ProductListMap = (props) => {
             markerDiv.addEventListener('mouseenter', () => newMarker.togglePopup());
             markerDiv.addEventListener('mouseleave', () => newMarker.togglePopup());
             markerDiv.addEventListener('click', () => {
-                console.log("Clicked");
-                history.push(`/product/${productList[index]?._id}`);
+                history.push(`/product/${props.productList[index]?._id}`);
             });
         }
         // for (props.lng && props.lat) {
@@ -119,7 +113,7 @@ const ProductListMap = (props) => {
         // }
         // Clean up on unmount
         return () => map.remove();
-    }, []);
+    }, [props.productList, props.location]);
     // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

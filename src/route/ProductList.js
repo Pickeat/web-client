@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        width: '95%',
+        width: '97%',
         height: '100%',
     },
     toggleViewProductModeButton: {
@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
     },
     gridContainer: {
-        maxWidth: '98%',
+        maxWidth: '100%',
         height: '90%',
         maxHeight: '90%',
         overflowY: 'auto',
@@ -123,8 +123,10 @@ export default function ProductList(props) {
 
     const getProductList = (params) => {
         setIsLoading(true);
-        getProductListApi(8, page - 1, params.search || searchValue, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
-            console.log(response);
+        let search = params.search;
+        if (params.search === undefined)
+            search = searchValue
+        getProductListApi(8, page - 1, search, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
             setProductList(response.docs);
             setPageNb(response.totalPages);
             setIsLoading(false);
@@ -145,7 +147,7 @@ export default function ProductList(props) {
 
     useEffect(() => {
         getProductList({});
-    }, [location, page]);
+    }, [location, page, viewProductMode]);
 
     const handleSliderChange = (event, newValue) => {
         event.preventDefault();
@@ -168,7 +170,7 @@ export default function ProductList(props) {
 
     const handleSearchChange = (newValue) => {
         setSearchValue(newValue);
-        getProductList({search: newValue});
+        getProductList({search: (newValue.length === 0 ? "" : newValue)})
     };
 
     const handleDateChange = (newValue) => {
@@ -177,7 +179,8 @@ export default function ProductList(props) {
     };
 
     const handleViewProductMode = (event, newMode) => {
-        SetViewProductMode(newMode);
+        if (newMode)
+            SetViewProductMode(newMode);
     };
 
     const handleBlur = () => {
@@ -232,7 +235,7 @@ export default function ProductList(props) {
     const BuildProductList = () => {
         if (viewProductMode === 'list') {
             return (
-                <div style={{height: '100%', width: '100%'}}>
+                <>
                     <Grid container spacing={3} className={classes.gridContainer}>
                         {buildGrid()}
                     </Grid>
@@ -241,12 +244,12 @@ export default function ProductList(props) {
                             setPage(value)
                         }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
                     </div>
-                </div>
+                </>
             )
         } else {
             return (
                 <Paper elevation={4} className={classes.productMapContainer}>
-                    <ProductListMap productList={productList} zoom={17}/>
+                    <ProductListMap location={location} productList={productList} zoom={17}/>
                 </Paper>
             )
         }
