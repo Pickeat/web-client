@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +11,11 @@ import BackArrow from "../components/BackArrow";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
 import Background from "../components/Background";
+import {startScanner, stopScanner} from "../helpers/scanner";
+import Modal from "../components/Modal";
+import getProductWithBarCode from "../api/getProductWithBarCode";
+import CropFreeIcon from '@material-ui/icons/CropFree';
+import {CropFree} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -20,6 +25,7 @@ const useStyles = makeStyles(theme => ({
         height: '100vh',
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -94,21 +100,28 @@ export default function AddProduct(props) {
     const [image, setImage] = useState(null);
     const [date, setDate] = useState(null);
     const [labels, setLabels] = React.useState([]);
+    const [scanModalOpen, setScanModalOpen] = React.useState(false);
     const history = useHistory();
+
+    useEffect(() => {
+        if (scanModalOpen) {
+            startScanner((res) => {
+                console.log(res.codeResult.code);
+                stopScanner();
+                setScanModalOpen(false);
+                getProductWithBarCode(res.codeResult.code).then((product) => {
+                    console.log(product);
+                    if (product) {
+                        setTitle(product?.title);
+                        setLabels(product?.labels);
+                    }
+                })
+            });
+        }
+    }, [scanModalOpen])
 
     const handleChange = (event) => {
         setLabels(event.target.value);
-    };
-
-    const handleChangeMultiple = (event) => {
-        const {options} = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        setLabels(value);
     };
 
     const handleImageChange = (event) => {
@@ -135,8 +148,23 @@ export default function AddProduct(props) {
     return (
         <div className={classes.main}>
             <Background/>
+            <Modal show={scanModalOpen} width={"700px"} title={"Scannez votre produit"} onClose={() => {
+                stopScanner();
+                setScanModalOpen(false)
+            }
+            }>
+                <div id="scanner-container"/>
+            </Modal>
             <Paper className={classes.content} elevation={12}>
                 <BackArrow/>
+                <button
+                    type="button"
+                    className="absolute top-4 right-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    onClick={() => setScanModalOpen(true)}
+                >
+                    Scan
+                    <CropFree className="ml-3 -mr-1 h-5 w-5" aria-hidden="true"/>
+                </button>
                 <form className={classes.form}>
                     <PickeatTextField
                         variant="outlined"

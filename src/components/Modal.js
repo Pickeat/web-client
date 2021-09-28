@@ -53,8 +53,8 @@ export default function Modal(props) {
     if (!props.show)
         return null;
     return (
-        <div id="myModal" className={classes.modal}>
-            <div className={classes.modalBox} style={{width: (props.width ? props.width : '80%')}}>
+        <div id="myModal" onClick={props.onClose} className={classes.modal}>
+            <div onClick={(e) => {e.stopPropagation()}} className={classes.modalBox} style={{width: (props.width ? props.width : '80%')}}>
                 {props.title &&
                 <div className={classes.modalHeader}>
                     <div className="textMedium">{props.title}</div>

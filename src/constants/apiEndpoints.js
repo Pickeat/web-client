@@ -21,6 +21,7 @@ export const GET_MY_PUBLISHED_PRODUCTS_URL = BASE_URL + '/announces_me';
 export const GET_OWN_ANNOUNCES_LIST_URL = BASE_URL + '/announces_me';
 export const GET_RESERVED_PRODUCT_LIST_URL = BASE_URL + '/announces_my_reservations';
 export const PRODUCT_URL = BASE_URL + '/announces';
+export const ADD_PRODUCT_URL_BAR_CODE = BASE_URL + '/products';
 export const RESERVE_URL = BASE_URL + '/announces_reserve';
 export const CONFIRM_RESERVE_URL = BASE_URL + '/announces_confirm_reserve';
 export const RATE_GIVER_URL = BASE_URL + '/announces_note';
