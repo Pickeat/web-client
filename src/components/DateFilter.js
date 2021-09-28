@@ -35,6 +35,6 @@ export default function DateFilter(props) {
 }
 
 DateFilter.propTypes = {
-    handleInputChange: PropTypes.func,
+    handleInputChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired
 };

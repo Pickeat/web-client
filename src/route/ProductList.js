@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import ProductCard from '../components/ProductCard';
 import Grid from '@material-ui/core/Grid';
-import getProductList from '../api/getProductList';
+import getProductListApi from '../api/getProductList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import KmSlider from '../components/KmSlider';
 import {toast} from 'react-toastify';
@@ -14,8 +14,12 @@ import {useHistory} from 'react-router-dom';
 import Background from "../components/Background";
 import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import ToggleButton from "@material-ui/lab/ToggleButton";
+import Pagination from '@material-ui/lab/Pagination';
+import SearchProduct from "../components/SearchProduct";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ProductListMap from "../components/ProductListMap";
+import Map from "../components/Map";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -32,11 +36,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '20%',
+        width: '400px',
         height: '90%',
     },
     paramsSection: {
-        width: '95%',
+        width: '360px',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -47,32 +51,34 @@ const useStyles = makeStyles(theme => ({
     },
     rightSection: {
         display: 'flex',
-        flexDirection: "column",
-        width: '80%',
-        height: '100%',
+        alignItems: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        height: '90%',
+        // backgroundColor: 'black',
     },
     productListSectionContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: "100%",
-        height: '90%',
+        flexDirection: 'column',
+        width: '97%',
+        height: '100%',
     },
-    toggleModeButtonContainer: {
-        height: '10%',
+    toggleViewProductModeButton: {
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: '5%',
+        paddingBottom: '1%'
     },
-    sliderContainer: {
+    filterContainer: {
         margin: '10px',
         width: '80%',
     },
     gridContainer: {
-        maxWidth: '80%',
-        height: '100%',
+        maxWidth: '100%',
+        height: '90%',
         maxHeight: '90%',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     nothingToShow: {
         fontFamily: 'Colfax-Medium',
@@ -85,13 +91,19 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '300px',
-        minWidth: '400px',
+        minWidth: '370px',
         height: '300px',
-        width: '400px',
+        width: '370px',
     },
     productCard: {
         height: '100%',
         width: '100%',
+    },
+    productMapContainer: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        marginTop: '2%',
     },
 }));
 
@@ -100,32 +112,23 @@ export default function ProductList(props) {
     const [productList, setProductList] = useState([]);
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [sliderValue, setSliderValue] = useState(300);
+    const [searchValue, setSearchValue] = useState("");
+    const [sliderValue, setSliderValue] = useState(1);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
+    const [page, setPage] = useState(1);
+    const [pageNb, setPageNb] = useState(1);
     const history = useHistory();
-    const [listMode, setlistMode] =useState('list');
+    const [viewProductMode, SetViewProductMode] = React.useState('list');
 
-    const getProductListByRate = (rate) => {
+    const getProductList = (params) => {
         setIsLoading(true);
-        getProductList(sliderValue, location, rate, maxDate).then((response) => {
+        let search = params.search;
+        if (params.search === undefined)
+            search = searchValue
+        getProductListApi(8, page - 1, search, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
             setProductList(response.docs);
-            setIsLoading(false);
-        });
-    };
-
-    const getProductListByDate = (date) => {
-        setIsLoading(true);
-        getProductList(sliderValue, location, minRate, date).then((response) => {
-            setProductList(response.docs);
-            setIsLoading(false);
-        });
-    };
-
-    const getProductListByKm = (km) => {
-        setIsLoading(true);
-        getProductList(km, location, minRate, maxDate).then((response) => {
-            setProductList(response.docs);
+            setPageNb(response.totalPages);
             setIsLoading(false);
         });
     };
@@ -139,14 +142,15 @@ export default function ProductList(props) {
             toast.error('Geolocation is not supported by this browser.');
             setLocation(-1);
         }
-        getProductListByKm(sliderValue);
+        getProductList({km: sliderValue});
     }, []);
 
     useEffect(() => {
-        getProductListByKm(sliderValue);
-    }, [location]);
+        getProductList({});
+    }, [location, page, viewProductMode]);
 
     const handleSliderChange = (event, newValue) => {
+        event.preventDefault();
         setSliderValue(newValue);
     };
 
@@ -161,12 +165,22 @@ export default function ProductList(props) {
 
     const handleRaterChange = (newValue) => {
         setMinRate(newValue);
-        getProductListByRate(newValue);
+        getProductList({rate: newValue});
+    };
+
+    const handleSearchChange = (newValue) => {
+        setSearchValue(newValue);
+        getProductList({search: (newValue.length === 0 ? "" : newValue)})
     };
 
     const handleDateChange = (newValue) => {
         setMaxDate(newValue);
-        getProductListByDate(newValue);
+        getProductList({date: newValue});
+    };
+
+    const handleViewProductMode = (event, newMode) => {
+        if (newMode)
+            SetViewProductMode(newMode);
     };
 
     const handleBlur = () => {
@@ -176,11 +190,6 @@ export default function ProductList(props) {
             setSliderValue(35);
         }
     };
-
-    const handleMode = (event, newMode) => {
-        console.log(newMode)
-        setlistMode(newMode)
-    }
 
     const buildGrid = () => {
         if (isLoading) {
@@ -223,63 +232,72 @@ export default function ProductList(props) {
         }
     };
 
-    const buildMap = () => {
-        return(
-            <p>map</p>
-        )
-    }
-
-    const buildListSection = () =>   {
-        if (listMode === 'list') {
+    const BuildProductList = () => {
+        if (viewProductMode === 'list') {
             return (
-                <Grid container spacing={3} className={classes.gridContainer}>
-                    {buildGrid()}
-                </Grid>
+                <>
+                    <Grid container spacing={3} className={classes.gridContainer}>
+                        {buildGrid()}
+                    </Grid>
+                    <div style={{height: '10%', paddingTop: '30px'}}>
+                        <Pagination page={page} onChange={(event, value) => {
+                            setPage(value)
+                        }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
+                    </div>
+                </>
             )
         } else {
             return (
-                <div>
-                    {buildMap()}
-                </div>
+                <Paper elevation={4} className={classes.productMapContainer}>
+                    <ProductListMap location={location} productList={productList} zoom={17}/>
+                </Paper>
             )
         }
     }
+
+    const BuildToggleButton = () => {
+        return (
+            <ToggleButtonGroup
+                value={viewProductMode}
+                exclusive
+                onChange={handleViewProductMode}
+                aria-label="view product mode"
+                className={classes.toggleViewProductModeButton}
+            >
+                <ToggleButton value="list" aria-label="list">
+                    List
+                </ToggleButton>
+                <ToggleButton value="map" aria-label="map">
+                    Map
+                </ToggleButton>
+            </ToggleButtonGroup>
+        )
+    }
+
     return (
         <div className={classes.main}>
             <Background/>
             <div className={classes.paramsSectionContainer}>
                 <Paper elevation={5} className={classes.paramsSection}>
-                    <div className={classes.sliderContainer}>
-                        <KmSlider getProductListByKm={getProductListByKm} value={sliderValue} handleBlur={handleBlur}
+                    <div className={classes.filterContainer}>
+                        <SearchProduct label={"Search"} handleInputChange={handleSearchChange}/>
+                    </div>
+                    <div className={classes.filterContainer}>
+                        <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
                                   handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
                     </div>
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.filterContainer}>
                         <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
                     </div>
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.filterContainer}>
                         <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
                     </div>
                 </Paper>
             </div>
             <div className={classes.rightSection}>
-                <div className={classes.toggleModeButtonContainer}>
-                    <ToggleButtonGroup
-                        value={listMode}
-                        exclusive
-                        onChange={handleMode}
-                        aria-label="text alignment"
-                        className={classes.toggleModeButton}
-                    >
-                        <ToggleButton value="list" aria-label="list-mode">
-                            List
-                        </ToggleButton>
-                        <ToggleButton value="map" aria-label="map-mode">
-                            Map
-                        </ToggleButton>
-                    </ToggleButtonGroup>
-                </div>
+                {BuildToggleButton()}
                 <div className={classes.productListSectionContainer}>
-                    {buildListSection()}
+                    {BuildProductList()}
                 </div>
             </div>
             <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
@@ -292,23 +310,3 @@ export default function ProductList(props) {
         </div>
     );
 }
-
-// la vache vincra
-//                                       /;    ;\
-//                                   __  \\____//
-//                                  /{_\_/   `'\____
-//                                  \___   (o)  (o  }
-//       _____________________________/          :--'
-//   ,-,'`@@@@@@@@       @@@@@@         \_    `__\
-//  ;:(  @@@@@@@@@        @@@             \___(o'o)
-//  :: )  @@@@          @@@@@@        ,'@@(  `===='
-//     :: : @@@@@:          @@@@         `@@@:
-//  :: \  @@@@@:       @@@@@@@)    (  '@@@'
-//  ;; /\      /`,    @@@@@@@@@\   :@@@@@)
-// ::/  )    {_----------------:  :~`,~~;
-// ;;'`; :   )                  :  / `; ;
-// ;;;; : :   ;                  :  ;  ; :
-// `'`' / :  :                   :  :  : :
-// )_ \__;      ";"          :_ ;  \_\       `,','
-//    :__\  \    * `,'*         \  \  :  \   *  8`;'*
-// `^'     \ :/           `^'  `-^-'   \v/ :
