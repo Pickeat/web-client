@@ -20,6 +20,7 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ProductListMap from "../components/ProductListMap";
 import Map from "../components/Map";
+import ProductListMapReact from "../components/ProductListMapReact";
 
 const useStyles = makeStyles(theme => ({
     main: {
