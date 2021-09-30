@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100px',
   },
   titleContainer: {
-    marginTop: '10px',
+    marginTop: '22px',
   },
   form: {
     marginTop: '10px',
@@ -72,9 +72,9 @@ export default function SignIn(props) {
     <div className={classes.main}>
       <Background />
       <Paper elevation={24} className={classes.container}>
-        <Avatar className={classes.avatar}>
-          <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt="PickEat Logo" src={Logo} />
-        </Avatar>
+        {/*<Avatar className={classes.avatar}>*/}
+        {/*  <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt="PickEat Logo" src={Logo} />*/}
+        {/*</Avatar>*/}
         <div className={classes.titleContainer}>
           <Typography component="h1" variant="h5">
             Sign up
