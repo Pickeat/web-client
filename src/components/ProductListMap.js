@@ -7,6 +7,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ProductCard from "./ProductCard";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicGlja2VhdCIsImEiOiJja2VzbDA0ejczMWFsMnhwaTk0MHFyY2o3In0.ejbEUU5u9zVINmEmOR81HQ';
 
@@ -58,6 +60,13 @@ const ProductListMap = (props) => {
                 .setLngLat([props.lng, props.lat])
                 .addTo(map);
         }
+
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+            })
+        );
 
         // Add navigation control (the +/- zoom buttons)
         map.addControl(new mapboxgl.NavigationControl(), 'top-right');
