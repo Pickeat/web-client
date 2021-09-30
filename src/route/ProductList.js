@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        width: '100%',
+        width: '80%',
         height: '90%',
         // backgroundColor: 'black',
     },
@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Colfax-Medium',
         fontSize: '25px',
         textAlign: 'center',
-        color: 'white',
+        color: '#1b1b1b',
     },
     productCardContainer: {
         display: 'flex',
