@@ -61,7 +61,7 @@ export default function NavigationBar(props) {
     if(!auth) return null;
 
     const buildToolbar = () => {
-        if (!auth)  {
+        if (auth)  {
             return (
                 <>
                     <div className={classes.linkContainer}>
