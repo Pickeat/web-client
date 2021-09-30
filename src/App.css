@@ -11,10 +11,12 @@
 
 .textRegular {
     font-family: Colfax-Regular, serif;
+    color: #9b9b9b
 }
 
 .textMedium {
     font-family: Colfax-Medium, serif;
+    color: #1b1b1b;
 }
 
 .pickeatBtn {

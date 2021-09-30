@@ -95,31 +95,31 @@ export default function ProductCard(props) {
         if (data.status === "available") {
             return (
                 <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
-                    <span className="textRegular">available</span>
+                    <span className="textRegular" style={{color: 'white'}} >available</span>
                 </div>
             )
         } else if (data.status === "reserved") {
             return (
                 <div style={{backgroundColor: 'rgba(62, 174, 187, 0.90)'}} className={classes.banner}>
-                    <span className="textRegular">reserved</span>
+                    <span className="textRegular" style={{color: 'white'}}>reserved</span>
                 </div>
             )
         } else if (data.status === "waiting-for-reservation") {
             return (
                 <div style={{backgroundColor: 'rgba(187, 74, 62, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular">waiting for reservation</span>
+                    <span className="textRegular" style={{color: 'white'}}>waiting for reservation</span>
                 </div>
             )
         } else if (data.status === "given") {
             return (
                 <div style={{backgroundColor: 'rgba(74, 62, 187, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular">given</span>
+                    <span className="textRegular" style={{color: 'white'}}>given</span>
                 </div>
             )
         } else if (data.status === "noted") {
             return (
                 <div style={{backgroundColor: 'rgba(218, 246, 8, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular">noted</span>
+                    <span className="textRegular" style={{color: 'white'}}>noted</span>
                 </div>
             )
         }
@@ -155,7 +155,7 @@ export default function ProductCard(props) {
                                 src={(data.user?.image ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=` : defaultImage)}
                                 className={classes.userAvatar}/>
                         <div className={classes.cardBottom}>
-                            <div className="textRegular" style={{lineHeight: '22px'}}>{data.title}</div>
+                            <div className="textMedium" style={{lineHeight: '22px'}}>{data.title}</div>
                         </div>
                         <div style={{marginTop: '10px'}} className={classes.cardBottom}>
                             {productDistance !== -1 &&

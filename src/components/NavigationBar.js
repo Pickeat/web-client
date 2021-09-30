@@ -8,6 +8,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import logout from '../helpers/logout';
 import Paper from '@material-ui/core/Paper';
+import Avatar from "@material-ui/core/Avatar";
+import Logo from '../assets/logo.png';
+
 
 const useStyles = makeStyles(theme => ({
     bar: {
@@ -60,20 +63,9 @@ export default function NavigationBar(props) {
     const buildToolbar = () => {
         if (!auth) {
             return (
-                <>
-                    <div className={classes.linkContainer} style={{width: '20%'}}>
-                        <Link to={'/sign-in'}>
-                            <Button className={classes.link}>
-                                Sign In
-                            </Button>
-                        </Link>
-                        <Link to={'/sign-up'}>
-                            <Button className={classes.link}>
-                                Sign Up
-                            </Button>
-                        </Link>
-                    </div>
-                </>
+                <div className="w-16 m-auto">
+                    <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
+                </div>
             );
         } else {
             return (
