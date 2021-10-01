@@ -91,9 +91,9 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '300px',
-        minWidth: '370px',
+        minWidth: '300px',
         height: '300px',
-        width: '370px',
+        width: '25%',
     },
     productCard: {
         height: '100%',
