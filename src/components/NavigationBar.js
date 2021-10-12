@@ -8,8 +8,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import logout from '../helpers/logout';
 import Paper from '@material-ui/core/Paper';
-import Avatar from "@material-ui/core/Avatar";
-import Logo from '../assets/logo.png';
 
 
 const useStyles = makeStyles(theme => ({
@@ -60,14 +58,10 @@ export default function NavigationBar(props) {
         });
     }, []);
 
+    if(!auth) return null;
+
     const buildToolbar = () => {
-        if (!auth) {
-            return (
-                <div className="w-16 m-auto">
-                    <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
-                </div>
-            );
-        } else {
+        if (auth)  {
             return (
                 <>
                     <div className={classes.linkContainer}>
