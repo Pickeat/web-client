@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import './Map.css';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -10,13 +10,14 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicGlja2VhdCIsImEiOiJja2VzbDA0ejczMWFsMnhwaTk0MHFyY2o3In0.ejbEUU5u9zVINmEmOR81HQ';
+mapboxgl.accessToken =
+  'pk.eyJ1IjoicGlja2VhdCIsImEiOiJja2VzbDA0ejczMWFsMnhwaTk0MHFyY2o3In0.ejbEUU5u9zVINmEmOR81HQ';
 
-const useStyles = makeStyles(theme => ({
-    popUpMap: {
-        maxHeight: '400px',
-        maxWidth: '250px',
-    },
+const useStyles = makeStyles((theme) => ({
+  popUpMap: {
+    maxHeight: '400px',
+    maxWidth: '250px',
+  },
 }));
 
 const ProductListMap = (props) => {
@@ -130,6 +131,52 @@ const ProductListMap = (props) => {
             <div className='map-container' ref={mapContainerRef}/>
         </div>
     );
+
+    const BuildPopUp = (index) => {
+      return (
+        '<h4>' +
+        props.productList[index].title +
+        // '<a href="https://app.pickeat.fr/#/product/'+ props.productList[index]._id +'" target="_blank">' +
+        '<img style="height: 150px" src=' +
+        'https://minio.pickeat.fr/minio/download/products/' +
+        props.productList[index].image +
+        '?token=' +
+        '>' +
+        // '</a>' +
+        '</h4>'
+      );
+    };
+
+    for (const index in props.productList) {
+      const popUp = new mapboxgl.Popup({ className: classes.popUpMap }).setHTML(BuildPopUp(index));
+
+      const newMarker = new mapboxgl.Marker()
+        .setLngLat([props.productList[index].location[0], props.productList[index].location[1]])
+        .setPopup(popUp)
+        .addTo(map);
+
+      const markerDiv = newMarker.getElement();
+
+      markerDiv.addEventListener('mouseenter', () => newMarker.togglePopup());
+      markerDiv.addEventListener('mouseleave', () => newMarker.togglePopup());
+      markerDiv.addEventListener('click', () => {
+        history.push(`/product/${props.productList[index]?._id}`);
+      });
+    }
+    // for (props.lng && props.lat) {
+    //     new mapboxgl.Marker()
+    //         .setLngLat([props.lng, props.lat])
+    //         .addTo(map);
+    // }
+    // Clean up on unmount
+    return () => map.remove();
+  }, [props.productList, props.location]);
+
+  return (
+    <div>
+      <div className="map-container" ref={mapContainerRef} />
+    </div>
+  );
 };
 
 export default ProductListMap;

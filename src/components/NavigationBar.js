@@ -52,7 +52,7 @@ export default function NavigationBar(props) {
     useEffect(() => {
         window.addEventListener('hashchange', () => {
             setAuth(isAuth());
-            if (window.location.hash.substring(2) === 'sign-in'
+            if (window.location.hash.substring(2) === ''
                 || window.location.hash.substring(2) === 'sign-up')
                 setAuth(false);
         });
