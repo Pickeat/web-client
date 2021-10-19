@@ -17,15 +17,15 @@ export default async function signUpApi(email, password, confirmPassword, phone,
 
   config['data'] = body;
   if (password !== confirmPassword) {
-    toast.error('The two password are not identical');
+    toast.error('Les deux mots de passe ne sont pas identiques');
     return false;
   }
   if (!email || !password || !age) {
-    toast.error('One or more field(s) is/are blank');
+    toast.error('Un ou plusieurs champs sont vides');
     return false;
   }
   if (age < 18) {
-    toast.error('You must be over 18 to register on Pickeat');
+    toast.error('Vous devez avoir au moins 18 ans pour vous inscrire sur Pickeat');
     return false;
   }
   return await axios(config)

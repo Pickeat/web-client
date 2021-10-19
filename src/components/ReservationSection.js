@@ -35,7 +35,7 @@ export default function ReservationSection(props) {
     getProductApi(props?.product?._id).then((res) => {
       console.log(res);
       if (!res.user) {
-        toast.error('User no longer exist');
+        toast.error("Cet utilisateur n'existe pas/plus");
         return;
       }
       setProduct(res);
