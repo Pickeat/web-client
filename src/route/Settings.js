@@ -105,7 +105,7 @@ export default function Settings(props) {
     const resentUserConfirmationCall = () => {
         resentMailConfirmAccountApi().then((response) => {
             if (response)
-                toast.success("A new email was sent");
+                toast.success("Un nouveau mail a été envoyé");
         });
     };
 
