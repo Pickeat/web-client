@@ -222,7 +222,7 @@ export default function Product(props) {
     getProductApi(id).then((res) => {
       console.log(res);
       if (!res.user) {
-        toast.error('User no longer exist');
+        toast.error("Cet utilisateur n'existe pas/plus");
         return;
       }
       setData(res);
@@ -255,7 +255,7 @@ export default function Product(props) {
         }
       });
     } else {
-      toast.error('Geolocation is not supported by this browser.');
+      toast.error("La géolocalisation n'est pas prise en charge par votre navigateur.");
       setProductDistance(-1);
     }
   }, [data]);
@@ -482,7 +482,7 @@ export default function Product(props) {
     const deleteAnnounceApiCall = () => {
       console.log(data._id);
       deleteAnnounceApi(data._id).then((response) => {
-        toast.success('Announce successfully deleted');
+        toast.success("L'annonce a été supprimée avec succès");
         props.history.push('/product-list');
         // window.location.reload();
       });
