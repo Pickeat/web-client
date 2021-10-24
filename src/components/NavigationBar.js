@@ -7,6 +7,7 @@ import logo from "../assets/logo.png"
 import getUserMeApi from "../api/getUserMeApi";
 import {useHistory} from "react-router-dom";
 import logout from "../helpers/logout";
+import isAuth from "../helpers/isAuth";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -34,6 +35,8 @@ export default function NavigationBar() {
         })
     }, [history])
 
+    if (!isAuth())
+        return(<></>);
     return (
         <Disclosure as="nav" className="bg-green-600 shadow">
             {({open}) => (
