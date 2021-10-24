@@ -22,7 +22,7 @@
 .pickeatBtn {
     font-family: Colfax-Medium, serif !important;
     text-transform: none !important;
-    background-color: #40d21b !important;
+    background-color: #059669 !important;
     /*color: #343434;*/
     color: white !important;
 }
@@ -44,7 +44,7 @@
 }
 
 .pickeatBtn:hover {
-    background-color: #46e01d !important;
+    background-color: #047857 !important;
 }
 
 #scanner-container {

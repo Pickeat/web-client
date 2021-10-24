@@ -12,8 +12,6 @@ import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',

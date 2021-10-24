@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        padding: '80px 50px'
+        padding: '70px 50px'
     },
     paramsSectionContainer: {
         display: 'flex',
@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
 //        justifyContent: 'center',
 //        alignItems: 'center',
-        height: '600px',
+        height: '590px',
         flexDirection: 'column',
         width: '100%',
     },

@@ -10,8 +10,6 @@ import Background from "../components/Background";
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         width: '100%',
         display: 'flex',

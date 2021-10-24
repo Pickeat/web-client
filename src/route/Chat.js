@@ -41,7 +41,7 @@ export default function Chat(props) {
 
 
     return (
-        <div className="h-screen pt-20 flex bg-gray-50 overflow-hidden">
+        <div className="h-screen flex bg-gray-50 overflow-hidden">
             <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
                 <main className="flex-1 flex overflow-hidden">
                     <div className="flex-1 flex xl:overflow-hidden">

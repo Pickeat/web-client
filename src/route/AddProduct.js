@@ -20,9 +20,7 @@ import {CropFree} from "@material-ui/icons";
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
-        height: '100vh',
+        paddingTop: '50px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -35,7 +33,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         width: '700px',
-        height: '90%'
+        height: '100%',
+        paddingTop: '70px'
     },
     form: {
         display: 'flex',
@@ -249,7 +248,7 @@ export default function AddProduct(props) {
                             ))}
                         </Select>
                     </div>
-                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn">Give
+                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn h-10">Give
                         my product</Button>
                 </form>
             </Paper>

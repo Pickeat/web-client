@@ -10,8 +10,6 @@ import confirmAccountApi from "../api/confirmAccountApi";
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',

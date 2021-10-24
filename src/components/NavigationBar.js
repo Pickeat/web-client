@@ -89,7 +89,7 @@ export default function NavigationBar() {
                                     <button
                                         type="button"
                                         className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md
-                                        text-green-900 bg-gray-100 shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+                                        text-green-900 bg-gray-100 shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
                                         onClick={() => history.push("/add-product")}
                                     >
                                         <PlusSmIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true"/>
