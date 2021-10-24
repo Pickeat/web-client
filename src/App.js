@@ -38,7 +38,7 @@ const PrivateRoute = ({component: Component, ...rest}) => (
         {...rest}
         render={(props) => {
             if (!isAuth()) {
-                return <Redirect to="/sign-in"/>;
+                return <Redirect to="/"/>;
             } else {
                 return (
                     <div>
@@ -66,9 +66,7 @@ function App() {
                     <NavigationBar/>
                     <div>
                         <Switch>
-                            <Route exact path="/" component={Intro}/>
-                            <Route exact path="/intro" component={Intro}/>
-                            <Route exact path="/sign-in" component={SignIn}/>
+                            <Route exact path="/" component={SignIn}/>
                             <Route exact path="/sign-up" component={SignUp}/>
                             <Route exact path="/forgot-password" component={ForgotPassword}/>
                             <Route exact path="/confirm_account/:token" component={ConfirmAccount}/>
