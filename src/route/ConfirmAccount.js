@@ -73,7 +73,6 @@ export default function ConfirmAccount() {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <Paper elevation={24} className={classes.container}>
                 {buildPaper()}
             </Paper>

@@ -70,7 +70,6 @@ export default function SignIn(props) {
 
   return (
     <div className={classes.main}>
-      <Background />
       <Paper elevation={24} className={classes.container}>
         {/*<Avatar className={classes.avatar}>*/}
         {/*  <img style={{ maxWidth: '100%', maxHeight: '100%' }} alt="PickEat Logo" src={Logo} />*/}

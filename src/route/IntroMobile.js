@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 export default function IntroMobile(props) {
     return (
         <div>
-            <Background/>
             <div className="flex flex-col h-screen justify-around items-center">
                 <div className="w-32">
                     <img width="100%" src={logo} alt={'logo'}/>

@@ -147,7 +147,6 @@ export default function AddProduct(props) {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <Modal show={scanModalOpen} width={"700px"} title={"Scannez votre produit"} onClose={() => {
                 stopScanner();
                 setScanModalOpen(false)

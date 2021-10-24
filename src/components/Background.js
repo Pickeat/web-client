@@ -31,6 +31,7 @@ export default function Background(props) {
     useEffect(() => {
     }, []);
 
+    return(<></>);
     return (
         <div className={classes.backgroundContainer}>
             {props.src &&

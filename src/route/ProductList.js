@@ -24,46 +24,49 @@ import Map from "../components/Map";
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
-        height: '100vh',
+        //height: '100vh',
         width: '100%',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: 'column',
+        padding: '80px 50px'
     },
     paramsSectionContainer: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        //justifyContent: 'center',
+        //alignItems: 'center',
         width: '400px',
-        height: '90%',
+        height: '600px',
     },
     paramsSection: {
         width: '360px',
-        height: '100%',
+        height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: '90px',
-        boxSizing: 'border-box',
-        alignItems: 'center',
+        padding: '50px 20px',
+        margin: '0px auto',
+//        paddingTop: '90px',
+//        boxSizing: 'border-box',
         backgroundColor: 'white',
     },
     rightSection: {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        width: '80%',
-        height: '90%',
+        width: '90%',
+        height: 'auto',
+        padding: '0px 50px'
         // backgroundColor: 'black',
     },
     productListSectionContainer: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+//        justifyContent: 'center',
+//        alignItems: 'center',
+        height: '600px',
         flexDirection: 'column',
-        width: '97%',
-        height: '100%',
+        width: '100%',
+    },
+    pagination: {
+        marginTop: '10px'
     },
     toggleViewProductModeButton: {
         display: 'flex',
@@ -72,12 +75,12 @@ const useStyles = makeStyles(theme => ({
     },
     filterContainer: {
         margin: '10px',
-        width: '80%',
+        width: '100%',
     },
     gridContainer: {
         maxWidth: '100%',
-        height: '90%',
-        maxHeight: '90%',
+        height: '100%',
+        maxHeight: '100%',
         overflowY: 'auto',
     },
     nothingToShow: {
@@ -90,10 +93,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '300px',
-        minWidth: '300px',
-        height: '300px',
-        width: '25%',
+        minHeight: '50%',
+        // minWidth: '250px',
+        height: '50%',
+        width: '20%',
+        minWidth: '200px'
     },
     productCard: {
         height: '100%',
@@ -103,7 +107,6 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         width: '100%',
         height: '100%',
-        marginTop: '2%',
     },
 }));
 
@@ -126,7 +129,7 @@ export default function ProductList(props) {
         let search = params.search;
         if (params.search === undefined)
             search = searchValue
-        getProductListApi(8, page - 1, search, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
+        getProductListApi(10, page - 1, search, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
             setProductList(response.docs);
             setPageNb(response.totalPages);
             setIsLoading(false);
@@ -223,7 +226,7 @@ export default function ProductList(props) {
             return productList?.map((product, index) => {
                 return (
                     <Grid item key={'product-' + index} className={classes.productCardContainer}>
-                        <Paper elevation={2} className={classes.productCard}>
+                        <Paper elevation={3} className={classes.productCard}>
                             <ProductCard location={location} data={product}/>
                         </Paper>
                     </Grid>
@@ -236,19 +239,14 @@ export default function ProductList(props) {
         if (viewProductMode === 'list') {
             return (
                 <>
-                    <Grid container spacing={3} className={classes.gridContainer}>
+                    <Grid container spacing={2} className={classes.gridContainer}>
                         {buildGrid()}
                     </Grid>
-                    <div style={{height: '10%', paddingTop: '30px'}}>
-                        <Pagination page={page} onChange={(event, value) => {
-                            setPage(value)
-                        }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
-                    </div>
                 </>
             )
         } else {
             return (
-                <Paper elevation={4} className={classes.productMapContainer}>
+                <Paper elevation={3} className={classes.productMapContainer}>
                     <ProductListMap location={location} productList={productList} zoom={17}/>
                 </Paper>
             )
@@ -276,36 +274,37 @@ export default function ProductList(props) {
 
     return (
         <div className={classes.main}>
-            <Background/>
-            <div className={classes.paramsSectionContainer}>
-                <Paper elevation={5} className={classes.paramsSection}>
-                    <div className={classes.filterContainer}>
-                        <SearchProduct label={"Search"} handleInputChange={handleSearchChange}/>
-                    </div>
-                    <div className={classes.filterContainer}>
-                        <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
-                                  handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
-                    </div>
-                    <div className={classes.filterContainer}>
-                        <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
-                    </div>
-                    <div className={classes.filterContainer}>
-                        <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
-                    </div>
-                </Paper>
-            </div>
-            <div className={classes.rightSection}>
-                {BuildToggleButton()}
-                <div className={classes.productListSectionContainer}>
-                    {BuildProductList()}
+            {BuildToggleButton()}
+            <div className="flex">
+                <div className={classes.paramsSectionContainer}>
+                    <Paper elevation={3} className={classes.paramsSection}>
+                        <div className={classes.filterContainer}>
+                            <SearchProduct label={"Search"} handleInputChange={handleSearchChange}/>
+                        </div>
+                        <div className={classes.filterContainer}>
+                            <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
+                                      handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
+                        </div>
+                        <div className={classes.filterContainer}>
+                            <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
+                        </div>
+                        <div className={classes.filterContainer}>
+                            <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
+                        </div>
+                    </Paper>
                 </div>
-            </div>
-            <div style={{position: 'absolute', right: '40px', bottom: '40px'}}>
-                <Fab onClick={() => {
-                    history.push('/add-product')
-                }} style={{backgroundColor: 'white', color: '#40ee49'}} aria-label="add">
-                    <AddIcon/>
-                </Fab>
+                <div className={classes.rightSection}>
+                    <div className={classes.productListSectionContainer}>
+                        {BuildProductList()}
+                    </div>
+                    {(productList?.length && viewProductMode === 'list') &&
+                    <div className={classes.pagination}>
+                        <Pagination page={page} onChange={(event, value) => {
+                            setPage(value)
+                        }} count={pageNb} variant="outlined" style={{color: 'white'}}/>
+                    </div>
+                    }
+                </div>
             </div>
         </div>
     );

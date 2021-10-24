@@ -31,6 +31,7 @@ toast.configure({
     position: toast.POSITION.BOTTOM_CENTER,
     style: {zIndex: 9999, fontFamily: 'Colfax-Medium'},
 });
+document.body.style = 'background: #f6f6f6;';
 
 const PrivateRoute = ({component: Component, ...rest}) => (
     <Route
