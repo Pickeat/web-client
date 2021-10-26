@@ -41,9 +41,7 @@ const PrivateRoute = ({component: Component, ...rest}) => (
                 return <Redirect to="/"/>;
             } else {
                 return (
-                    <div>
-                        <Component {...props}/>
-                    </div>
+                    <Component {...props}/>
                 );
             }
         }}
@@ -64,7 +62,7 @@ function App() {
             <BrowserView>
                 <BrowserRouter>
                     <NavigationBar/>
-                    <div>
+                    <div style={{height: "calc(100vh - 5rem)"}}>
                         <Switch>
                             <Route exact path="/" component={SignIn}/>
                             <Route exact path="/sign-up" component={SignUp}/>
