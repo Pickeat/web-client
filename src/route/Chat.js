@@ -15,6 +15,17 @@ export default function Chat(props) {
   const [currentProductList, setCurrentProductList] = useState([]);
   const [location, setLocation] = useState({});
 
+  async function fetchMessages() {
+    getAllMessagesInBdd().then((res) => {
+      setRoomList(res);
+      if(currentRoom.contactId) {
+        const updatedRoom = res.find(({contactId}) => (contactId === currentRoom.contactId))
+        setCurrentRoom(updatedRoom)
+      }
+      setIsLoading(false);
+    });
+  }
+
   useEffect(() => {
     setIsLoading(true);
     if (navigator.geolocation) {
@@ -25,10 +36,7 @@ export default function Chat(props) {
       toast.error("La géolocalisation n'est pas prise en charge par votre navigateur.");
       setLocation(-1);
     }
-    getAllMessagesInBdd().then((res) => {
-      setRoomList(res);
-      setIsLoading(false);
-    });
+    fetchMessages();
   }, []);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ export default function Chat(props) {
 
             <aside className="hidden lg:block lg:flex-shrink-0 flex-1">
               <div className="h-full relative flex flex-col border-l-2 border-solid border-black border-r border-gray-200 bg-white">
-                <MessageSection room={currentRoom} />
+                <MessageSection room={currentRoom} fetchMessages={fetchMessages} />
               </div>
             </aside>
             <aside className="hidden lg:block lg:flex-shrink-0" style={{ width: '400px' }}>

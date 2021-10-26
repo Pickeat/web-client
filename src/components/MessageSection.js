@@ -3,7 +3,6 @@ import Message from "./Message";
 import Cookies from 'js-cookie';
 import socketIOClient from "socket.io-client";
 import {isEmpty} from "../helpers/isEmpty";
-import getCurrentTradesBetweenTwoUsers from "../api/getCurrentTradesBetweenTwoUsers";
 
 export default function (props) {
     const [message, setMessage] = useState("");
@@ -35,29 +34,18 @@ export default function (props) {
         if (!socket)
             return;
         socket.off("message");
-        socket.on("message", (message) => {
-            console.log("New message: ", message);
-            console.log("My ID :", Cookies.get('user_id'));
-            console.log("His ID: ", props?.room?.contactId);
-            //La conditon marche pas quand c'est toi qui envoie le message
-            if ((message.from._id === Cookies.get('user_id') || message.to._id === Cookies.get('user_id'))
-                && (message.from._id === props?.room?.contactId || message.to._id === props?.room?.contactId)) {
-                setAllMessages([...allMessages, message]);
-            }
+        socket.on("message", async () => {
+            await props.fetchMessages();
         })
     }, [socket])
 
-    const sendMessage = (e) => {
+    const sendMessage = async (e) => {
         e.preventDefault();
         if (message !== "") {
             const user_id = Cookies.get('user_id');
             const to = props?.room?.contactId;
             socket.emit("sendMessage", {to, from: user_id, message})
-            setAllMessages([...allMessages, {
-                from: {_id: user_id},
-                message,
-                to: {_id: props?.room?.contactId}
-            }])
+            await props.fetchMessages();
             setMessage("");
         }
     }
