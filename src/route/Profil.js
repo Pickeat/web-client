@@ -29,8 +29,6 @@ import {PickeatDropdown} from "../components/PickeatDropdown";
 
 const useStyles = makeStyles(theme => ({
     main: {
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         width: '100%',
         display: 'flex',
@@ -262,7 +260,7 @@ export default function Profil(props) {
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px'
                         }}
-                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download/users/${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}
+                             src={(userProfilePicture ? `https://minio.pickeat.fr/minio/download//${userProfilePicture}?token=` : "https://img2.freepng.fr/20180319/aeq/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301e0d78f3.2971990915214960940552.jpg")}
                              alt={'profile_picture'}/>
                         <ImageUploader
                             withIcon={false}
@@ -469,7 +467,6 @@ export default function Profil(props) {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <div className={classes.leftSection}>
                 {buildUserInfo()}
             </div>

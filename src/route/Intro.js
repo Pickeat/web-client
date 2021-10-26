@@ -139,7 +139,6 @@ export default function Intro(props) {
 
      return (
         <div className={classes.main}>
-            <Background/>
             <div className={classes.LeftSection}>
                 <Typography component="h1" style={{color:"#282828"}} variant="h5">
                     Luttez contre le gaspillage alimentaire avec Pickeat !

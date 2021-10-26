@@ -11,8 +11,6 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -113,7 +111,6 @@ export default function ForgotPassword() {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <Paper elevation={24} className={classes.container}>
                 {buildPaper()}
             </Paper>

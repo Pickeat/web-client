@@ -10,8 +10,6 @@ import Background from "../components/Background";
 const useStyles = makeStyles(theme => ({
     main: {
         position: 'relative',
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         width: '100%',
         display: 'flex',
@@ -53,7 +51,6 @@ export default function RateYourGiver(props) {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <Paper className={classes.productInfo}>
                 <div className={classes.productPictureContainer}>
                     <img style={{maxWidth: '100%', maxHeight: '100%'}} alt={'pickeat product'}

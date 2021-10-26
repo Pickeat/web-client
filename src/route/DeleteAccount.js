@@ -10,8 +10,6 @@ import confirmDeleteAccountApi from "../api/confirmDeleteAccountApi";
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        paddingTop: '5rem',
-        boxSizing: 'border-box',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -73,7 +71,6 @@ export default function DeleteAccount() {
 
     return (
         <div className={classes.main}>
-            <Background/>
             <Paper elevation={24} className={classes.container}>
                 {buildPaper()}
             </Paper>
