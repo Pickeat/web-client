@@ -92,34 +92,35 @@ export default function ProductCard(props) {
     }, [data, props.location]);
 
     const buildBanner = () => {
-        if (data.status === "available") {
-            return (
-                <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}} >available</span>
-                </div>
-            )
-        } else if (data.status === "reserved") {
+        // if (data.status === "available") {
+        //     return (
+        //         <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
+        //             <span className="textRegular" style={{color: 'white'}} >disponible</span>
+        //         </div>
+        //     )
+        // }
+        if (data.status === "reserved") {
             return (
                 <div style={{backgroundColor: 'rgba(62, 174, 187, 0.90)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>reserved</span>
+                    <span className="textRegular" style={{color: 'white'}}>réservé</span>
                 </div>
             )
         } else if (data.status === "waiting-for-reservation") {
             return (
                 <div style={{backgroundColor: 'rgba(187, 74, 62, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>waiting for reservation</span>
+                    <span className="textRegular" style={{color: 'white'}}>en attente de reservation</span>
                 </div>
             )
         } else if (data.status === "given") {
             return (
                 <div style={{backgroundColor: 'rgba(74, 62, 187, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>given</span>
+                    <span className="textRegular" style={{color: 'white'}}>donné</span>
                 </div>
             )
         } else if (data.status === "noted") {
             return (
                 <div style={{backgroundColor: 'rgba(218, 246, 8, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>noted</span>
+                    <span className="textRegular" style={{color: 'white'}}>noté</span>
                 </div>
             )
         }

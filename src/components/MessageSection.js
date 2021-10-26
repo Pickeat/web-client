@@ -52,10 +52,10 @@ export default function (props) {
 
     const buildMessageList = () => {
         if (isEmpty(props.room)) {
-            return <div className="w-full text-center mt-6 text-gray-500">No room selected</div>
+            return <div className="w-full text-center mt-6 text-gray-500">Aucune discussion sélectionnée</div>
         }
         if (!allMessages || allMessages?.length === 0) {
-            return <div className="w-full text-center mt-6 text-gray-500">No message</div>
+            return <div className="w-full text-center mt-6 text-gray-500">Pas de message</div>
         }
         return <>
             {allMessages?.map((message, index) => {

@@ -217,8 +217,8 @@ export default function ProductList(props) {
                     alignItems: 'center'
                 }}>
                     <div className={classes.nothingToShow}>
-                        Sorry there is no product in this range... 😥 <br/>
-                        Try to increase your search range !
+                        Désolé, il n'y a pas de produit à cette distance... 😥 <br/>
+                        Essayez d'élargir votre champ de recherche !
                     </div>
                 </div>
             );
@@ -263,10 +263,10 @@ export default function ProductList(props) {
                 className={classes.toggleViewProductModeButton}
             >
                 <ToggleButton value="list" aria-label="list">
-                    List
+                    Liste
                 </ToggleButton>
                 <ToggleButton value="map" aria-label="map">
-                    Map
+                    Carte
                 </ToggleButton>
             </ToggleButtonGroup>
         )
@@ -279,17 +279,17 @@ export default function ProductList(props) {
                 <div className={classes.paramsSectionContainer}>
                     <Paper elevation={3} className={classes.paramsSection}>
                         <div className={classes.filterContainer}>
-                            <SearchProduct label={"Search"} handleInputChange={handleSearchChange}/>
+                            <SearchProduct label={"Recherche"} handleInputChange={handleSearchChange}/>
                         </div>
                         <div className={classes.filterContainer}>
                             <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
                                       handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
                         </div>
                         <div className={classes.filterContainer}>
-                            <Rater label={"Minimal rate"} value={minRate} handleInputChange={handleRaterChange}/>
+                            <Rater label={"Note minimale"} value={minRate} handleInputChange={handleRaterChange}/>
                         </div>
                         <div className={classes.filterContainer}>
-                            <DateFilter label={"Maximal expiration date"} handleInputChange={handleDateChange}/>
+                            <DateFilter label={"Date d\'expiration maximale"} handleInputChange={handleDateChange}/>
                         </div>
                     </Paper>
                 </div>

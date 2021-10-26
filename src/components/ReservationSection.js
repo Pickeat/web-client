@@ -153,7 +153,7 @@ export default function ReservationSection(props) {
               {isReserveLoading ? (
                 <CircularProgress style={{ color: 'white' }} />
               ) : (
-                'Reserve the product'
+                'Reserver le produit'
               )}
             </Button>
             <ReserveModal

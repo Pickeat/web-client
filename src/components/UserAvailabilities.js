@@ -60,7 +60,7 @@ export default function UserAvailabilities(props) {
             }
             {isEmpty(data) &&
             <div className="textMedium" style={{fontSize: '20px'}}>
-                The giver didn't filled in his availabilities
+                Le Giver n'a pas donné ses disponibilités
             </div>
             }
         </Paper>

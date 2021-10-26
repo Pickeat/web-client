@@ -288,7 +288,7 @@ export default function Profil(props) {
                             User Info :
                         </Typography>
                         <span className="textMedium"
-                              style={{fontSize: '20px', marginTop: '20px'}}>{(currentNote ? `${(currentNote).toFixed(1)}/5` : 'No note yet')}</span>
+                              style={{fontSize: '20px', marginTop: '20px'}}>{(currentNote ? `${(currentNote).toFixed(1)}/5` : 'Pas encore de note')}</span>
                         <Rating name="read-only" precision={0.1} value={currentNote} readOnly/>
                         <form className={classes.form}>
                             <PickeatTextField

@@ -137,10 +137,10 @@ export default function AddProduct(props) {
                         history.push('/product-list');
                 });
             }, () => {
-                toast.error('Geolocation is not supported by this browser.');
+                toast.error('La géolocalisation n\'est pas prise en charge par ce navigateur.');
             });
         } else {
-            toast.error('Geolocation is not supported by this browser.');
+            toast.error('La géolocalisation n\'est pas pris en charge par ce navigateur.');
         }
     }
 
@@ -171,7 +171,7 @@ export default function AddProduct(props) {
                         required
                         fullWidth
                         id="title"
-                        label="Title"
+                        label="Titre"
                         name="title"
                         autoFocus
                         value={title}
@@ -198,7 +198,7 @@ export default function AddProduct(props) {
                             required
                             fullWidth
                             id="imageName"
-                            label="Product image"
+                            label="Image du produit"
                             name="image"
                             value={imageName}
                         />
@@ -212,7 +212,7 @@ export default function AddProduct(props) {
                         </Button>
                     </div>
                     <div className={classes.dateInputSection}>
-                        <InputLabel style={{marginLeft: '10px'}}>Expiry date</InputLabel>
+                        <InputLabel style={{marginLeft: '10px'}}>Date d'éxpiration</InputLabel>
                         <PickeatTextField
                             variant="outlined"
                             margin="normal"
@@ -248,8 +248,7 @@ export default function AddProduct(props) {
                             ))}
                         </Select>
                     </div>
-                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn h-10">Give
-                        my product</Button>
+                    <Button onClick={submitNewProduct} style={{width: '200px', margin: '20px'}} className="pickeatBtn h-10">Donner mon produit</Button>
                 </form>
             </Paper>
         </div>

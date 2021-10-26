@@ -369,7 +369,7 @@ export default function Product(props) {
     if (isEditMode) {
       return (
         <div className={classes.productLittleInfoBlock}>
-          <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry date</div>
+          <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Date d'expiration</div>
           <div className={classes.productLittleInfoContent}>
             <TextField
               id="expirationDate"
@@ -387,7 +387,7 @@ export default function Product(props) {
     } else {
       return (
         <div className={classes.productLittleInfoBlock}>
-          <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Expiry date</div>
+          <div className={clsx('textMedium', classes.productLittleInfoLabel)}>Date d'expiration</div>
           <div className={classes.productLittleInfoContent}>
             <EventIcon fontSize={'large'} />
             <span className="textRegular" style={{ marginLeft: '10px' }}>
@@ -445,7 +445,7 @@ export default function Product(props) {
   };
 
   const buildProductDistance = () => {
-    if (productDistance === -1) return 'Sorry we had a problem computing the distance';
+    if (productDistance === -1) return 'Désolé, nous avons eu un problème pour calculer la distance';
     return (productDistance / 1000).toFixed(1) + ' Km';
   };
 
@@ -471,7 +471,7 @@ export default function Product(props) {
             }}
             style={{ width: '100%', height: '40px' }}
           >
-            Report the giver
+            Signaler le Giver
           </Button>
         </div>
       );
@@ -534,7 +534,7 @@ export default function Product(props) {
             </div>
             <div className={classes.profileRatingContainer}>
               <span className="textMedium" style={{ fontSize: '30px' }}>
-                {data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet'}
+                {data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'Pas encore de note'}
               </span>
               <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly />
             </div>
@@ -554,7 +554,7 @@ export default function Product(props) {
                   }}
                   style={{ width: '100%', height: '40px' }}
                 >
-                  Giver availabilities
+                  Disponibilités du Giver
                 </Button>
               </div>
               <Modal

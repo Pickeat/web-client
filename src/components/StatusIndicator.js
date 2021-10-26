@@ -9,20 +9,20 @@ const useStyles = makeStyles((theme) => ({
 export default function StatusIndicator(props) {
   const classes = useStyles();
   const statusTextDictPicker = {
-    available: 'The product is available',
-    'waiting-for-reservation': 'Awaiting for the giver to confirm your reservation',
+    available: 'Le produit est disponible',
+    'waiting-for-reservation': 'En attente de confirmation du Giver',
     reserved: 'Awaiting validation of the exchange',
-    given: 'Awaiting your notation',
-    noted: 'Archived product',
-    deleted: 'Archived product',
+    given: 'En attente de votre note',
+    noted: 'Produit archivé',
+    deleted: 'Produit archivé',
   };
   const statusTextDictGiver = {
-    available: 'The product is available',
+    available: 'Le produit est disponible',
     'waiting-for-reservation': 'Awaiting for your confirmation',
-    reserved: 'Awaiting validation of the exchange',
-    given: 'Awaiting the picker notation',
-    noted: 'Archived product',
-    deleted: 'Archived product',
+    reserved: 'En attente de la validation de l\'échange',
+    given: 'En attente de la note du Picker',
+    noted: 'Produit archivé',
+    deleted: 'Produit archivé',
   };
 
   const buildStatusText = (isOwner, status) => {

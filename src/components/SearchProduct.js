@@ -18,7 +18,7 @@ export default function SearchProduct(props) {
                     name="search"
                     id="search-bar"
                     className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Search what you're hungry for"
+                    placeholder="Recherchez ce dont vous avez envie"
                     onChange={(event) => {
                         props.handleInputChange(event.target.value)
                     }}

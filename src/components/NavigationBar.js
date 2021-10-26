@@ -14,8 +14,8 @@ function classNames(...classes) {
 }
 
 const navigation = [
-    {name: 'Main', href: '#/product-list', current: true},
-    {name: 'Chat', href: '#/chat', current: false},
+    {name: 'Accueil', href: '#/product-list', current: true},
+    {name: 'Messagerie', href: '#/chat', current: false},
 ]
 
 export default function NavigationBar() {
@@ -96,7 +96,7 @@ export default function NavigationBar() {
                                         onClick={() => history.push("/add-product")}
                                     >
                                         <PlusSmIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true"/>
-                                        <span>Add product</span>
+                                        <span>Ajouter un produit</span>
                                     </button>
                                 </div>
                                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
@@ -136,7 +136,7 @@ export default function NavigationBar() {
                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                             )}
                                                         >
-                                                            Your Profile
+                                                            Votre profil
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -149,7 +149,7 @@ export default function NavigationBar() {
                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                             )}
                                                         >
-                                                            Settings
+                                                            Réglages
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -165,7 +165,7 @@ export default function NavigationBar() {
                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                             )}
                                                         >
-                                                            Sign out
+                                                            Déconnexion
                                                         </a>
                                                     )}
                                                 </Menu.Item>

@@ -73,7 +73,7 @@ export default function ReserveModal(props) {
     <Modal
       show={props.show}
       width={'50%'}
-      title={'Choose a date and an hour'}
+      title={'Choisissez la date et l\'heure de l\'échange'}
       onClose={props.onClose}
     >
       <div className={classes.modalContent}>{buildModalContent()}</div>
@@ -83,7 +83,7 @@ export default function ReserveModal(props) {
           onClick={props.onClose}
           className={classes.closeBtn}
         >
-          Close
+          Fermer
         </Button>
         <Button
           onClick={() => {
@@ -91,7 +91,7 @@ export default function ReserveModal(props) {
           }}
           className={'pickeatBtn'}
         >
-          {isReserveLoading ? <CircularProgress style={{ color: 'white' }} /> : 'Reserve'}
+          {isReserveLoading ? <CircularProgress style={{ color: 'white' }} /> : 'Reserver'}
         </Button>
       </div>
     </Modal>
