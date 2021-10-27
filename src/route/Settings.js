@@ -13,7 +13,6 @@ import {toast} from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
     main: {
-        height: '100vh',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
