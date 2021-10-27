@@ -10,11 +10,9 @@ import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
-import Background from "../components/Background";
 import {startScanner, stopScanner} from "../helpers/scanner";
 import Modal from "../components/Modal";
 import getProductWithBarCode from "../api/getProductWithBarCode";
-import CropFreeIcon from '@material-ui/icons/CropFree';
 import {CropFree} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({

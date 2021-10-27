@@ -33,9 +33,7 @@ import ReservationSection from '../components/ReservationSection';
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    paddingTop: '5rem',
-    boxSizing: 'border-box',
-    height: '100vh',
+    height: '100%',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
