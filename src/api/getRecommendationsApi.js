@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import { PRODUCT_RECOMMENDATIONS_URL } from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-export default async function getRecommendationsApi(location) {
-  const baseURL = `${PRODUCT_RECOMMENDATIONS_URL}`;
+export default async function getRecommendationsApi(location, id) {
+  const baseURL = `${PRODUCT_RECOMMENDATIONS_URL}?announce=${id}`;
   const finalURL = location
-    ? `${baseURL}?lat=${location[1]}&lng=${location[0]}&radius=35000`
+    ? `${baseURL}&lat=${location[1]}&lng=${location[0]}&radius=35000`
     : baseURL;
   let config = setAxiosConfig('GET', finalURL, false);
 

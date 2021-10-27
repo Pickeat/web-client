@@ -283,8 +283,7 @@ export default function Product(props) {
       setProductDescription(res?.description);
       setProductExpirationDate(res?.expiration_date);
 
-      getRecommendationsApi(res.location).then((res) => {
-        console.log(res);
+      getRecommendationsApi(res.location, id).then((res) => {
         setRecommendations(res);
       });
     });
