@@ -16,6 +16,7 @@ import Map from '../components/Map';
 import { getDistance } from 'geolib';
 import { toast } from 'react-toastify';
 import getProductApi from '../api/getProductApi';
+import getRecommendationsApi from '../api/getRecommendationsApi';
 import DefaultProductPicture from '../assets/wallpaper-login.jpg';
 import defaultImage from '../assets/wallpaper-login.jpg';
 import { Modal, Tooltip, Zoom } from '@material-ui/core';
@@ -30,6 +31,9 @@ import PickerRateSection from '../components/PickerRateSection';
 import postReportUserApi from '../api/reportUserApi';
 import postEditAnnounceApi from '../api/postEditAnnounce';
 import ReservationSection from '../components/ReservationSection';
+import { useHistory } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -82,6 +86,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '70%',
     height: '100%',
+  },
+  recommendationsContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingLeft: '1.5%',
+    paddingRight: '3.5%',
+    paddingBottom: '2%',
   },
   paper: {
     display: 'flex',
@@ -199,12 +211,55 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     height: '35%',
   },
+  recommendationCard: {
+    width: '20%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    '& .MuiButton-label': {
+      flexDirection: 'column',
+    },
+    position: 'relative',
+    minWidth: 250,
+    margin: '20px',
+    cursor: 'pointer',
+  },
+  recommendationCardImgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxHeight: '70%',
+    height: '70%',
+    backgroundColor: 'pink',
+  },
+  recommendationCardInfoContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '30%',
+  },
+  recommendationCardUserAvatar: {
+    width: '50px',
+    height: '50px',
+    border: 'solid 2px white',
+    marginTop: '-40px',
+  },
+  recommendationCardBottom: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+  },
 }));
 
 export default function Product(props) {
   const classes = useStyles();
+  const history = useHistory();
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [recommendations, setRecommendations] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [OwnId, setOwnId] = useState('');
   const [productDistance, setProductDistance] = useState(-1);
@@ -227,6 +282,11 @@ export default function Product(props) {
       setProductTitle(res?.title);
       setProductDescription(res?.description);
       setProductExpirationDate(res?.expiration_date);
+
+      getRecommendationsApi(res.location).then((res) => {
+        console.log(res);
+        setRecommendations(res);
+      });
     });
   }, []);
 
@@ -410,7 +470,7 @@ export default function Product(props) {
                 className={classes.productLittleInfoImageLabelContainer}
               >
                 <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  style={{ maxWidth: '80%', maxHeight: '80%' }}
                   alt={'product label'}
                   src={`/assets/food-label/${label}.png`}
                 />
@@ -505,107 +565,211 @@ export default function Product(props) {
     }
   };
 
-  return (
-    <div className={classes.main}>
-      <div className={classes.contentContainer}>
-        <div className={classes.userContainer}>
-          <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
-            <div className={classes.profilePictureContainer}>
-              <img
-                style={{ maxWidth: '100%', maxHeight: '100%' }}
-                alt={'giver profile picture'}
-                src={
-                  data.user.image
-                    ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=`
-                    : defaultImage
-                }
-              />
-            </div>
-            <div className={classes.profileInfoContainer}>
-              <div className="textMedium" style={{ fontSize: '20px', textAlign: 'center' }}>
-                {data?.user?.name}
-              </div>
-              <div className="textRegular" style={{ fontSize: '15px', textAlign: 'center' }}>
-                {data?.user?.level} member
-                <br />({moment(data?.user?.created_at).format('DD/MM/YYYY')})
-              </div>
-            </div>
-            <div className={classes.profileRatingContainer}>
-              <span className="textMedium" style={{ fontSize: '30px' }}>
-                {data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet'}
-              </span>
-              <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly />
-            </div>
-            <div style={{ width: '80%', height: '40%' }}>
-              <div className={classes.statusContainer}>
-                <StatusIndicator
-                  status={data.status}
-                  isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}
-                  reserveTime={data.datetime}
-                />
-              </div>
-              <div className={classes.contactBtnContainer}>
-                <Button
-                  className="pickeatBtn"
-                  onClick={() => {
-                    setAvailabilitiesModalIsOpen(true);
-                  }}
-                  style={{ width: '100%', height: '40px' }}
-                >
-                  Giver availabilities
-                </Button>
-              </div>
-              <Modal
-                open={availabilitiesModalIsOpen}
-                onClose={() => setAvailabilitiesModalIsOpen(false)}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <div style={{ width: '800px', height: '500px' }}>
-                  <UserAvailabilities data={data.user?.availability} />
-                </div>
-              </Modal>
-              <ReservationSection ownId={OwnId} product={data} />
-              {buildReportSection()}
-              {buildDeleteAnnounce()}
-            </div>
-          </Paper>
+  const announceRecommendation = (data) => {
+    return (
+      <div
+        key={data?._id}
+        onClick={() => {
+          history.push(`/product/${data?._id}`);
+          location.reload();
+        }}
+        className={classes.recommendationCard}
+      >
+        <div className={classes.recommendationCardImgContainer}>
+          <img
+            alt={'product_image'}
+            src={
+              data.image
+                ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=`
+                : defaultImage
+            }
+            style={{
+              width: '100%',
+              maxHeight: '250px',
+              height: '100%',
+              maxWidth: '100%',
+              objectFit: 'cover',
+            }}
+          />
         </div>
-        <div className={classes.productContainer}>
-          <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
-            <div className={classes.productDataContainer}>
-              <div className={classes.productPictureContainer}>
+        <div className={classes.recommendationCardInfoContainer}>
+          <Avatar
+            alt="user_picture"
+            src={
+              data.user?.image
+                ? `https://minio.pickeat.fr/minio/download/users/${data?.user?.image}?token=`
+                : defaultImage
+            }
+            className={classes.recommendationCardUserAvatar}
+          />
+          <div className={classes.recommendationCardBottom}>
+            <div className="textMedium" style={{ lineHeight: '22px' }}>
+              {data.title}
+            </div>
+          </div>
+          <div style={{ marginTop: '10px' }} className={classes.recommendationCardBottom}>
+            {data.expiration_date && (
+              <div style={{ display: 'flex' }}>
+                <EventAvailableIcon />
+                <div
+                  style={{
+                    lineHeight: '22px',
+                    marginLeft: '5px',
+                  }}
+                >
+                  {moment(data?.expiration_date).format('DD/MM/YYYY')}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div className={classes.main}>
+        <div className={classes.contentContainer}>
+          <div className={classes.userContainer}>
+            <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
+              <div className={classes.profilePictureContainer}>
                 <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  alt={'pickeat product'}
+                  style={{ maxWidth: '90%', maxHeight: '90%' }}
+                  alt={'giver profile picture'}
                   src={
-                    data?.image
-                      ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=`
-                      : DefaultProductPicture
+                    data.user.image
+                      ? `https://minio.pickeat.fr/minio/download/users/${data.user.image}?token=`
+                      : defaultImage
                   }
                 />
               </div>
-              <div className={classes.productInfoContainer}>
-                {titleBlock()}
-                <div className={classes.productLittleInfoContainer}>
-                  {descriptionBlock()}
-                  {expirationDateBlock()}
-                  {labelBlock()}
-                  {distanceBlock()}
+              <div className={classes.profileInfoContainer}>
+                <div className="textMedium" style={{ fontSize: '20px', textAlign: 'center' }}>
+                  {data?.user?.name}
+                </div>
+                <div className="textRegular" style={{ fontSize: '15px', textAlign: 'center' }}>
+                  {data?.user?.level} member
+                  <br />({moment(data?.user?.created_at).format('DD/MM/YYYY')})
                 </div>
               </div>
-            </div>
-            <Paper elevation={4} className={classes.productMapContainer}>
-              {data?.location && <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17} />}
-              {isUserOwner()}
+              <div className={classes.profileRatingContainer}>
+                <span className="textMedium" style={{ fontSize: '30px' }}>
+                  {data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet'}
+                </span>
+                <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly />
+              </div>
+              <div style={{ width: '80%', height: '40%' }}>
+                <div className={classes.statusContainer}>
+                  <StatusIndicator
+                    status={data.status}
+                    isOwner={!isEmpty(data) && OwnId && OwnId === data.user._id}
+                    reserveTime={data.datetime}
+                  />
+                </div>
+                <div className={classes.contactBtnContainer}>
+                  <Button
+                    className="pickeatBtn"
+                    onClick={() => {
+                      setAvailabilitiesModalIsOpen(true);
+                    }}
+                    style={{ width: '100%', height: '40px' }}
+                  >
+                    Giver availabilities
+                  </Button>
+                </div>
+                <Modal
+                  open={availabilitiesModalIsOpen}
+                  onClose={() => setAvailabilitiesModalIsOpen(false)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{ width: '800px', height: '500px' }}>
+                    <UserAvailabilities data={data.user?.availability} />
+                  </div>
+                </Modal>
+                <ReservationSection ownId={OwnId} product={data} />
+                {buildReportSection()}
+                {buildDeleteAnnounce()}
+              </div>
             </Paper>
-          </Paper>
+          </div>
+          <div className={classes.productContainer}>
+            <Paper className={classes.paper} style={{ flexDirection: 'column' }} elevation={10}>
+              <div className={classes.productDataContainer}>
+                <div className={classes.productPictureContainer}>
+                  <img
+                    style={{ maxWidth: '100%', maxHeight: '100%' }}
+                    alt={'pickeat product'}
+                    src={
+                      data?.image
+                        ? `https://minio.pickeat.fr/minio/download/products/${data?.image}?token=`
+                        : DefaultProductPicture
+                    }
+                  />
+                </div>
+                <div className={classes.productInfoContainer}>
+                  {titleBlock()}
+                  <div className={classes.productLittleInfoContainer}>
+                    {descriptionBlock()}
+                    {expirationDateBlock()}
+                    {labelBlock()}
+                    {distanceBlock()}
+                  </div>
+                </div>
+              </div>
+              <Paper elevation={4} className={classes.productMapContainer}>
+                {data?.location && (
+                  <Map lat={data?.location[1]} lng={data?.location[0]} zoom={17} />
+                )}
+                {isUserOwner()}
+              </Paper>
+            </Paper>
+          </div>
         </div>
       </div>
-    </div>
+      {recommendations && recommendations.length > 0 && (
+        <div className={classes.recommendationsContainer}>
+          <Paper
+            className={classes.paper}
+            style={{ width: '100%', flexDirection: 'column', alignItems: 'flex-start' }}
+            elevation={10}
+          >
+            <h3 style={{ fontWeight: 'bold', margin: 10, marginLeft: 20, fontSize: 20 }}>
+              Annonces qui peuvent vous intéresser
+            </h3>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                overflow: 'auto',
+                width: '100%',
+                alignItems: 'flex-end',
+              }}
+            >
+              {recommendations.map((recommendation, index) => (
+                <>
+                  {announceRecommendation(recommendation)}
+                  {index !== recommendations.length - 1 && (
+                    <div
+                      style={{
+                        height: 250,
+                        borderLeft: '1px solid grey',
+                        position: 'relative',
+                        top: -45,
+                      }}
+                    />
+                  )}
+                </>
+              ))}
+            </div>
+          </Paper>
+        </div>
+      )}
+    </>
   );
 }
 
