@@ -20,6 +20,7 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ProductListMap from "../components/ProductListMap";
 import Map from "../components/Map";
+import MapProductList from "../components/MapProductList";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -107,6 +108,7 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         width: '100%',
         height: '100%',
+        marginTop: '-75px',
     },
 }));
 
@@ -116,7 +118,7 @@ export default function ProductList(props) {
     const [location, setLocation] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
-    const [sliderValue, setSliderValue] = useState(1);
+    const [sliderValue, setSliderValue] = useState(3);
     const [minRate, setMinRate] = useState(0);
     const [maxDate, setMaxDate] = useState(null);
     const [page, setPage] = useState(1);
@@ -246,53 +248,60 @@ export default function ProductList(props) {
             )
         } else {
             return (
-                <Paper elevation={3} className={classes.productMapContainer}>
-                    <ProductListMap location={location} productList={productList} zoom={17}/>
-                </Paper>
+                <div className={classes.productMapContainer}>
+                    <MapProductList location={location} productList={productList} zoom={17}/>
+                </div>
             )
         }
     }
 
-    const BuildToggleButton = () => {
+    const BuildParams = () => {
         return (
-            <ToggleButtonGroup
-                value={viewProductMode}
-                exclusive
-                onChange={handleViewProductMode}
-                aria-label="view product mode"
-                className={classes.toggleViewProductModeButton}
-            >
-                <ToggleButton value="list" aria-label="list">
-                    Liste
-                </ToggleButton>
-                <ToggleButton value="map" aria-label="map">
-                    Carte
-                </ToggleButton>
-            </ToggleButtonGroup>
+        <div className={classes.paramsSectionContainer}>
+
+            <Paper elevation={3} className={classes.paramsSection}>
+                <div className={classes.filterContainer}>
+                    <SearchProduct label={"Recherche"} handleInputChange={handleSearchChange}/>
+                </div>
+                <div className={classes.filterContainer}>
+                    <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
+                              handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
+                </div>
+                <div className={classes.filterContainer}>
+                    <Rater label={"Note minimale"} value={minRate} handleInputChange={handleRaterChange}/>
+                </div>
+                <div className={classes.filterContainer}>
+                    <DateFilter label={"Date d\'expiration maximale"} handleInputChange={handleDateChange}/>
+                </div>
+            </Paper>
+        </div>
         )
+    }
+
+    const BuildToggleButton = () => {
+            return (
+                <ToggleButtonGroup
+                    value={viewProductMode}
+                    exclusive
+                    onChange={handleViewProductMode}
+                    aria-label="view product mode"
+                    className={classes.toggleViewProductModeButton}
+                >
+                    <ToggleButton value="list" aria-label="list">
+                        Liste
+                    </ToggleButton>
+                    <ToggleButton value="map" aria-label="map">
+                        Carte
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            )
     }
 
     return (
         <div className={classes.main}>
             {BuildToggleButton()}
             <div className="flex">
-                <div className={classes.paramsSectionContainer}>
-                    <Paper elevation={3} className={classes.paramsSection}>
-                        <div className={classes.filterContainer}>
-                            <SearchProduct label={"Recherche"} handleInputChange={handleSearchChange}/>
-                        </div>
-                        <div className={classes.filterContainer}>
-                            <KmSlider getProductList={getProductList} value={sliderValue} handleBlur={handleBlur}
-                                      handleInputChange={handleKmChange} handleSliderChange={handleSliderChange}/>
-                        </div>
-                        <div className={classes.filterContainer}>
-                            <Rater label={"Note minimale"} value={minRate} handleInputChange={handleRaterChange}/>
-                        </div>
-                        <div className={classes.filterContainer}>
-                            <DateFilter label={"Date d\'expiration maximale"} handleInputChange={handleDateChange}/>
-                        </div>
-                    </Paper>
-                </div>
+                {BuildParams()}
                 <div className={classes.rightSection}>
                     <div className={classes.productListSectionContainer}>
                         {BuildProductList()}

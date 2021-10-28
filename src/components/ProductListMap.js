@@ -40,6 +40,8 @@ const ProductListMap = (props) => {
     if (!props.productList) {
       return;
     }
+
+    document.body.appendChild(script);
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11',
