@@ -416,9 +416,9 @@ export default function Profil(props) {
             return userOwnProductList?.map((product, index) => {
                 return (
                     <Grid item key={'product-' + index} className={classes.productCardContainer}>
-                        <Paper elevation={2} className={classes.productCard}>
+                        <div className={classes.productCard}>
                             {buildProductCard(product, index)}
-                        </Paper>
+                        </div>
                     </Grid>
                 );
             });

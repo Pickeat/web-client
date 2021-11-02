@@ -145,6 +145,7 @@ export default function ProductList(props) {
             toast.error('Geolocation is not supported by this browser.');
             setLocation(-1);
         }
+        setIsLoading(true);
         getProductList({km: sliderValue});
     }, []);
 
@@ -154,10 +155,12 @@ export default function ProductList(props) {
 
     const handleSliderChange = (event, newValue) => {
         event.preventDefault();
+        setIsLoading(true);
         setSliderValue(newValue);
     };
 
     const handleKmChange = (event) => {
+        setIsLoading(true);
         if (event.target.value < 0) {
             setSliderValue(0);
         } else if (event.target.value > 35) {
@@ -226,9 +229,9 @@ export default function ProductList(props) {
             return productList?.map((product, index) => {
                 return (
                     <Grid item key={'product-' + index} className={classes.productCardContainer}>
-                        <Paper elevation={3} className={classes.productCard}>
+                        <div className="h-full w-full">
                             <ProductCard location={location} data={product}/>
-                        </Paper>
+                        </div>
                     </Grid>
                 );
             });

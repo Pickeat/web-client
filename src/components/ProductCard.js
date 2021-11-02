@@ -10,6 +10,7 @@ import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -137,7 +138,7 @@ export default function ProductCard(props) {
             return (
                 <div onClick={() => {
                     history.push(`/product/${data?._id}`);
-                }} className={classes.main}>
+                }} className={clsx(classes.main, "transition duration-200 ease-in-out shadow hover:shadow-lg")}>
                     {buildBanner()}
                     <div className={classes.productImgContainer}>
                         <img alt={'product_image'}
