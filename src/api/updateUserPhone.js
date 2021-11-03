@@ -14,13 +14,14 @@ async function sendRequest(config) {
     .then((response) => {
       if (response.status === 204) {
         toast.success('Votre numéro de téléphone a été modifié avec succès');
-        return response.data;
+        return true;
       } else {
         toast.warn(response.data.message);
       }
     })
     .catch((error) => {
       handleErrorToast(error);
+      return false;
     });
 }
 
