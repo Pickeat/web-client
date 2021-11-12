@@ -36,3 +36,4 @@ export const POST_SENT_CONFIRM_EMAIL = BASE_URL + '/users/send_confirm_email';
 export const GET_ALL_MESSAGES = BASE_URL + '/messages';
 export const GET_CURRENT_TRADES = BASE_URL + '/current_trade';
 export const PRODUCT_RECOMMENDATIONS_URL = BASE_URL + '/announces_recommendations';
+export const GET_DETAILED_NOTES = BASE_URL + '/users_notes';

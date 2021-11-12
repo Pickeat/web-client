@@ -35,6 +35,7 @@ import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ReportModal from '../components/ReportModal';
+import NotesModal from '../components/NotesModal';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -253,6 +254,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
   },
+  notesButton: {
+    cursor: 'pointer',
+    transition: 'transform 0.2s',
+    '&:hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+  rating: {
+    verticalAlign: 'top',
+  },
+  ratingLabel: {
+    fontWeight: 600,
+    verticalAlign: 'middle',
+  },
 }));
 
 export default function Product(props) {
@@ -269,6 +284,7 @@ export default function Product(props) {
   const [productDescription, setProductDescription] = useState('');
   const [productExpirationDate, setProductExpirationDate] = useState('');
   const [reportModalOpen, setReportModelOpen] = useState(false);
+  const [notesModalOpen, setNotesModalOpen] = useState(false);
 
   const reportGiverApiCall = (message) => {
     return postReportUserApi(data.user._id, message);
@@ -663,9 +679,38 @@ export default function Product(props) {
               </div>
               <div className={classes.profileRatingContainer}>
                 <span className="textMedium" style={{ fontSize: '30px' }}>
-                  {data?.user?.note ? `${(data?.user?.note).toFixed(1)}/5` : 'No note yet'}
+                  {data?.user?.note
+                    ? `${Number.parseFloat(data.user.note).toFixed(1)}/5`
+                    : 'No note yet'}
                 </span>
-                <Rating name="read-only" precision={0.1} value={data?.user?.note} readOnly />
+                {data?.user?.note !== undefined && (
+                  <NotesModal
+                    id={data.user ? data.user._id : ''}
+                    show={notesModalOpen}
+                    onClose={() => {
+                      setNotesModalOpen(false);
+                    }}
+                  />
+                )}
+                <div
+                  className={data?.user?.note !== undefined ? classes.notesButton : ''}
+                  onClick={() => {
+                    if (data?.user?.note !== undefined) setNotesModalOpen(true);
+                  }}
+                >
+                  <Rating
+                    name="read-only"
+                    precision={0.1}
+                    value={data?.user?.note}
+                    readOnly
+                    className={classes.rating}
+                  />
+                  {data?.user?.number_of_notes ? (
+                    <span
+                      className={classes.ratingLabel}
+                    >{`${data.user.number_of_notes} avis`}</span>
+                  ) : null}
+                </div>
               </div>
               <div style={{ width: '80%', height: '40%' }}>
                 <div className={classes.statusContainer}>

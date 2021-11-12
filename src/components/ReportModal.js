@@ -79,7 +79,7 @@ export default function ReportModal(props) {
     <Modal
       show={props.show}
       width={'50%'}
-      title={'What is wrong with this user ?'}
+      title={'Précisez pourquoi vous signalez cet utilisateur'}
       onClose={onClose}
     >
       <div className={classes.modalContent}>{buildModalContent()}</div>

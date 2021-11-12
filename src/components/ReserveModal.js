@@ -48,7 +48,10 @@ export default function ReserveModal(props) {
 
   const reserveProduct = () => {
     setIsReserveLoading(true);
-    reserveProductApi(productId, reserveTime).then((success) => {
+    reserveProductApi(
+      productId,
+      reserveTime === '' ? '' : new Date(reserveTime).toISOString(),
+    ).then((success) => {
       setIsReserveLoading(false);
       window.location.reload();
     });
