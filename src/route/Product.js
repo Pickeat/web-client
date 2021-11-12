@@ -34,6 +34,7 @@ import ReservationSection from '../components/ReservationSection';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import ReportModal from '../components/ReportModal';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -267,9 +268,10 @@ export default function Product(props) {
   const [productTitle, setProductTitle] = useState('');
   const [productDescription, setProductDescription] = useState('');
   const [productExpirationDate, setProductExpirationDate] = useState('');
+  const [reportModalOpen, setReportModelOpen] = useState(false);
 
-  const reportGiverApiCall = () => {
-    postReportUserApi(data.user._id).then(() => {});
+  const reportGiverApiCall = (message) => {
+    return postReportUserApi(data.user._id, message);
   };
   useEffect(() => {
     getProductApi(id).then((res) => {
@@ -524,12 +526,19 @@ export default function Product(props) {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              reportGiverApiCall(id);
+              setReportModelOpen(true);
             }}
             style={{ width: '100%', height: '40px' }}
           >
             Report the giver
           </Button>
+          <ReportModal
+            onReport={reportGiverApiCall}
+            show={reportModalOpen}
+            onClose={() => {
+              setReportModelOpen(false);
+            }}
+          />
         </div>
       );
     }
