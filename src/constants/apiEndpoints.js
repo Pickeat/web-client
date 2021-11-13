@@ -27,6 +27,7 @@ export const CONFIRM_RESERVE_URL = BASE_URL + '/announces_confirm_reserve';
 export const RATE_GIVER_URL = BASE_URL + '/announces_note';
 export const CONFIRM_EXCHANGE = BASE_URL + '/announces_confirm';
 export const USER_PUBLIC_INFO_URL = BASE_URL + '/users/public_infos';
+export const USER_PRIVATE_INFO_URL = BASE_URL + '/users/private_infos';
 export const FACEBOOK_CONNECT_URL = BASE_URL + '/auth/facebook';
 export const GOOGLE_CONNECT_URL = BASE_URL + '/auth/google';
 export const POST_PRODUCT_IMAGE = BASE_URL + '/announces_picture';
