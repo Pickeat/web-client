@@ -5,3 +5,4 @@ yarn-error.log
 .env
 .idea
 tailwind.generated.css
+build
