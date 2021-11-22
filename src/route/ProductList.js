@@ -8,10 +8,7 @@ import getProductListApi from '../api/getProductList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import KmSlider from '../components/KmSlider';
 import {toast} from 'react-toastify';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import {useHistory} from 'react-router-dom';
-import Background from "../components/Background";
 import Rater from "../components/Rater";
 import DateFilter from "../components/DateFilter";
 import Pagination from '@material-ui/lab/Pagination';
@@ -19,7 +16,6 @@ import SearchProduct from "../components/SearchProduct";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ProductListMap from "../components/ProductListMap";
-import Map from "../components/Map";
 
 const useStyles = makeStyles(theme => ({
     main: {

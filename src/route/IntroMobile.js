@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import Background from "../components/Background";
 import logo from "../assets/logo.png";
 
 export default function IntroMobile(props) {
