@@ -108,7 +108,7 @@ export default function NavigationBar() {
                                                 className="bg-white rounded-full flex text-sm outline-none ring-1 ring-offset-1 ring-white">
                                                 <span className="sr-only">Open user menu</span>
                                                 <img
-                                                    className="h-12 w-12 rounded-full bg-white"
+                                                    className="h-12 w-12 object-cover rounded-full bg-white"
                                                     src={`https://minio.pickeat.fr/minio/download/users/${user?.image}?token=`}
                                                     alt=""
                                                 />

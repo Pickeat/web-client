@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Background from '../components/Background';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';

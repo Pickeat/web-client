@@ -4,20 +4,28 @@ import {toast} from "react-toastify";
 import {GET_OWN_ANNOUNCES_LIST_URL} from '../constants/apiEndpoints';
 import handleErrorToast from '../helpers/handleErrorToast';
 
-export default async function getProductList() {
-    let config = setAxiosConfig('GET', `${GET_OWN_ANNOUNCES_LIST_URL}`, false);
+export default async function getProductList(status) {
+    let url = GET_OWN_ANNOUNCES_LIST_URL;
 
-    // config['data'] = {
-    //     status: 'waiting-for-reservation'
-    // };
+    if (status && status?.length !== 0) {
+        url += '?status=';
+        status.forEach((elem, index) => {
+            url += `${elem}`;
+            if (index + 1 < status.length)
+                url += ',';
+        })
+    }
+    let config = setAxiosConfig('GET', url, false);
 
     return await axios(config).then((response) => {
         if (response.status === 200) {
-            return response.data;
+            return (response?.data ? response.data : []);
         } else {
             toast.warn(response.data.message);
+            return ([]);
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return ([]);
     });
 }

@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Logo from '../assets/logo.png';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { PickeatTextField } from '../components/PickeatTextField';
-import Background from '../components/Background';
 import signInApi from '../api/signInApi';
-import Paper from '@material-ui/core/Paper';
-import { Link } from 'react-router-dom';
 import postGoogleLogin from '../api/postGoogleLogin';
 import postFacebookLogin from '../api/postFacebookLogin';
-import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import getMyReservedAnnounces from '../api/getMyReservedAnnounces';
 import { toast } from 'react-toastify';
 

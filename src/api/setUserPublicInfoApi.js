@@ -11,13 +11,15 @@ async function sendRequest(config) {
     config['headers']['Authorization'] = `Bearer ${token}`;
 
     return await axios(config).then((response) => {
-        if (response.status === 200) {
-            return response.data;
+        if (response.status === 200 || response.status === 204) {
+            return true;
         } else {
             toast.warn(response.data.message);
+            return false;
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return false;
     });
 }
 
@@ -38,5 +40,5 @@ export default async function setUserPublicInfoApi(name, description, availabili
 
     config['data'] = body;
 
-    return sendRequest(config);
+    return await sendRequest(config);
 }

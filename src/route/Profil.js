@@ -14,7 +14,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import ProductCard from "../components/ProductCard";
 import ImageUploader from "react-images-upload";
-import Background from "../components/Background";
 import DispoModal from "../components/DispoModal";
 import getMyReservedAnnounces from "../api/getMyReservedAnnounces";
 import SaveIcon from '@material-ui/icons/Save';
@@ -22,7 +21,6 @@ import Rating from "@material-ui/lab/Rating";
 import getUserMeApi from "../api/getUserMeApi";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import Select from '@material-ui/core/Select';
 import {PickeatDropdown} from "../components/PickeatDropdown";
@@ -416,9 +414,9 @@ export default function Profil(props) {
             return userOwnProductList?.map((product, index) => {
                 return (
                     <Grid item key={'product-' + index} className={classes.productCardContainer}>
-                        <Paper elevation={2} className={classes.productCard}>
+                        <div className={classes.productCard}>
                             {buildProductCard(product, index)}
-                        </Paper>
+                        </div>
                     </Grid>
                 );
             });
