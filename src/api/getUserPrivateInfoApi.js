@@ -1,9 +1,9 @@
 import setAxiosConfig from '../helpers/setAxiosConfig';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { POST_REPORT_USER_URL } from '../constants/apiEndpoints';
-import handleErrorToast from '../helpers/handleErrorToast';
+import { USER_PRIVATE_INFO_URL } from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
+import handleErrorToast from '../helpers/handleErrorToast';
 
 async function sendRequest(config) {
   let token = Cookies.get('jwt');
@@ -12,8 +12,7 @@ async function sendRequest(config) {
 
   return await axios(config)
     .then((response) => {
-      if (response.status === 204) {
-        toast.success('Giver signalé !');
+      if (response.status === 200) {
         return response.data;
       } else {
         toast.warn(response.data.message);
@@ -24,12 +23,8 @@ async function sendRequest(config) {
     });
 }
 
-export default async function postReportUserApi(id, message) {
-  let config = setAxiosConfig('POST', POST_REPORT_USER_URL, false);
+export default async function getUserPrivateInfoApi() {
+  let config = setAxiosConfig('GET', USER_PRIVATE_INFO_URL, false);
 
-  config['data'] = {
-    id: id,
-    details: message ? message : 'Reported user' + id,
-  };
   return sendRequest(config);
 }

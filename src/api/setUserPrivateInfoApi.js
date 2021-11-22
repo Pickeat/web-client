@@ -1,9 +1,9 @@
 import setAxiosConfig from '../helpers/setAxiosConfig';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { POST_REPORT_USER_URL } from '../constants/apiEndpoints';
-import handleErrorToast from '../helpers/handleErrorToast';
+import { USER_PRIVATE_INFO_URL } from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
+import handleErrorToast from '../helpers/handleErrorToast';
 
 async function sendRequest(config) {
   let token = Cookies.get('jwt');
@@ -13,8 +13,7 @@ async function sendRequest(config) {
   return await axios(config)
     .then((response) => {
       if (response.status === 204) {
-        toast.success('Giver signalé !');
-        return response.data;
+        return true;
       } else {
         toast.warn(response.data.message);
       }
@@ -24,12 +23,17 @@ async function sendRequest(config) {
     });
 }
 
-export default async function postReportUserApi(id, message) {
-  let config = setAxiosConfig('POST', POST_REPORT_USER_URL, false);
+export default async function setUserPrivateInfoApi(data) {
+  let body = {};
+  if (data) {
+    if (data.language) body['language'] = data.language;
+    if (data.food_preferences) body['food_preferences'] = data.food_preferences;
+    if (data.food_blacklist) body['food_blacklist'] = data.food_blacklist;
+  }
 
-  config['data'] = {
-    id: id,
-    details: message ? message : 'Reported user' + id,
-  };
+  let config = setAxiosConfig('PUT', USER_PRIVATE_INFO_URL, true);
+
+  config['data'] = body;
+
   return sendRequest(config);
 }
