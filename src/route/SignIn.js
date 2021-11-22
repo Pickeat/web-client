@@ -127,7 +127,7 @@ export default function SignIn(props) {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <a href="#" className="font-medium text-green-600 hover:text-green-500">
+                <a href="/#/forgot-password" className="font-medium text-green-600 hover:text-green-500">
                   Mot de passe oublié
                 </a>
               </div>
