@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Logo from '../assets/logo.png';
 import { makeStyles } from '@material-ui/core/styles';
 import signInApi from '../api/signInApi';
@@ -6,6 +6,8 @@ import postGoogleLogin from '../api/postGoogleLogin';
 import postFacebookLogin from '../api/postFacebookLogin';
 import getMyReservedAnnounces from '../api/getMyReservedAnnounces';
 import { toast } from 'react-toastify';
+import {useHistory} from "react-router-dom";
+import isAuth from "../helpers/isAuth";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -45,6 +47,12 @@ export default function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isAuth())
+      history.push('/product-list');
+  }, [])
 
   const responseGoogle = (response) => {
     postGoogleLogin(response.tokenObj.id_token).then((response) => {

@@ -22,21 +22,25 @@ export default function NavigationBar() {
     const [user, setUser] = useState({});
     const history = useHistory();
     const [url, setUrl] = useState(history.location.pathname);
+    const [showBar, setShowBar] = useState(isAuth());
+
 
     useEffect(() => {
-        getUserMeApi().then((res) => {
-            setUser(res);
-        })
-    }, []);
+        if (showBar)
+            getUserMeApi().then((res) => {
+                setUser(res);
+            })
+    }, [showBar]);
 
     useEffect(() => {
         return history.listen((location) => {
+            setShowBar(isAuth());
             setUrl(location.pathname);
         })
     }, [history])
 
-    if (!isAuth())
-        return(<></>);
+    if (!showBar)
+        return (<></>)
     return (
         <Disclosure as="nav" className="bg-green-600 shadow">
             {({open}) => (
