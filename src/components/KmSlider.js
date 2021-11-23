@@ -41,7 +41,7 @@ export default function KmSlider(props) {
                     />
                 </div>
                 <form onSubmit={(event) => {
-                    event.stopPropagation();
+                    event.preventDefault();
                     props.getProductList({km: props.value});
                 }} style={{width: '70px'}}>
                     <input onBlur={props.handleBlur} title={'Press enter to validate'} type={'number'}
