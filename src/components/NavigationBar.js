@@ -22,21 +22,25 @@ export default function NavigationBar() {
     const [user, setUser] = useState({});
     const history = useHistory();
     const [url, setUrl] = useState(history.location.pathname);
+    const [showBar, setShowBar] = useState(isAuth());
+
 
     useEffect(() => {
-        getUserMeApi().then((res) => {
-            setUser(res);
-        })
-    }, []);
+        if (showBar)
+            getUserMeApi().then((res) => {
+                setUser(res);
+            })
+    }, [showBar]);
 
     useEffect(() => {
         return history.listen((location) => {
+            setShowBar(isAuth());
             setUrl(location.pathname);
         })
     }, [history])
 
-    if (!isAuth())
-        return(<></>);
+    if (!showBar)
+        return (<></>)
     return (
         <Disclosure as="nav" className="bg-green-600 shadow">
             {({open}) => (
@@ -108,7 +112,7 @@ export default function NavigationBar() {
                                                 className="bg-white rounded-full flex text-sm outline-none ring-1 ring-offset-1 ring-white">
                                                 <span className="sr-only">Open user menu</span>
                                                 <img
-                                                    className="h-12 w-12 rounded-full bg-white"
+                                                    className="h-12 w-12 object-cover rounded-full bg-white"
                                                     src={`https://minio.pickeat.fr/minio/download/users/${user?.image}?token=`}
                                                     alt=""
                                                 />

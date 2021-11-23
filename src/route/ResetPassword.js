@@ -5,7 +5,6 @@ import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {PickeatTextField} from '../components/PickeatTextField';
-import Background from '../components/Background';
 import resetPasswordApi from '../api/resetPasswordApi';
 import Paper from '@material-ui/core/Paper';
 import {useParams} from "react-router-dom";

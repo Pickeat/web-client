@@ -6,7 +6,6 @@ import {HashRouter as BrowserRouter, Redirect, Route, Switch} from 'react-router
 import NavigationBar from './components/NavigationBar';
 import SignIn from './route/SignIn';
 import SignUp from './route/SignUp';
-import Intro from './route/Intro';
 import Product from './route/Product';
 import isAuth from './helpers/isAuth';
 import ForgotPassword from "./route/ForgotPassword";
@@ -14,7 +13,7 @@ import ResetPassword from "./route/ResetPassword";
 import ConfirmAccount from "./route/ConfirmAccount";
 import ProductList from "./route/ProductList";
 import Settings from './route/Settings';
-import Profil from './route/Profil';
+import Profil from './route/NewProfil';
 import AddProduct from "./route/AddProduct";
 import RateYourGiver from "./route/RateYourGiver";
 import DeleteAccount from "./route/DeleteAccount";
@@ -41,9 +40,7 @@ const PrivateRoute = ({component: Component, ...rest}) => (
                 return <Redirect to="/"/>;
             } else {
                 return (
-                    <div>
-                        <Component {...props}/>
-                    </div>
+                    <Component {...props}/>
                 );
             }
         }}
@@ -64,7 +61,7 @@ function App() {
             <BrowserView>
                 <BrowserRouter>
                     <NavigationBar/>
-                    <div>
+                    <div style={{height: "calc(100vh - 5rem)"}}>
                         <Switch>
                             <Route exact path="/" component={SignIn}/>
                             <Route exact path="/sign-up" component={SignUp}/>

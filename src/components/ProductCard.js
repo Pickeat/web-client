@@ -10,6 +10,7 @@ import {getDistance} from 'geolib';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 import defaultImage from '../assets/wallpaper-login.jpg';
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -46,6 +47,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         width: '100%',
         height: '30%',
+        backgroundColor: '#f5f5f5',
     },
     userAvatar: {
         width: '50px',
@@ -92,23 +94,22 @@ export default function ProductCard(props) {
     }, [data, props.location]);
 
     const buildBanner = () => {
-        // if (data.status === "available") {
-        //     return (
-        //         <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
-        //             <span className="textRegular" style={{color: 'white'}} >disponible</span>
-        //         </div>
-        //     )
-        // }
-        if (data.status === "reserved") {
+        if (data.status === "available") {
+            return (
+                <div style={{backgroundColor: 'rgba(63, 191, 76, 0.90)'}} className={classes.banner}>
+                    <span className="textRegular" style={{color: 'white'}} >disponible</span>
+                </div>
+            )
+        } else if (data.status === "reserved") {
             return (
                 <div style={{backgroundColor: 'rgba(62, 174, 187, 0.90)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>réservé</span>
+                    <span className="textRegular" style={{color: 'white'}}>reservé</span>
                 </div>
             )
         } else if (data.status === "waiting-for-reservation") {
             return (
                 <div style={{backgroundColor: 'rgba(187, 74, 62, 0.9)'}} className={classes.banner}>
-                    <span className="textRegular" style={{color: 'white'}}>en attente de reservation</span>
+                    <span className="textRegular" style={{color: 'white'}}>en attente de réservation</span>
                 </div>
             )
         } else if (data.status === "given") {
@@ -138,7 +139,7 @@ export default function ProductCard(props) {
             return (
                 <div onClick={() => {
                     history.push(`/product/${data?._id}`);
-                }} className={classes.main}>
+                }} className={clsx(classes.main, "transition duration-200 ease-in-out shadow hover:shadow-lg")}>
                     {buildBanner()}
                     <div className={classes.productImgContainer}>
                         <img alt={'product_image'}

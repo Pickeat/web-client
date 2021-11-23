@@ -10,12 +10,11 @@ import addProductApi from "../api/addProductApi";
 import BackArrow from "../components/BackArrow";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
-import Background from "../components/Background";
 import {startScanner, stopScanner} from "../helpers/scanner";
 import Modal from "../components/Modal";
 import getProductWithBarCode from "../api/getProductWithBarCode";
-import CropFreeIcon from '@material-ui/icons/CropFree';
 import {CropFree} from "@material-ui/icons";
+import OpenFoodFactInput from "../components/OpenFoodFactInput";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -137,11 +136,21 @@ export default function AddProduct(props) {
                         history.push('/product-list');
                 });
             }, () => {
-                toast.error('La géolocalisation n\'est pas prise en charge par ce navigateur.');
+                toast.error('Geolocation is not supported by this browser.');
             });
         } else {
-            toast.error('La géolocalisation n\'est pas pris en charge par ce navigateur.');
+            toast.error('Geolocation is not supported by this browser.');
         }
+    }
+
+    const handleOffChange = (product) => {
+        getProductWithBarCode(product.value).then((product) => {
+            console.log(product);
+            if (product) {
+                setTitle(product?.title);
+                setLabels(product?.labels);
+            }
+        })
     }
 
     return (
@@ -164,6 +173,7 @@ export default function AddProduct(props) {
                     <CropFree className="ml-3 -mr-1 h-5 w-5" aria-hidden="true"/>
                 </button>
                 <form className={classes.form}>
+                    <OpenFoodFactInput autoFocus handleChange={handleOffChange}/>
                     <PickeatTextField
                         variant="outlined"
                         margin="normal"
@@ -171,9 +181,8 @@ export default function AddProduct(props) {
                         required
                         fullWidth
                         id="title"
-                        label="Titre"
+                        label="Nom"
                         name="title"
-                        autoFocus
                         value={title}
                         onChange={(event => setTitle(event.target.value))}
                     />
@@ -198,7 +207,7 @@ export default function AddProduct(props) {
                             required
                             fullWidth
                             id="imageName"
-                            label="Image du produit"
+                            label="Image"
                             name="image"
                             value={imageName}
                         />
@@ -212,7 +221,7 @@ export default function AddProduct(props) {
                         </Button>
                     </div>
                     <div className={classes.dateInputSection}>
-                        <InputLabel style={{marginLeft: '10px'}}>Date d'éxpiration</InputLabel>
+                        <InputLabel style={{marginLeft: '10px'}}>Date d'expiration</InputLabel>
                         <PickeatTextField
                             variant="outlined"
                             margin="normal"
