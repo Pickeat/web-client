@@ -51,7 +51,7 @@ export default function UserAvailabilities(props) {
             {!isEmpty(data) &&
             <>
                 <div style={{fontFamily: 'colfax-medium', fontSize: '30px', height: '70px'}}>
-                    Availabilities
+                    Disponibilités
                 </div>
                 <div className={classes.content}>
                     {buildContent()}
@@ -60,7 +60,7 @@ export default function UserAvailabilities(props) {
             }
             {isEmpty(data) &&
             <div className="textMedium" style={{fontSize: '20px'}}>
-                The giver didn't filled in his availabilities
+                Le donneur n'a pas encore renseigné ses disponibilités
             </div>
             }
         </Paper>
