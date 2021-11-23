@@ -72,7 +72,7 @@ export default function SignUp(props) {
     signUpApi(email, password, confirmPassword, phone, age, name).then((response) => {
       console.log(response);
       if (!response) return;
-      props.history.push('/');
+      props.history.push('/product-list');
     });
   };
 
