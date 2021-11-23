@@ -91,11 +91,7 @@ export default function Profil(props) {
             setUserPublicInfoApi(userName, "", userAvailability, userAge, userGender).then((response) => {
                 console.log(response);
                 if (response) {
-                    toast.success("Votre "
-                        + (userName !== originalInfo.name ? "nom " : "")
-                        + (userAge !== originalInfo.age ? "age " : "")
-                        + (userGender !== originalInfo.gender ? "genre " : "")
-                        + "a/ont bien été modifié/s");
+                    toast.success("Votre profil a bien été mit à jour");
                     setOriginalInfo(Object.assign({}, originalInfo, {
                         name: userName,
                         age: userAge,
@@ -220,12 +216,12 @@ export default function Profil(props) {
                                     id="Gender"
                                     name="Gender"
                                     className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
-                                    defaultValue={(userGender ? userGender : 'other')}
+                                    defaultValue={'other'}
                                     onChange={(event => setUserGender(event.target.value))}
                                 >
-                                    <option value={'male'}>Homme</option>
-                                    <option value={'female'}>Femme</option>
-                                    <option value={'other'}>Autre</option>
+                                    <option value={'male'} selected={userGender === 'male'}>Homme</option>
+                                    <option value={'female'} selected={userGender === 'female'}>Femme</option>
+                                    <option value={'other'} selected={userGender === 'other'}>Autre</option>
                                 </select>
                             </div>
                         </div>

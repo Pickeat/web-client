@@ -13,13 +13,15 @@ async function sendRequest(config) {
   return await axios(config)
     .then((response) => {
       if (response.status === 204) {
-        return response.data;
+        return true;
       } else {
         toast.warn(response.data.message);
+        return false;
       }
     })
     .catch((error) => {
       handleErrorToast(error);
+      return false;
     });
 }
 
