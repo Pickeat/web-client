@@ -70,7 +70,8 @@ export default function Chat(props) {
             <aside className="hidden lg:block lg:flex-shrink-0" style={{ width: '400px' }}>
               <ul
                 role="list"
-                className=" space-y-3 h-screen overflow-y-scroll relative p-6 box-border border-2 border-solid border-black border-r border-gray-200 bg-white"
+                style={{height: "91.5vh"}}
+                className=" space-y-3 overflow-y-scroll relative p-6 box-border border-2 border-solid border-black border-r border-gray-200 bg-white"
               >
                 {currentProductList.map((product, index) => {
                   console.log('reserve section: ', product.title);

@@ -31,6 +31,7 @@ const errorTranslation = {
   AccountNotConfirmed: "Votre compte n'est pas confirmé.",
   InvalidAnnounceId: "L'id de l'annonce n'est pas valide.",
   InvalidBarcode: "Le code barre renseigné n'est pas valide.",
+  InvalidExpirationDate: "La date d'expiration renseignée n'est pas valide.",
 };
 
 export default function handleErrorToast(error) {

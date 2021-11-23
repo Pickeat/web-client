@@ -138,7 +138,7 @@ export default function DispoModal(props) {
         return (
             <div className={classes.inputList}>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Monday:</div>
+                    <div className={classes.dayContainer}>Lundi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startMonday} onChange={(event) => {
                             setStartMonday(event.target.value)
@@ -152,7 +152,7 @@ export default function DispoModal(props) {
                     </div>
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Tuesday:</div>
+                    <div className={classes.dayContainer}>Mardi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startTuesday} onChange={(event) => {
                             setStartTuesday(event.target.value)
@@ -167,7 +167,7 @@ export default function DispoModal(props) {
 
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Wednesday:</div>
+                    <div className={classes.dayContainer}>Mercredi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startWednesday} onChange={(event) => {
                             setStartWednesday(event.target.value)
@@ -182,7 +182,7 @@ export default function DispoModal(props) {
 
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Thursday:</div>
+                    <div className={classes.dayContainer}>Jeudi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startThursday} onChange={(event) => {
                             setStartThursday(event.target.value)
@@ -197,7 +197,7 @@ export default function DispoModal(props) {
 
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Friday:</div>
+                    <div className={classes.dayContainer}>Vendredi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startFriday} onChange={(event) => {
                             setStartFriday(event.target.value)
@@ -212,7 +212,7 @@ export default function DispoModal(props) {
 
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Saturday:</div>
+                    <div className={classes.dayContainer}>Samedi:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startSaturday} onChange={(event) => {
                             setStartSaturday(event.target.value)
@@ -227,7 +227,7 @@ export default function DispoModal(props) {
 
                 </div>
                 <div className={classes.inputElement}>
-                    <div className={classes.dayContainer}>Sunday:</div>
+                    <div className={classes.dayContainer}>Dimanche:</div>
                     <div className={classes.inputSection}>
                         <TextField value={startSunday} onChange={(event) => {
                             setStartSunday(event.target.value)
@@ -249,7 +249,7 @@ export default function DispoModal(props) {
         <Modal
             show={props.show}
             width={'50%'}
-            title={"Choose your responsibilities"}
+            title={"Choisissez vos disponibilités"}
             onClose={props.onClose}
         >
             <div className={classes.modalContent}>
@@ -257,12 +257,12 @@ export default function DispoModal(props) {
             </div>
             <div className={classes.modalFooter}>
                 <Button style={{marginRight: '20px'}} onClick={props.onClose} className={classes.closeBtn}>
-                    Close
+                    Fermer
                 </Button>
                 <Button onClick={() => {
                     confirmNewAvailabilities(props.onClose)
                 }} className={"pickeatBtn"}>
-                    Apply
+                    Appliquer
                 </Button>
             </div>
         </Modal>

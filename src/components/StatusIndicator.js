@@ -10,17 +10,17 @@ export default function StatusIndicator(props) {
   const classes = useStyles();
   const statusTextDictPicker = {
     available: 'Le produit est disponible',
-    'waiting-for-reservation': 'En attente de confirmation du Giver',
-    reserved: 'Awaiting validation of the exchange',
-    given: 'En attente de votre note',
+    'waiting-for-reservation': 'En attente de la confirmation du donneur',
+    reserved: 'En attente de la validation de l \'échange',
+    given: 'En attente de votre notation',
     noted: 'Produit archivé',
     deleted: 'Produit archivé',
   };
   const statusTextDictGiver = {
     available: 'Le produit est disponible',
-    'waiting-for-reservation': 'Awaiting for your confirmation',
-    reserved: 'En attente de la validation de l\'échange',
-    given: 'En attente de la note du Picker',
+    'waiting-for-reservation': 'En attente de votre confirmation',
+    reserved: 'En attente de la validation de l \'échange',
+    given: 'En attente de la notation du receveur',
     noted: 'Produit archivé',
     deleted: 'Produit archivé',
   };

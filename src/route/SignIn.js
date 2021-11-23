@@ -221,7 +221,7 @@ export default function SignIn(props) {
                         fields="name,email,picture"
                         render={renderProps => (
                           <a
-                          onClick={(e) => {e.preventDefault(); renderProps.onClick}}
+                          onClick={(e) => {e.preventDefault(); renderProps.onClick()}}
                             href="#"
                             className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                           >
