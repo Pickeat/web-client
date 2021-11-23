@@ -111,7 +111,7 @@ export default function ReservationSection(props) {
             <Tooltip
               TransitionComponent={Zoom}
               title={
-                'Once the request is accepted, we will send your number by email to the person wishing to collect your product so that you can agree on a date and time'
+                'Une fois que la requête est accepté, nous enverrons votre numéro par mail au receveur.'
               }
               arrow
             >
@@ -125,7 +125,7 @@ export default function ReservationSection(props) {
                 {isReserveLoading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  'Confirm reservation'
+                  'Comfirmé la resevation'
                 )}
               </Button>
             </Tooltip>
