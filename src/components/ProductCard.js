@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
         width: '50px',
         height: '50px',
         border: 'solid 2px white',
-        marginTop: '-40px',
+        marginTop: '-20px',
     },
     cardBottom: {
         display: 'flex',
