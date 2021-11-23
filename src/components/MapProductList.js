@@ -13,9 +13,10 @@ import defaultImage from "../assets/wallpaper-login.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../assets/logo.png"
 import { useHistory } from 'react-router-dom';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 
-
-
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGlja2VhdCIsImEiOiJja2VzbDA0ejczMWFsMnhwaTk0MHFyY2o3In0.ejbEUU5u9zVINmEmOR81HQ'
 
