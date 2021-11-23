@@ -19,11 +19,13 @@ export default async function getMyReservedAnnounces(status) {
 
     return await axios(config).then((response) => {
         if (response.status === 200) {
-            return response.data;
+            return (response?.data ? response.data : []);
         } else {
             toast.warn(response.data.message);
+            return [];
         }
     }).catch((error) => {
         handleErrorToast(error);
+        return [];
     });
 }

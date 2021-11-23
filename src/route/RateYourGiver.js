@@ -5,7 +5,6 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import getProductApi from "../api/getProductApi";
 import DefaultProductPicture from "../assets/wallpaper-login.jpg";
 import {Paper} from "@material-ui/core";
-import Background from "../components/Background";
 
 const useStyles = makeStyles(theme => ({
     main: {

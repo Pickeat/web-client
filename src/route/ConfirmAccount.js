@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Logo from '../assets/logo.png';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import Background from '../components/Background';
 import Paper from '@material-ui/core/Paper';
 import {useParams} from "react-router-dom";
 import confirmAccountApi from "../api/confirmAccountApi";

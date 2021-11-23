@@ -1,7 +1,7 @@
 import setAxiosConfig from '../helpers/setAxiosConfig';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { USER_PUBLIC_INFO_URL } from '../constants/apiEndpoints';
+import { USER_PRIVATE_INFO_URL } from '../constants/apiEndpoints';
 import Cookies from 'js-cookie';
 import handleErrorToast from '../helpers/handleErrorToast';
 
@@ -16,30 +16,22 @@ async function sendRequest(config) {
         return true;
       } else {
         toast.warn(response.data.message);
-        return false;
       }
     })
     .catch((error) => {
       handleErrorToast(error);
-      return false;
     });
 }
 
-export default async function setUserPublicInfoApi(
-  name,
-  description,
-  availability,
-  userAge,
-  userGender,
-) {
+export default async function setUserPrivateInfoApi(data) {
   let body = {};
-  if (name) body['name'] = name;
-  if (description) body['description'] = description;
-  if (availability) body['availability'] = availability;
-  if (userAge) body['age'] = userAge;
-  if (userGender) body['gender'] = userGender;
+  if (data) {
+    if (data.language) body['language'] = data.language;
+    if (data.food_preferences) body['food_preferences'] = data.food_preferences;
+    if (data.food_blacklist) body['food_blacklist'] = data.food_blacklist;
+  }
 
-  let config = setAxiosConfig('PUT', USER_PUBLIC_INFO_URL, true);
+  let config = setAxiosConfig('PUT', USER_PRIVATE_INFO_URL, true);
 
   config['data'] = body;
 

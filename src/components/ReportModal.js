@@ -3,7 +3,6 @@ import Modal from './Modal';
 import PropTypes from 'prop-types';
 import { Button, CircularProgress, TextField } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import reserveProductApi from '../api/reserveProductApi';
 
 const useStyles = makeStyles((theme) => ({
   modalFooter: {
@@ -15,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     borderTop: 'solid 1px #c1c1c1',
   },
   modalContent: {
+    width: '100%',
     paddingTop: '20px',
     paddingBottom: '20px',
     display: 'flex',
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   inputSection: {
-    width: '50%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -34,26 +34,24 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
   },
   textField: {
+    width: '100%',
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: '190px',
   },
 }));
 
-export default function ReserveModal(props) {
-  const productId = props.productId;
+export default function ReportModal(props) {
+  const { onReport, onClose } = props;
   const classes = useStyles();
-  const [isReserveLoading, setIsReserveLoading] = useState(false);
-  const [reserveTime, setReserveTime] = useState('');
+  const [isReportLoading, setIsReportLoading] = useState(false);
+  const [reportMessage, setReportMessage] = useState('');
 
-  const reserveProduct = () => {
-    setIsReserveLoading(true);
-    reserveProductApi(
-      productId,
-      reserveTime === '' ? '' : new Date(reserveTime).toISOString(),
-    ).then((success) => {
-      setIsReserveLoading(false);
-      window.location.reload();
+  const reportUser = () => {
+    setIsReportLoading(true);
+    onReport(reportMessage).then((success) => {
+      setIsReportLoading(false);
+      onClose();
+      setReportMessage('');
     });
   };
 
@@ -61,11 +59,16 @@ export default function ReserveModal(props) {
     return (
       <div className={classes.inputSection}>
         <TextField
-          value={reserveTime}
+          inputProps={{ style: { '--tw-ring-shadow': 'none' } }}
+          variant="outlined"
+          size="medium"
+          maxRows={10}
+          minRows={3}
+          multiline
+          value={reportMessage}
           onChange={(event) => {
-            setReserveTime(event.target.value);
+            setReportMessage(event.target.value);
           }}
-          type="datetime-local"
           className={classes.textField}
         />
       </div>
@@ -76,33 +79,29 @@ export default function ReserveModal(props) {
     <Modal
       show={props.show}
       width={'50%'}
-      title={'Choisissez la date et l\'heure de l\'échange'}
-      onClose={props.onClose}
+      title={'Précisez pourquoi vous signalez cet utilisateur'}
+      onClose={onClose}
     >
       <div className={classes.modalContent}>{buildModalContent()}</div>
       <div className={classes.modalFooter}>
-        <Button
-          style={{ marginRight: '20px' }}
-          onClick={props.onClose}
-          className={classes.closeBtn}
-        >
-          Fermer
+        <Button style={{ marginRight: '20px' }} onClick={onClose} className={classes.closeBtn}>
+          Close
         </Button>
         <Button
           onClick={() => {
-            reserveProduct();
+            reportUser();
           }}
           className={'pickeatBtn'}
         >
-          {isReserveLoading ? <CircularProgress style={{ color: 'white' }} /> : 'Reserver'}
+          {isReportLoading ? <CircularProgress style={{ color: 'white' }} /> : 'Report'}
         </Button>
       </div>
     </Modal>
   );
 }
 
-ReserveModal.propTypes = {
+ReportModal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  productId: PropTypes.string.isRequired,
+  onReport: PropTypes.func.isRequired,
 };
