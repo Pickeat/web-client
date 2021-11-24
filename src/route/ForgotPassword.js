@@ -49,7 +49,7 @@ export default function ForgotPassword() {
     const buildPaper = () => {
         if (!emailSent) {
             return (
-                <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+                <div className="bg-gray-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                   <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Mot de passe oublié</h2>
                 </div>
@@ -94,14 +94,14 @@ export default function ForgotPassword() {
             )
         } else {
             return (
-                <>
+                <div className="w-full flex min-h-screen flex-col justify-center items-center">
                     <Avatar className={classes.avatar}>
                         <img style={{maxWidth: '100%', maxHeight: '100%'}} alt="PickEat Logo" src={Logo}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Email Sent !
                     </Typography>
-                </>
+                </div>
             )
         }
     }
