@@ -310,7 +310,7 @@ export default function Profil(props) {
                             })}
                         </span>
                         <ul role="list"
-                            className="pt-10 grid overflow-y-scroll grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            className="pt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                             {selectedTab === "my_products" &&
                             userOwnProductList.map((product) => {
                                     return (
