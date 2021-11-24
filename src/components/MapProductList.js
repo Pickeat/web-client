@@ -14,7 +14,7 @@ import Avatar from "@material-ui/core/Avatar";
 import logo from "../assets/logo.png"
 import { useHistory } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from '!mapbox-gl';
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
