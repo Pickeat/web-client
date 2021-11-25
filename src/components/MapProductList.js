@@ -2,7 +2,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import React, {useState, useRef, useCallback, useEffect} from 'react'
 import {render} from 'react-dom'
-import MapGL from 'react-map-gl'
+import MapGL, {Layer, Source} from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
 import ReactMapGL, {Marker, NavigationControl, GeolocateControl, Popup} from 'react-map-gl';
 import style from "./MapProductList.css"
@@ -12,7 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import defaultImage from "../assets/wallpaper-login.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../assets/logo.png"
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl';
 
@@ -44,8 +44,10 @@ const MapProductList = (props) => {
     const history = useHistory();
     const handleViewportChange = useCallback((newViewport) => setViewport(newViewport), [])
     const [productList, setProductList] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [searchRadius, setSearchRadius] = useState(props.searchRadius);
+    const [location, setLocation] = useState({lng: 3.0617, lat: 50.6350});
     const [isPopUpOpen, setIsPopUpOpen] = useState(false)
 
     const [viewport, setViewport] = useState({
@@ -55,12 +57,13 @@ const MapProductList = (props) => {
     })
 
     const getProductList = () => {
-        setIsLoading(true);
+        // setIsLoading(true);
         if (props.productList === undefined) {
         } else {
+            // setIsLoading(false);
             setProductList(props.productList);
-            setIsLoading(false);
         }
+
     };
 
     useEffect(() => {
@@ -71,20 +74,25 @@ const MapProductList = (props) => {
         getProductList()
     }, [props.productList]);
 
+    useEffect(() => {
+        setSearchRadius(props.searchRadius)
+    }, [props.searchRadius]);
+
     const navControlStyle = {
         right: 10,
-        top: 115,
+        top: 50,
     };
     const geolocateControlStyle = {
         right: 10,
-        top: 85
+        top: 10
     };
 
     // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
     const handleGeocoderViewportChange = useCallback(
         (newViewport) => {
-            const geocoderDefaultOverrides = {transitionDuration: 1000}
-
+            const geocoderDefaultOverrides = {transitionDuration: 500}
+            props.getProductList({size : 100, location: location});
+            setLocation({lng: newViewport.longitude, lat :newViewport.latitude})
             return handleViewportChange({
                 ...newViewport,
                 ...geocoderDefaultOverrides
@@ -94,9 +102,6 @@ const MapProductList = (props) => {
     )
 
     const BuildMarkers = () => {
-        // Object.keys(productList).map((item, i) => (
-        //     console.log(productList[i])
-        // ))
         return (
             Object.keys(productList).map((productKey, index) =>
                 <CustomMarker
@@ -110,30 +115,27 @@ const MapProductList = (props) => {
 
     const RandomiseOffset = (offset, seed) => {
         if (seed < 0)
-            return (Math.sin(seed) *  offset)
+            return (Math.sin(seed) * offset)
         else
-            return (Math.cos(seed) *  offset)
+            return (Math.cos(seed) * offset)
 
     }
 
     const closePopup = () => {
-        console.log("close popup")
         setIsPopUpOpen(false)
         setSelectedIndex(null)
     };
 
     const openPopup = (index) => {
-        console.log("open popup")
         setIsPopUpOpen(true)
         setSelectedIndex(index)
-        console.log(selectedIndex)
     }
 
     const CustomPopup = ({index, product, closePopup}) => {
         return (
             <Popup
-                latitude={product.location[1]+ RandomiseOffset(markerOffset, 0 - index)}
-                longitude={product.location[0]+ RandomiseOffset(markerOffset, index)}
+                latitude={product.location[1] + RandomiseOffset(markerOffset, 0 - index)}
+                longitude={product.location[0] + RandomiseOffset(markerOffset, index)}
                 onClose={closePopup}
                 closeButton={true}
                 closeOnClick={false}
@@ -145,8 +147,10 @@ const MapProductList = (props) => {
                          maxWidth: '200px',
                          objectFit: 'cover',
                      }}
-                     onClick={() => {history.push(`/product/${productList[index]?._id}`)}}
-                     />
+                     onClick={() => {
+                         history.push(`/product/${productList[index]?._id}`)
+                     }}
+                />
                 <Avatar alt="user_picture"
                         src={(product.user?.image ? `https://minio.pickeat.fr/minio/download/users/${product?.user?.image}?token=` : defaultImage)}
                         className={classes.userAvatar}/>
@@ -160,22 +164,76 @@ const MapProductList = (props) => {
     const CustomMarker = ({index, product}) => {
         return (
             <Marker
-                longitude={product.location[0]+ RandomiseOffset(markerOffset, index)}
+                longitude={product.location[0] + RandomiseOffset(markerOffset, index)}
                 // longitude={product.longitude }
-                latitude={product.location[1]+ RandomiseOffset(markerOffset,  0 - index)}>
+                latitude={product.location[1] + RandomiseOffset(markerOffset, 0 - index)}>
                 {/*latitude={product.latitude + RandomiseOffset(0.00005)}>*/}
                 <div className="marker" onClick={() => openPopup(index)}>
                     <img
-                    alt = "marker"
-                    src={logo}
-                    style={{
-                        width: '32px',
-                        height: '32px',
-                    }}/>
+                        alt="marker"
+                        src={logo}
+                        style={{
+                            width: '32px',
+                            height: '32px',
+                        }}/>
                 </div>
             </Marker>
         )
     };
+
+
+    const createGeoJSONCircle = (center, radiusInKm, points) => {
+        if (!points) points = 64;
+
+        let coords = {
+            latitude: center.lat,
+            longitude: center.lng
+        };
+
+        let km = radiusInKm;
+
+        let ret = [];
+        let distanceX = km / (111.320 * Math.cos(coords.latitude * Math.PI / 180));
+        let distanceY = km / 110.574;
+
+        let theta, x, y;
+        for (let i = 0; i < points; i++) {
+            theta = (i / points) * (2 * Math.PI);
+            x = distanceX * Math.cos(theta);
+            y = distanceY * Math.sin(theta);
+
+            ret.push([coords.longitude + x, coords.latitude + y]);
+        }
+        ret.push(ret[0]);
+
+        return {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [ret]
+                }
+            }]
+        };
+    };
+
+    const geojson = {
+        type: 'FeatureCollection',
+        features: [
+            {type: 'Feature', geometry: {type: 'Point', coordinates: location}}
+        ]
+    };
+
+    const layerStyle = {
+        id: 'point',
+        type: 'fill',
+        paint: {
+            "fill-color": "#007cbf",
+            "fill-opacity": 0.2,
+        }
+    };
+
 
     if (isLoading) {
         return (
@@ -213,6 +271,9 @@ const MapProductList = (props) => {
                         mapboxApiAccessToken={MAPBOX_TOKEN}
                         position="top-left"
                     />
+                    <Source id="my-data" type="geojson" data={createGeoJSONCircle(location, searchRadius)}>
+                        <Layer {...layerStyle} />
+                    </Source>
                     {BuildMarkers()}
                     {
                         selectedIndex !== null &&

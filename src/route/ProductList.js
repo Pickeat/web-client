@@ -126,7 +126,7 @@ export default function ProductList(props) {
         let search = params.search;
         if (params.search === undefined)
             search = searchValue
-        getProductListApi(10, page - 1, search, params.km || sliderValue, location, params.rate || minRate, params.date || maxDate).then((response) => {
+        getProductListApi(params.size || 10, page - 1, search, params.km || sliderValue, params.location || location, params.rate || minRate, params.date || maxDate).then((response) => {
             setProductList(response.docs);
             setPageNb(response.totalPages);
             setIsLoading(false);
@@ -247,7 +247,7 @@ export default function ProductList(props) {
         } else {
             return (
                 <div className={classes.productMapContainer}>
-                    <MapProductList location={location} productList={productList} zoom={17}/>
+                    <MapProductList location={location} productList={productList} searchRadius={sliderValue} getProductList={(params) => {getProductList(params)}} zoom={17}/>
                 </div>
             )
         }
